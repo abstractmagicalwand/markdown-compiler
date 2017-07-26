@@ -8,7 +8,7 @@ import {tokens} from './constants'
 import lexer from './lexer'
 
 test('lexical analysis', t => {
-  const input = '**__*_abracadabra\n<'
+  const input = '**__*_abracadabra\n>'
 
   const expected = [
     {
@@ -50,20 +50,20 @@ test('lexical analysis', t => {
     {
       type: tokens.CHARS,
       value: 'abracadabra',
-      start: 7,
-      end: 18,
+      start: 6,
+      end: 17,
     },
     {
       type: tokens.NEW_LINE,
       value: '\n',
-      start: 18,
-      end: 19,
+      start: 17,
+      end: 18,
     },
     {
       type: tokens.GREATER,
       value: '>',
-      start: 20,
-      end: 21
+      start: 18,
+      end: 19
     }
   ]
 

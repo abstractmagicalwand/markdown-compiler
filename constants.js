@@ -1,3 +1,5 @@
+/* eslint comma-dangle: 0 */
+
 const tokens = Object.freeze({
   UNDERSCORE: 'UNDERSCORE',
   ASTERISK: 'ASTERISK',
@@ -6,6 +8,4 @@ const tokens = Object.freeze({
   NEW_LINE: 'NEW_LINE',
 })
 
-module.exports = {
-  tokens,
-}
+module.exports = {tokens}
