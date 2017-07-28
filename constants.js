@@ -8,4 +8,9 @@ const tokens = Object.freeze({
   NEW_LINE: 'NEW_LINE',
 })
 
-module.exports = {tokens}
+const nodes = Object.freeze({
+  ITALIC: 'ITALIC',
+  CHARS: 'CHARS'
+})
+
+module.exports = {tokens, nodes}
