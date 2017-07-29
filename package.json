@@ -2,8 +2,8 @@
   "name": "md-compiler",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:magicwantabstract/md-compiler.git",
-  "author": "magicwantabstract <magicwantabstract@gmail.com>",
+  "repository": "git@github.com:abstractmagicalwand/md-compiler.git",
+  "author": "abstractmagicalwand <abstractmagicalwand@gmail.com>",
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.21.0",

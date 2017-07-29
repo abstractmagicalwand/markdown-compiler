@@ -5,7 +5,9 @@
 
 import test from 'ava'
 import {nodes} from './constants'
+import lexer from './lexer'
 import parser from './parser'
+import isMatch from 'lodash/isMatch'
 
 test('abstract syntax tree', t => {
   const input = '_Bokutachi_ *wa* _*Hitotsu*_ no _Hikari*'
@@ -67,14 +69,13 @@ test('abstract syntax tree', t => {
       operator: '_',
       body: [
         {
+          type: nodes.CHARS,
+          value: 'Hikari'
+        },
+        {
           type: nodes.ITALIC,
           operator: '*',
-          body: [
-            {
-              type: nodes.CHARS,
-              value: 'Hikari'
-            }
-          ],
+          body: [],
           closed: false
         },
       ],
@@ -82,5 +83,5 @@ test('abstract syntax tree', t => {
     },
   ]
 
-  t.deepEqual(parser(input), expected, 'italic')
+  t.true(isMatch(parser(lexer(input)), expected), 'italic')
 })
