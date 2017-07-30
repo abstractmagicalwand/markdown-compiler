@@ -4,14 +4,16 @@
   complexity: 0
 */
 
-const {tokens: {
+const {tokens} = require('./constants')
+const get = require('lodash/get')
+
+const {
   ASTERISK,
   UNDERSCORE,
   NEW_LINE,
   GREATER,
   CHARS,
-}} = require('./constants')
-const get = require('lodash/get')
+} = tokens
 
 function lexer(text) {
   return text
@@ -19,8 +21,12 @@ function lexer(text) {
     .reduce((tokens, char, i) => {
       const last = tokens.length - 1
 
-      if (get(tokens[last], 'value', null) === char
-        && ['*', '_', '\n'].includes(char)) {
+      if (char === '\n' && get(tokens[last], 'value', null) === char) {
+        tokens[last].amount++
+        tokens[last].end++
+      } else if (['*', '_'].includes(char)
+        && get(tokens[last], 'value', null) === char
+        && get(tokens[last], 'amount', null) < 2) {
         tokens[last].amount++
         tokens[last].end++
       } else if (char === '*') {
