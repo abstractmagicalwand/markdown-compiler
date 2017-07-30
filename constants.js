@@ -10,7 +10,8 @@ const tokens = Object.freeze({
 
 const nodes = Object.freeze({
   ITALIC: 'ITALIC',
-  CHARS: 'CHARS'
+  CHARS: 'CHARS',
+  BOLD: 'BOLD'
 })
 
 module.exports = {tokens, nodes}

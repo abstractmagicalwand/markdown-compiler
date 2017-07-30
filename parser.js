@@ -13,23 +13,29 @@ function parser(tokens) {
   const ctx = {i: 0}
 
   function p(tokens, node, ctx, ast) {
-    while (ctx.i !== tokens.length && !node.closed) {
-      const nextNode = new Node(tokens[ctx.i++])
+    if (ctx.i === tokens.length) {
+      return node
+    }
 
-      if (nextNode.type === nodes.ITALIC) {
+    const nextNode = new Node(tokens[ctx.i++])
 
-        if (nextNode.type === node.type
+    if (nextNode.type === nodes.ITALIC || nextNode.type === nodes.BOLD) {
+
+      if (nextNode.type === node.type
           && nextNode.operator === node.operator
           && !node.closed) {
-          node.closed = true
-        } else if (node.body) {
-          node.body.push(p(tokens, nextNode, ctx))
-        }
-
-      } else if (nextNode.type === nodes.CHARS) {
-        node.body.push(nextNode)
-        p(tokens, node, ctx, ast)
+        node.closed = true
+      } else if (node.body) {
+        node.body.push(p(tokens, nextNode, ctx))
       }
+
+    } else if (nextNode.type === nodes.CHARS) {
+      node.body.push(nextNode)
+      p(tokens, node, ctx, ast)
+    }
+
+    if (ctx.i !== tokens.length && !node.closed) {
+      return p(tokens, node, ctx, ast)
     }
 
     return node

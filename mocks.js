@@ -192,15 +192,23 @@ module.exports = {
         closed: true,
       },
       {
+        type: nodes.CHARS,
+        value: ' ',
+      },
+      {
         type: nodes.BOLD,
         operator: '__',
         body: [
           {
             type: nodes.CHARS,
-            value: ' no ',
+            value: 'no',
           },
         ],
         closed: true,
+      },
+      {
+        type: nodes.CHARS,
+        value: ' ',
       },
       {
         type: nodes.BOLD,
@@ -234,6 +242,9 @@ module.exports = {
         closed: false,
       },
     ],
+  },
+  compiler: {
+    html: 'Matsuura Kanan <i>Bokutachi</i> <b>wa</b> <i><i>Hitotsu</i></i> <b>no</b> ___Hikari***'
   },
   launcher: {
     html: '<i>Bokutachi</i> <b>wa</b> <i><i>Hitotsu</i></i> <b>no</b> ___Hikari***',

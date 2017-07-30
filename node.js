@@ -1,30 +1,28 @@
-/* eslint comma-dangle: 0 */
+/* eslint
+  comma-dangle: 0,
+  complexity: 0
+*/
 
 const {tokens, nodes} = require('./constants')
 
 class Node {
   constructor(token) {
-    const {type, value} = token
+    const {type, value, amount = null} = token
 
-    switch (type) {
-    case tokens.ASTERISK:
-      this.type = nodes.ITALIC
-      this.operator = value
+    if (type === tokens.ASTERISK || type === tokens.UNDERSCORE) {
+      if (amount === 2) {
+        this.type = nodes.BOLD
+        this.operator = value.repeat(amount)
+      } else {
+        this.type = nodes.ITALIC
+        this.operator = value
+      }
+
       this.body = []
       this.closed = false
-      break
-    case tokens.UNDERSCORE:
-      this.type = nodes.ITALIC
-      this.operator = value
-      this.body = []
-      this.closed = false
-      break
-    case tokens.CHARS:
+    } else if (type === tokens.CHARS) {
       this.type = nodes.CHARS
       this.value = value
-      break
-    default:
-      break
     }
   }
 }
