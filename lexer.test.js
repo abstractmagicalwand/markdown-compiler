@@ -50,13 +50,13 @@ test('lexical analysis', t => {
       amount: 2,
       value: '\n',
       start: 17,
-      end: 18,
+      end: 20,
     },
     {
       type: tokens.GREATER,
       value: '>',
-      start: 18,
-      end: 19
+      start: 20,
+      end: 21
     }
   ]
 
