@@ -1,14 +1,16 @@
 /* eslint comma-dangle: 0 */
 
 import test from 'ava'
-import lexer from './lexer'
 import parser from './parser'
 import isMatch from 'lodash/isMatch'
-import {parser as mocks} from './mocks'
-
-const {ast, text} = mocks
+import {tokens, ast} from './mocks'
 
 test(
-  'abstract syntax tree',
-  t => t.true(isMatch(parser(lexer(text)), ast))
+  'abstract syntax tree - emphasis',
+  t => t.true(isMatch(parser(tokens.emphasis), ast.emphasis), 'emphasis')
+)
+
+test(
+  'abstract syntax tree - blockquote',
+  t => t.true(isMatch(parser(tokens.blockquote), ast.blockquote), 'blockquote')
 )

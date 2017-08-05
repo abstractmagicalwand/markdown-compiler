@@ -5,9 +5,14 @@
 
 import test from 'ava'
 import compiler from './compiler'
-import mocks from './mocks'
+import {ast, html} from './mocks'
 
 test(
-  'compiler to html',
-  t => t.is(compiler(mocks.parser.ast), mocks.compiler.html)
+  'compiler to html - emphasis',
+  t => t.is(compiler(ast.emphasis), html.emphasis, 'emphasis')
+)
+
+test(
+  'compiler to html - blockquote',
+  t => t.is(compiler(ast.blockquote), html.blockquote, 'blockquote')
 )

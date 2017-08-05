@@ -6,10 +6,10 @@
 
 const {nodes} = require('./constants')
 
-const italic = s => `<i>${s}</i>`
-const bold = s => `<b>${s}</b>`
+const italic = s => `<em>${s}</em>`
+const bold = s => `<strong>${s}</strong>`
 
-function compiler(node, html) {
+function compiler(node, html = '') {
   if (node.type === nodes.CHARS) {
     html += node.value
   } else if (node.body && node.closed) {
@@ -19,7 +19,7 @@ function compiler(node, html) {
       node.body.reduce((acc, childNode) => compiler(childNode, acc), '')
     )
   } else if (node.body) {
-    html = html + node.operator + node.body.reduce(
+    html = html + (node.operator || '') + node.body.reduce(
       (acc, childNode) => compiler(childNode, acc),
       ''
     )
@@ -28,9 +28,4 @@ function compiler(node, html) {
   return html
 }
 
-const run = node => compiler({
-  body: node,
-  operator: ''
-}, '')
-
-module.exports = run
+module.exports = compiler

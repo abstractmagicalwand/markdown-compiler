@@ -5,8 +5,12 @@
 
 import test from 'ava'
 import lexer from './lexer'
-import {lexer as mocks} from './mocks'
+import {text, tokens} from './mocks'
 
-const {text, tokens} = mocks
+test('lexical analysis - emphasis', t => t.deepEqual(
+  lexer(text.emphasis), tokens.emphasis, 'emphasis'
+))
 
-test('lexical analysis', t => t.deepEqual(lexer(text), tokens))
+test('lexical analysis - blockquote', t => t.deepEqual(
+  lexer(text.blockquote), tokens.blockquote, 'blockquote'
+))

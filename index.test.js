@@ -2,8 +2,14 @@
 
 import test from 'ava'
 import launcher from './index'
-import {launcher as mocks} from './mocks'
+import {text, html} from './mocks'
 
-const {text, html} = mocks
+test(
+  'launcher - emphasis',
+  t => t.is(launcher(text.emphasis), html.emphasis, 'emphasis')
+)
 
-test('launcher', t => t.is(launcher(text), html))
+test(
+  'launcher - blockquote',
+  t => t.is(launcher(text.blockquote), html.blockquote, 'blockquote')
+)

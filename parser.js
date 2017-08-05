@@ -9,10 +9,16 @@ const Node = require('./node')
 const {nodes} = require('./constants')
 
 function parser(tokens) {
-  const ast = []
-  const ctx = {i: 0}
+  const ast = {
+    type: nodes.PROG,
+    body: []
+  }
+  const ctx = {
+    i: 0,
+    ast
+  }
 
-  function p(tokens, node, ctx, ast) {
+  function p(tokens, node, ctx) {
     if (ctx.i === tokens.length) {
       return node
     }
@@ -31,11 +37,11 @@ function parser(tokens) {
 
     } else if (nextNode.type === nodes.CHARS) {
       node.body.push(nextNode)
-      p(tokens, node, ctx, ast)
+      p(tokens, node, ctx)
     }
 
     if (ctx.i !== tokens.length && !node.closed) {
-      return p(tokens, node, ctx, ast)
+      return p(tokens, node, ctx)
     }
 
     return node
@@ -45,9 +51,9 @@ function parser(tokens) {
     const nextNode = new Node(tokens[ctx.i++])
 
     if (nextNode.type === nodes.CHARS) {
-      ast.push(nextNode)
+      ast.body.push(nextNode)
     } else {
-      ast.push(p(tokens, nextNode, ctx, ast))
+      ast.body.push(p(tokens, nextNode, ctx))
     }
   }
 

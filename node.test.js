@@ -4,24 +4,64 @@
 */
 
 import test from 'ava'
-import {tokens} from './constants'
+
+import {nodes as mocks} from './mocks'
+import {tokens, nodes} from './constants'
 import Node from './node'
-import forEach from 'lodash/forEach'
+
 import isMatch from 'lodash/isMatch'
-import {node as mocks} from './mocks'
 
-const {ASTERISK, UNDERSCORE, CHARS} = tokens
+test('create Node for bold', t => {
+  t.true(
+    isMatch(
+      new Node(mocks.emphasis.tokens[nodes.BOLD][tokens.ASTERISK]),
+      mocks.emphasis.nodes[nodes.BOLD][tokens.ASTERISK]
+    ),
+    'asterisk'
+  )
+  t.true(
+    isMatch(
+      new Node(mocks.emphasis.tokens[nodes.BOLD][tokens.UNDERSCORE]),
+      mocks.emphasis.nodes[nodes.BOLD][tokens.UNDERSCORE]
+    ),
+    'underscore'
+  )
+})
 
-test('create Node', t => {
-  const input = mocks.tokens
-  const output = {
-    [ASTERISK]: new Node(input[ASTERISK]),
-    [UNDERSCORE]: new Node(input[UNDERSCORE]),
-    [CHARS]: new Node(input[CHARS])
-  }
+test('create Node for italic', t => {
+  t.true(
+    isMatch(
+      new Node(mocks.emphasis.tokens[nodes.ITALIC][tokens.ASTERISK]),
+      mocks.emphasis.nodes[nodes.ITALIC][tokens.ASTERISK]
+    ),
+    'asterisk'
+  )
+  t.true(
+    isMatch(
+      new Node(mocks.emphasis.tokens[nodes.ITALIC][tokens.UNDERSCORE]),
+      mocks.emphasis.nodes[nodes.ITALIC][tokens.UNDERSCORE]
+    ),
+    'underscore'
+  )
+})
 
-  forEach(
-    output,
-    (value, type) => t.true(isMatch(output[type], mocks.nodes[type]))
+test('create Node for blockquote', t => {
+  t.true(
+    isMatch(
+      new Node(mocks.emphasis.blockquote.token),
+      mocks.emphasis.blockquote.node
+    ),
+    'without options'
+  )
+
+  t.true(
+    isMatch(
+      new Node(
+        mocks.blockquote.token,
+        mocks.blockquote.option
+      ),
+      mocks.blockquote.nodeWithOptions
+    ),
+    'with options'
   )
 })
