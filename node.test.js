@@ -2,7 +2,7 @@
   comma-dangle: 0,
   no-magic-numbers: 0
 */
-
+/*
 import test from 'ava'
 
 import {nodes as mocks} from './mocks'
@@ -65,3 +65,4 @@ test('create Node for blockquote', t => {
     'with options'
   )
 })
+ */

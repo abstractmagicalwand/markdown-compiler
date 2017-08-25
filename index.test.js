@@ -4,7 +4,7 @@ import test from 'ava'
 import launcher from './index'
 import {text, html} from './mocks'
 
-test(
+test.only(
   'launcher - emphasis',
   t => t.is(launcher(text.emphasis), html.emphasis, 'emphasis')
 )

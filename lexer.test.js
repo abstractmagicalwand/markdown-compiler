@@ -7,7 +7,7 @@ import test from 'ava'
 import lexer from './lexer'
 import {text, tokens} from './mocks'
 
-test('lexical analysis - emphasis', t => t.deepEqual(
+test.only('lexical analysis - emphasis', t => t.deepEqual(
   lexer(text.emphasis), tokens.emphasis, 'emphasis'
 ))
 

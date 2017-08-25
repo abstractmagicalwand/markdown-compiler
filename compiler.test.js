@@ -7,7 +7,7 @@ import test from 'ava'
 import compiler from './compiler'
 import {ast, html} from './mocks'
 
-test(
+test.only(
   'compiler to html - emphasis',
   t => t.is(compiler(ast.emphasis), html.emphasis, 'emphasis')
 )

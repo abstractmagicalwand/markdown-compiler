@@ -5,7 +5,7 @@ import parser from './parser'
 import isMatch from 'lodash/isMatch'
 import {tokens, ast} from './mocks'
 
-test(
+test.only(
   'abstract syntax tree - emphasis',
   t => t.true(isMatch(parser(tokens.emphasis), ast.emphasis), 'emphasis')
 )
