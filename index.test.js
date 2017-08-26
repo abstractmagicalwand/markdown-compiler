@@ -4,12 +4,12 @@ import test from 'ava';
 import launcher from './index';
 import {text, html} from './fixtures';
 
-test.skip(
+test(
   'launcher - emphasis',
   t => t.is(launcher(text.emphasis), html.emphasis, 'emphasis')
 );
 
-test.skip(
+test(
   'launcher - blockquote',
   t => t.is(launcher(text.blockquote), html.blockquote, 'blockquote')
 );

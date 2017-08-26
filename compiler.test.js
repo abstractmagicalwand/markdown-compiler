@@ -7,12 +7,12 @@ import test from 'ava';
 import compiler from './compiler';
 import {ast, html} from './fixtures';
 
-test.skip(
+test(
   'compiler to html - emphasis',
   t => t.is(compiler(ast.emphasis), html.emphasis, 'emphasis')
 );
 
-test.skip(
+test(
   'compiler to html - blockquote',
   t => t.is(compiler(ast.blockquote), html.blockquote, 'blockquote')
 );

@@ -12,7 +12,7 @@ test.only(
   t => t.deepEqual(tokenizer(text.emphasis), tokens.emphasis, 'emphasis')
 );
 
-test.skip(
+test(
   'lexical analysis - blockquote',
   t => t.deepEqual(tokenizer(text.blockquote), tokens.blockquote, 'blockquote')
 );

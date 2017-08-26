@@ -10,7 +10,7 @@ test.only(
   t => t.true(isMatch(parser(tokens.emphasis), ast.emphasis), 'emphasis')
 );
 
-test.skip(
+test(
   'abstract syntax tree - blockquote',
   t => t.true(isMatch(parser(tokens.blockquote), ast.blockquote), 'blockquote')
 );
