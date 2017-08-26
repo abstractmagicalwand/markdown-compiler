@@ -541,105 +541,112 @@ module.exports = {
       type: 'Program',
       body: [
         {
-          type: 'Bold',
-          operator: '**',
+          type: 'Paragraph',
           body: [
             {
-              type: 'Chars',
-              value: 'Homo',
+              type: 'Bold',
+              operator: '**',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'Homo',
+                },
+              ],
+              closed: true,
             },
-          ],
-          closed: true,
-        },
-        {
-          type: 'Chars',
-          value: ' ',
-        },
-        {
-          type: 'Italic',
-          operator: '*',
-          body: [
             {
               type: 'Chars',
-              value: 'Sapiens',
+              value: ' ',
             },
-          ],
-          closed: true,
-        },
-        {
-          type: 'Chars',
-          value: ' ',
-        },
-        {
-          type: 'Italic',
-          operator: '_',
-          body: [
+            {
+              type: 'Italic',
+              operator: '*',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'Sapiens',
+                },
+              ],
+              closed: true,
+            },
             {
               type: 'Chars',
-              value: 'non',
+              value: ' ',
             },
-          ],
-          closed: true,
-        },
-        {
-          type: 'Chars',
-          value: ' ',
-        },
-        {
-          type: 'Bold',
-          operator: '__',
-          body: [
-            {
-              type: 'Chars',
-              value: 'urinat',
-            },
-          ],
-          closed: true,
-        },
-        {
-          type: 'Chars',
-          value: ' ',
-        },
-        {
-          type: 'Bold',
-          operator: '**',
-          body: [
             {
               type: 'Italic',
               operator: '_',
               body: [
                 {
                   type: 'Chars',
-                  value: 'in',
+                  value: 'non',
                 },
               ],
               closed: true,
             },
-          ],
-          closed: true,
-        },
-        {
-          type: 'Chars',
-          value: ' ',
-        },
-        {
-          type: 'Bold',
-          operator: '**',
-          body: [
             {
               type: 'Chars',
-              value: 'ventum',
+              value: ' ',
             },
             {
-              type: 'Italic',
-              operator: '_',
-              body: [],
-              closed: false,
+              type: 'Bold',
+              operator: '__',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'urinat',
+                },
+              ],
+              closed: true,
             },
+            {
+              type: 'Chars',
+              value: ' ',
+            },
+            {
+              type: 'Bold',
+              operator: '**',
+              body: [
+                {
+                  type: 'Italic',
+                  operator: '_',
+                  body: [
+                    {
+                      type: 'Chars',
+                      value: 'in',
+                    },
+                  ],
+                  closed: true,
+                },
+              ],
+              closed: true,
+            },
+            {
+              type: 'Chars',
+              value: ' ',
+            },
+            {
+              type: 'Bold',
+              operator: '**',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'ventum',
+                },
+                {
+                  type: 'Italic',
+                  operator: '_',
+                  body: [],
+                  closed: false,
+                },
+              ],
+              closed: false,
+            }
           ],
-          closed: false,
-        },
+          closed: true
+        }
       ],
+      parent: null,
     },
   },
   html: {
@@ -648,4 +655,4 @@ module.exports = {
 <blockquote><p>This is the first level of quoting.</p><blockquote><p>This is nested blockquote.</p></blockquote><p>Back to the first level</p></blockquote>`,
     emphasis: '<p><strong>Homo</strong> <em>Sapiens</em> <em>non</em> <strong>urinat</strong> <strong><em>in</em></strong> **ventum_</p>',
   },
-}
+};
