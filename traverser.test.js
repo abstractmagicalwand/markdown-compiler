@@ -26,6 +26,7 @@ test.only('should transform nodes', (t) => {
             closed: true,
           },
         ],
+        closed: true,
       },
     ],
   };
@@ -39,7 +40,7 @@ test.only('should transform nodes', (t) => {
         t.is(arguments.length, 2, 'should be two arguments');
       },
       exit(node) {
-        node.body = node.body.filter(node => node.body.length);
+        node.body = node.body.filter(node => !node.body || node.body.length);
         node.closed = false;
       },
     },
