@@ -1,5 +1,6 @@
 import test from 'ava';
 import traverser from './traverser';
+import cloneDeep from 'lodash/cloneDeep';
 
 test.only('should transform nodes', (t) => {
   const ast = {
@@ -33,7 +34,10 @@ test.only('should transform nodes', (t) => {
 
   const visitor = {
     Bold: {
-      enter(node) {
+      enter(node, parent) {
+        parent.archive = [];
+        parent.archive.push(cloneDeep(node));
+
         node.type = 'Italic';
         node.operator = '_';
 
@@ -72,6 +76,26 @@ test.only('should transform nodes', (t) => {
             ],
             closed: false,
           },
+        ],
+        archive: [
+          {
+            type: 'Bold',
+            operator: '__',
+            body: [
+              {
+                type: 'Chars',
+                value: 'night owl',
+              },
+              {
+                type: 'Italic',
+                operator: '_',
+                body: [],
+                closed: true,
+              },
+            ],
+            closed: true,
+          }
+          ,
         ],
         closed: true,
       },
