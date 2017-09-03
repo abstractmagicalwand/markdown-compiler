@@ -1,8 +1,9 @@
 import test from 'ava';
-import traverser from './traverser';
 import cloneDeep from 'lodash/cloneDeep';
 
-test.only('should transform nodes', (t) => {
+import traverser from '../src/traverser';
+
+test.only('should transform nodes', t => {
   const ast = {
     type: 'Program',
     body: [

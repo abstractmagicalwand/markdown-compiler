@@ -1,5 +1,3 @@
-const {tokens: {emphasis, }, } = require('./fixtures');
-
 function parser(tokens) { // eslint-disable-line
   const ast = {
     type: 'Program',
@@ -98,5 +96,4 @@ function parser(tokens) { // eslint-disable-line
   return ast;
 }
 
-parser(emphasis);
 module.exports = parser;
