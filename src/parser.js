@@ -8,6 +8,10 @@ function parser(tokens) { // eslint-disable-line
   let current = 0; // eslint-disable-line
   let node = ast; // eslint-disable-line
 
+  if (!Array.isArray(tokens)) {
+    throw new TypeError('Tokens aren\'t array.');
+  }
+
   while (current < tokens.length) {
     // paragraph
     if (!tokens[current - 1]) {
@@ -91,6 +95,8 @@ function parser(tokens) { // eslint-disable-line
       current++;
       continue;
     }
+
+    throw new Error('Token\'s incorrect');
   }
 
   return ast;

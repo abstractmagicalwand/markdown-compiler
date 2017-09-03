@@ -14,14 +14,17 @@ test.only(
   }
 );
 
-test.todo('will throw exceptions');
-
-test.skip(
+test.only(
   'parser should throw exceptions',
   t => {
-    t.throws(parser([{type: 'zoo'}]), 'token isn\'t valide');
-    t.notThrows(parser([]), 'tokens are empty');
-    t.throws(parser({}), 'tokens aren\'t valide');
+    t.throws(() => parser([{type: 'zoo'}]), Error, 'token isn\'t valide');
+    t.throws(() => parser({}), TypeError, 'tokens aren\'t valide');
   }
 );
 
+test.only(
+  'parser shouldn\'t throw exceptions',
+  t => {
+    t.notThrows(() => parser([]), 'tokens are empty');
+  }
+);
