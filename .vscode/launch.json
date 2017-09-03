@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceRoot}/traverser.js"
+      "program": "${workspaceRoot}/src/code-generator.js"
     }
   ]
 }

@@ -1,5 +1,4 @@
 /* eslint
-  no-magic-numbers: 0,
   comma-dangle: 0,
   array-element-newline: 0
 */
