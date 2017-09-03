@@ -1,0 +1,109 @@
+/* need extension https://marketplace.visualstudio.com/items?itemName=rebornix.project-snippets */
+{
+  "Chars": {
+    "prefix": "tc",
+    "body": [
+      "{",
+      "  type: 'Chars',",
+      "  value: '$1'",
+      "  start: $2",
+      "  end: $3",
+      "}"
+    ],
+    "description": "Token has got type Chars"
+  },
+  "NewLine": {
+    "prefix": "tnl",
+    "body": [
+      "{",
+      "  type: 'NewLine',",
+      "  amount: $1",
+      "  value: '\n'",
+      "  start: $2",
+      "  end: $3",
+      "}"
+    ],
+    "description": "Token has got type NewLine"
+  },
+  "Asterisk": {
+    "prefix": "ta",
+    "body": [
+      "{",
+      "  type: 'Asterisk',",
+      "  amount: $1",
+      "  value: '*'",
+      "  start: $2",
+      "  end: $3",
+      "}"
+    ],
+    "description": "Token has got type Asterisk"
+  },
+  "Underscore": {
+    "prefix": "tu",
+    "body": [
+      "{",
+      "  type: 'Underscore',",
+      "  amount: $1",
+      "  value: '_'",
+      "  start: $2",
+      "  end: $3",
+      "}"
+    ],
+    "description": "Token has got type Underscore"
+  },
+  "Program": {
+    "prefix": "ast",
+    "body": [
+      "{",
+      "  type: 'Program',",
+      "  body: [$1],",
+      "}"
+    ],
+    "description": "Node has got type Program"
+  },
+  "Paragraph": {
+    "prefix": "np",
+    "body": [
+      "{",
+      "  type: 'Paragraph',",
+      "  body: [$1],",
+      "  closed: $2,",
+      "}"
+    ],
+    "description": "Node has got type Paragraph"
+  },
+  "CharsNode": {
+    "prefix": "nc",
+    "body": [
+      "{",
+      "  type: 'Chars',",
+      "  value: '$1'",
+      "}"
+    ],
+    "description": "Node has got type Chars"
+  },
+  "Italic": {
+    "prefix": "ni",
+    "body": [
+      "{",
+      "  type: 'Italic',",
+      "  operator: '$1',",
+      "  body: [$2],",
+      "  closed: $3,",
+      "}"
+    ],
+    "description": "Node has got type Italic"
+  },
+  "Bold": {
+    "prefix": "ni",
+    "body": [
+      "{",
+      "  type: 'Bold',",
+      "  operator: '$1',",
+      "  body: [$2],",
+      "  closed: $3,",
+      "}"
+    ],
+    "description": "Node has got type Bold"
+  }
+}
