@@ -5,9 +5,9 @@
     "body": [
       "{",
       "  type: 'Chars',",
-      "  value: '$1'",
-      "  start: $2",
-      "  end: $3",
+      "  value: '$1',",
+      "  start: $2,",
+      "  end: $3,",
       "}"
     ],
     "description": "Token has got type Chars"
@@ -17,10 +17,10 @@
     "body": [
       "{",
       "  type: 'NewLine',",
-      "  amount: $1",
-      "  value: '\n'",
-      "  start: $2",
-      "  end: $3",
+      "  amount: $1,",
+      "  value: '\n',",
+      "  start: $2,",
+      "  end: $3,",
       "}"
     ],
     "description": "Token has got type NewLine"
@@ -95,7 +95,7 @@
     "description": "Node has got type Italic"
   },
   "Bold": {
-    "prefix": "ni",
+    "prefix": "nb",
     "body": [
       "{",
       "  type: 'Bold',",

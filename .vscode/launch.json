@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceRoot}/src/code-generator.js"
+      "program": "${workspaceRoot}/src/tokenizer.js"
     }
   ]
 }

@@ -9,6 +9,7 @@ test.only(
   'text should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.emphasis), tokens.emphasis, 'emphasis');
+    t.deepEqual(tokenizer(text.paragraphs), tokens.paragraphs, 'paragraphs');
     t.skip.deepEqual(
       tokenizer(text.blockquote),
       tokens.blockquote,

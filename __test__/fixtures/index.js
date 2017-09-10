@@ -19,6 +19,17 @@ module.exports = {
 >
 > Back to the first level.`,
     emphasis: '**Homo** *Sapiens* _non_ __urinat__ **_in_** **ventum_',
+    paragraphs:
+`**Guardian Angel**
+
+I love You, My Guardian Angel, in gloom.
+In gloom, that has followed me out of the womb.
+
+Because you were once my fair gorgeous bride.
+Because you have seen all the secrets I hide.
+
+Because we are bound by secrets and night.
+Because you’re my sister, my daughter, my bride.`
   },
   tokens: {
     blockquote: [
@@ -386,93 +397,67 @@ module.exports = {
         end: 54,
       },
     ],
-  },
-  nodes: {
-    blockquote: {
-      token: {
-        type: 'Greater',
-        value: '>',
+    paragraphs: [
+      {
+        type: 'Asterisk',
+        amount: 2,
+        value: '*',
         start: 0,
-        end: 1,
+        end: 2,
       },
-      node: {
-        type: 'Blockquotes',
-        depth: 1,
-        operator: '>',
-        body: [],
+      {
+        type: 'Chars',
+        value: 'Guardian Angel',
+        start: 2,
+        end: 16
       },
-      nodeWithOptions: {
-        type: 'Blockquotes',
-        depth: 2,
-        operator: '>',
-        body: [],
+      {
+        type: 'Asterisk',
+        amount: 2,
+        value: '*',
+        start: 16,
+        end: 18,
       },
-      options: {
-        depth: 2,
+      {
+        type: 'NewLine',
+        amount: 2,
+        value: '\n',
+        start: 18,
+        end: 20,
       },
-    },
-    emphasis: {
-      tokens: {
-        Bold: {
-          Asterisk: {
-            type: 'Asterisk',
-            amount: 2,
-            value: '*',
-            start: 46,
-            end: 48,
-          },
-          Underscore: {
-            type: 'Underscore',
-            amount: 2,
-            value: '_',
-            start: 54,
-            end: 55,
-          },
-        },
-        Italic: {
-          Asterisk: {
-            type: 'Asterisk',
-            amount: 1,
-            value: '*',
-            start: 46,
-            end: 48,
-          },
-          Underscore: {
-            type: 'Underscore',
-            amount: 1,
-            value: '_',
-            start: 54,
-            end: 55,
-          },
-        },
+      {
+        type: 'Chars',
+        value: 'I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.',
+        start: 20,
+        end: 108,
       },
-      nodes: {
-        Bold: {
-          Asterisk: {
-            type: 'Bold',
-            operator: '**',
-            closed: false,
-          },
-          Underscore: {
-            type: 'Bold',
-            operator: '__',
-            closed: false,
-          },
-        },
-        Italic: {
-          Asterisk: {
-            type: 'Italic',
-            operator: '*',
-            closed: false,
-          },
-          Underscore: {
-            type: 'Italic',
-            operator: '_',
-            closed: false,
-          },
-        },
+      {
+        type: 'NewLine',
+        value: '\n',
+        amount: 2,
+        start: 108,
+        end: 110,
       },
-    },
+      {
+        type: 'Chars',
+        value: 'Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.',
+        start: 110,
+        end: 201
+      },
+      {
+        type: 'NewLine',
+        value: '\n',
+        amount: 2,
+        start: 201,
+        end: 203,
+      },
+      {
+        type: 'Chars',
+        value: 'Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.',
+        start: 203,
+        end: 294
+      }
+    ]
   },
   ast: {
     blockquote: {
@@ -647,11 +632,70 @@ module.exports = {
       ],
       parent: null,
     },
+    paragraphs: {
+      type: 'Program',
+      body: [
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Bold',
+              operator: '*',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'Guardian Angel'
+                }
+              ],
+              closed: true,
+            }
+          ],
+          closed: true
+        },
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.'
+            }
+          ],
+          closed: true,
+        },
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.'
+            }
+          ],
+          closed: true,
+        },
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.'
+            }
+          ],
+          closed: true,
+        }
+      ],
+    }
   },
   html: {
     blockquote:
 `<blockquote><p><b>This</b>is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p><p> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p></blockquote>
 <blockquote><p>This is the first level of quoting.</p><blockquote><p>This is nested blockquote.</p></blockquote><p>Back to the first level</p></blockquote>`,
     emphasis: '<p><strong>Homo</strong> <em>Sapiens</em> <em>non</em> <strong>urinat</strong> <strong><em>in</em></strong> **ventum_</p>',
+    paragraphs: `
+<p>**Guardian Angel**</p>
+<p>I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.</p>
+<p>Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.</p>
+<p>Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.</p>
+`
   },
 };
+

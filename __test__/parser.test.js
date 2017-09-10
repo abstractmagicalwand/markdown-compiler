@@ -10,7 +10,11 @@ test.only(
   'tokens should parse to abstract syntax tree',
   t => {
     t.true(isMatch(parser(tokens.emphasis), ast.emphasis), 'emphasis');
-    // t.true(isMatch(parser(tokens.blockquote), ast.blockquote), 'blockquote');
+    t.true(isMatch(parser(tokens.paragraphs), ast.paragraphs), 'paragraphs');
+    t.skip.true(
+      isMatch(parser(tokens.blockquote), ast.blockquote),
+      'blockquote'
+    );
   }
 );
 
