@@ -5,16 +5,15 @@ function parser(tokens) { // eslint-disable-line
     parent: null,
   };
 
-  let current = 0; // eslint-disable-line
-  let node = ast; // eslint-disable-line
+  let current = 0;
+  let node = ast;
 
   if (!Array.isArray(tokens)) {
     throw new TypeError('Tokens aren\'t array.');
   }
 
   while (current < tokens.length) {
-    // paragraph
-    if (!tokens[current - 1]) {
+    if (!tokens[current - 1]) { // @TODO replace on BOF
       const paragraph = {
         type: 'Paragraph',
         body: [],
@@ -26,10 +25,10 @@ function parser(tokens) { // eslint-disable-line
       node = paragraph;
     }
 
-    if (current + 1 === tokens.length) {
+    if (current + 1 === tokens.length) { // @TODO replace on EOF
       let n = node; // eslint-disable-line
 
-      while (n === null || n.type !== 'Paragraph') {
+      while (n && n.type !== 'Paragraph') {
         n = n.parent;
       }
 
@@ -37,7 +36,32 @@ function parser(tokens) { // eslint-disable-line
         n.closed = true;
       }
     }
-    // ---
+
+    if (tokens[current].type === 'NewLine') {
+      let parent = node;
+
+      while (parent && parent.type !== 'Paragraph') {
+        parent = parent.parent;
+      }
+
+      if (parent && parent.type === 'Paragraph') {
+        parent.closed = true;
+        node = parent.parent;
+      }
+
+      const paragraph = {
+        type: 'Paragraph',
+        body: [],
+        closed: false,
+        parent: node,
+      };
+
+      node.body.push(paragraph);
+      node = paragraph;
+      current++;
+      continue;
+    }
+
     if (tokens[current].type === 'Chars') {
       const chars = {
         type: 'Chars',

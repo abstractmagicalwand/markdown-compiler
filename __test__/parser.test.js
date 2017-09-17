@@ -13,8 +13,8 @@ test.only(
       t.is(a, b, `emphasis: ${a} isn't equal ${b}`);
     });
 
-    isMatch(parser(tokens.paragraphs), [ast.paragraphs], (a, b) => {
-      t.is(a, b, `paragraphs: ${a} isn't equal ${b}`);
+    isMatch(parser(tokens.paragraph), [ast.paragraph], (a, b) => {
+      t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
     });
 
     isMatch(parser(tokens.blockquote), [ast.blockquote], (a, b) => {

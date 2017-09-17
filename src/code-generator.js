@@ -1,6 +1,4 @@
-/* eslint complexity: 0 */
-
-function codeGenerator(ast) {
+function codeGenerator(ast) { // eslint-disable-line
   let html = '';
   let stack = [];
 
@@ -16,7 +14,7 @@ function codeGenerator(ast) {
       if (item.node.closed) {
         switch (item.node.type) {
         case 'Paragraph':
-          html += '</p>';
+          html += '</p>\n';
           break;
         case 'Chars':
           break;

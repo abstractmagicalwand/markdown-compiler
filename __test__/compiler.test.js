@@ -9,7 +9,7 @@ test.only(
   'markdown should compile to html',
   t => {
     t.is(compiler(text.emphasis), html.emphasis, 'emphasis');
-    t.is(compiler(text.paragraphs), html.paragraphs, 'paragraphs');
+    t.is(compiler(text.paragraph), html.paragraph, 'paragraph');
     t.skip.is(compiler(text.blockquote), html.blockquote, 'blockquote');
   }
 );

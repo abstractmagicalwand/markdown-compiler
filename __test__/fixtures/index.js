@@ -19,7 +19,7 @@ module.exports = {
 >
 > Back to the first level.`,
     emphasis: '**Homo** *Sapiens* _non_ __urinat__ **_in_** **ventum_',
-    paragraphs:
+    paragraph:
 `**Guardian Angel**
 
 I love You, My Guardian Angel, in gloom.
@@ -397,7 +397,7 @@ Because you’re my sister, my daughter, my bride.`
         end: 54,
       },
     ],
-    paragraphs: [
+    paragraph: [
       {
         type: 'Asterisk',
         amount: 2,
@@ -632,7 +632,7 @@ Because you’re my sister, my daughter, my bride.`
       ],
       parent: null,
     },
-    paragraphs: {
+    paragraph: {
       type: 'Program',
       body: [
         {
@@ -690,11 +690,13 @@ Because you’re my sister, my daughter, my bride.`
     blockquote:
 `<blockquote><p><b>This</b>is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p><p> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p></blockquote>
 <blockquote><p>This is the first level of quoting.</p><blockquote><p>This is nested blockquote.</p></blockquote><p>Back to the first level</p></blockquote>`,
-    emphasis: '<p><strong>Homo</strong> <em>Sapiens</em> <em>non</em> <strong>urinat</strong> <strong><em>in</em></strong> **ventum_</p>',
-    paragraphs: `<p>**Guardian Angel**</p>
+    emphasis: `<p><strong>Homo</strong> <em>Sapiens</em> <em>non</em> <strong>urinat</strong> <strong><em>in</em></strong> **ventum_</p>
+`,
+    paragraph: `<p><strong>Guardian Angel</strong></p>
 <p>I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.</p>
 <p>Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.</p>
-<p>Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.</p>`
+<p>Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.</p>
+`
   },
   isMatch: {
     object: {
