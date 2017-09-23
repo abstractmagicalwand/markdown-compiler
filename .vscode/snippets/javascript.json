@@ -3,106 +3,168 @@
   "Chars": {
     "prefix": "tc",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Chars',",
       "  value: '$1',",
       "  start: $2,",
       "  end: $3,",
-      "}"
+      "},$4"
+    ],
+    "description": "Token has got type Chars"
+  },
+  "Bullet": {
+    "prefix": "tb",
+    "body": [
+      "\n{",
+      "  type: 'Bullet',",
+      "  depth: $1,",
+      "  value: '$2',",
+      "  start: $3,",
+      "  end: $4,",
+      "},$5"
+    ],
+    "description": "Token has got type Chars"
+  },
+  "Item": {
+    "prefix": "ti",
+    "body": [
+      "\n{",
+      "  type: 'Item',",
+      "  depth: $1,",
+      "  value: $2,",
+      "  start: $3,",
+      "  end: $4,",
+      "},$5"
     ],
     "description": "Token has got type Chars"
   },
   "NewLine": {
     "prefix": "tnl",
     "body": [
-      "{",
+      "\n{",
       "  type: 'NewLine',",
       "  amount: $1,",
-      "  value: '\n',",
-      "  start: $2,",
-      "  end: $3,",
-      "}"
+      "  value: '$2',",
+      "  start: $3,",
+      "  end: $4,",
+      "},$5"
     ],
     "description": "Token has got type NewLine"
   },
   "Asterisk": {
     "prefix": "ta",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Asterisk',",
       "  amount: $1",
       "  value: '*'",
       "  start: $2",
       "  end: $3",
-      "}"
+      "},$4"
     ],
     "description": "Token has got type Asterisk"
   },
   "Underscore": {
     "prefix": "tu",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Underscore',",
       "  amount: $1",
       "  value: '_'",
       "  start: $2",
       "  end: $3",
-      "}"
+      "},$4"
     ],
     "description": "Token has got type Underscore"
   },
   "Program": {
     "prefix": "ast",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Program',",
       "  body: [$1],",
-      "}"
+      "},$2"
     ],
     "description": "Node has got type Program"
   },
   "Paragraph": {
     "prefix": "np",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Paragraph',",
       "  body: [$1],",
       "  closed: $2,",
-      "}"
+      "}$3"
     ],
     "description": "Node has got type Paragraph"
+  },
+  "UnorderList": {
+    "prefix": "nul",
+    "body": [
+      "\n{",
+      "  type: 'UnorderList',",
+      "  body: [$1],",
+      "  closed: $2,",
+      "},$3"
+    ],
+    "description": "Node has got type UnorderList"
+  },
+  "OrderList": {
+    "prefix": "nol",
+    "body": [
+      "\n{",
+      "  type: 'OrderList',",
+      "  start: '$1',",
+      "  styleType: '1',",
+      "  body: [$2],",
+      "  closed: $3,",
+      "},$4"
+    ],
+    "description": "Node has got type OrderList"
+  },
+  "ListItem": {
+    "prefix": "nli",
+    "body": [
+      "\n{",
+      "  type: 'ListItem',",
+      "  value: '$1',",
+      "  body: [$2],",
+      "  closed: $3,",
+      "},$4"
+    ],
+    "description": "Node has got type ListItem"
   },
   "CharsNode": {
     "prefix": "nc",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Chars',",
       "  value: '$1'",
-      "}"
+      "}$2"
     ],
     "description": "Node has got type Chars"
   },
   "Italic": {
     "prefix": "ni",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Italic',",
       "  operator: '$1',",
       "  body: [$2],",
       "  closed: $3,",
-      "}"
+      "}$4"
     ],
     "description": "Node has got type Italic"
   },
   "Bold": {
     "prefix": "nb",
     "body": [
-      "{",
+      "\n{",
       "  type: 'Bold',",
       "  operator: '$1',",
       "  body: [$2],",
       "  closed: $3,",
-      "}"
+      "}$4"
     ],
     "description": "Node has got type Bold"
   }

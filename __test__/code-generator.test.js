@@ -1,11 +1,9 @@
-/* eslint comma-dangle: 0 */
-
 import test from 'ava';
 
 import codeGenerator from '../src/code-generator';
-import {ast, html} from './fixtures';
+import {ast, html} from './fixtures'; // eslint-disable-line
 
-test.only(
+test(
   'code should generate to html',
   t => {
     t.is(codeGenerator(ast.emphasis), html.emphasis, 'emphasis');

@@ -1,5 +1,3 @@
-/* eslint comma-dangle: 0 */
-
 import test from 'ava';
 
 import tokenizer from '../src/tokenizer';
@@ -10,7 +8,7 @@ import codeGenerator from '../src/code-generator';
 import compiler from '../src/compiler';
 import module from '../src/index';
 
-test.only(
+test(
   'should export module',
   t => t.deepEqual(
     module,

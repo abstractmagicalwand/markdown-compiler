@@ -1,9 +1,9 @@
 import test from 'ava';
 
-import isMatch from './helpers/is-match';
+import isMatch from '../is-match';
 import { isMatch as f } from './fixtures'; // eslint-disable-line
 
-test.only('should match object and sources', t => {
+test('should match object and sources', t => {
   isMatch(
     f.object,
     f.sources,
@@ -13,7 +13,7 @@ test.only('should match object and sources', t => {
   );
 });
 
-test.only('shouldn\'t match object and sources', t => {
+test('shouldn\'t match object and sources', t => {
   isMatch(
     f.object,
     f.sourcesAreNotRelevant,

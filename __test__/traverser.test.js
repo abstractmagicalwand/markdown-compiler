@@ -1,38 +1,10 @@
 import test from 'ava';
+
 import cloneDeep from 'lodash/cloneDeep';
-
 import traverser from '../src/traverser';
+import {traverser as f} from './fixtures'; //eslint-disable-line
 
-test.only('should transform nodes', t => {
-  const ast = {
-    type: 'Program',
-    body: [
-      {
-        type: 'Paragraph',
-        body: [
-          {
-            type: 'Bold',
-            operator: '__',
-            body: [
-              {
-                type: 'Chars',
-                value: 'night owl',
-              },
-              {
-                type: 'Italic',
-                operator: '_',
-                body: [],
-                closed: true,
-              },
-            ],
-            closed: true,
-          },
-        ],
-        closed: true,
-      },
-    ],
-  };
-
+test('should transform nodes', t => {
   const visitor = {
     Bold: {
       enter(node, parent) {
@@ -59,47 +31,5 @@ test.only('should transform nodes', t => {
     },
   };
 
-  t.deepEqual(traverser(ast, visitor), {
-    type: 'Program',
-    body: [
-      {
-        type: 'Paragraph',
-        body: [
-          {
-            type: 'Italic',
-            operator: '_',
-            body: [
-              {
-                type: 'Chars',
-                value: 'night-owl',
-                raw: 'night owl',
-              },
-            ],
-            closed: false,
-          },
-        ],
-        archive: [
-          {
-            type: 'Bold',
-            operator: '__',
-            body: [
-              {
-                type: 'Chars',
-                value: 'night owl',
-              },
-              {
-                type: 'Italic',
-                operator: '_',
-                body: [],
-                closed: true,
-              },
-            ],
-            closed: true,
-          }
-          ,
-        ],
-        closed: true,
-      },
-    ],
-  });
+  t.deepEqual(traverser(f.ast, visitor), f.expected);
 });
