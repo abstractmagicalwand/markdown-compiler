@@ -23,6 +23,9 @@ module.exports = {
   text,
   tokens: [
     {
+      type: 'BOF',
+    },
+    {
       type: 'Greater',
       value: '>',
       start: 0,
@@ -219,10 +222,16 @@ module.exports = {
       start: 331,
       end: 332,
     },
+    {
+      type: 'EOF',
+    },
   ],
   ast: {
     type: 'Program',
     body: [
+      {
+        type: 'BOF',
+      },
       {
         type: 'Blockquotes',
         depth: 1,
@@ -278,6 +287,9 @@ module.exports = {
             value: 'Back to the first level.',
           },
         ],
+      },
+      {
+        type: 'EOF',
       },
     ],
   },

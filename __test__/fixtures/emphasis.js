@@ -5,6 +5,9 @@ module.exports = {
   text,
   tokens: [
     {
+      type: 'BOF',
+    },
+    {
       type: 'Asterisk',
       amount: 2,
       value: '*',
@@ -168,10 +171,16 @@ module.exports = {
       start: 53,
       end: 54,
     },
+    {
+      type: 'EOF',
+    },
   ],
   ast: {
     type: 'Program',
     body: [
+      {
+        type: 'BOF',
+      },
       {
         type: 'Paragraph',
         body: [
@@ -276,6 +285,9 @@ module.exports = {
           },
         ],
         closed: true,
+      },
+      {
+        type: 'EOF',
       },
     ],
     parent: null,

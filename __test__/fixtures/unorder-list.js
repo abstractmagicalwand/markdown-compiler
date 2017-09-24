@@ -44,6 +44,9 @@ module.exports = {
   text,
   tokens: [
     {
+      type: 'BOF',
+    },
+    {
       type: 'Bullet',
       depth: 0,
       value: '*',
@@ -141,10 +144,16 @@ module.exports = {
       start: 301,
       end: 321,
     },
+    {
+      type: 'EOF',
+    },
   ],
   ast: {
     type: 'Paragraph',
     body: [
+      {
+        type: 'BOF',
+      },
       {
         type: 'UnorderList',
         body: [
@@ -246,6 +255,9 @@ module.exports = {
           },
         ],
         closed: true,
+      },
+      {
+        type: 'EOF',
       },
     ],
     closed: true,

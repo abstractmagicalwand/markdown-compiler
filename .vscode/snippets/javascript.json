@@ -167,5 +167,21 @@
       "}$4"
     ],
     "description": "Node has got type Bold"
+  },
+  "EOF": {
+    "prefix": "eof",
+    "body": [
+      "\n{",
+      "  type: 'EOF',",
+      "},"
+    ]
+  },
+  "BOF": {
+    "prefix": "bof",
+    "body": [
+      "\n{",
+      "  type: 'BOF',",
+      "},"
+    ]
   }
 }

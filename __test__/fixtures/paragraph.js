@@ -22,6 +22,9 @@ module.exports = {
   text,
   tokens: [
     {
+      type: 'BOF',
+    },
+    {
       type: 'Asterisk',
       amount: 2,
       value: '*',
@@ -80,10 +83,16 @@ module.exports = {
       start: 203,
       end: 294,
     },
+    {
+      type: 'EOF',
+    },
   ],
   ast: {
     type: 'Program',
     body: [
+      {
+        type: 'BOF',
+      },
       {
         type: 'Paragraph',
         body: [
@@ -130,6 +139,9 @@ module.exports = {
           },
         ],
         closed: true,
+      },
+      {
+        type: 'EOF',
       },
     ],
     parent: null,
