@@ -103,6 +103,7 @@
     "body": [
       "\n{",
       "  type: 'UnorderList',",
+      "  depth: $1,",
       "  body: [$1],",
       "  closed: $2,",
       "},$3"
@@ -116,6 +117,7 @@
       "  type: 'OrderList',",
       "  start: '$1',",
       "  styleType: '1',",
+      "  depth: $1,",
       "  body: [$2],",
       "  closed: $3,",
       "},$4"

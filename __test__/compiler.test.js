@@ -4,12 +4,36 @@ import compiler from '../src/compiler';
 import {html, text} from './fixtures'; // eslint-disable-line
 
 test(
-  'markdown should compile to html',
+  'emphasis: markdown should compile to html',
   t => {
-    t.is(compiler(text.emphasis), html.emphasis, 'emphasis');
-    t.is(compiler(text.paragraph), html.paragraph, 'paragraph');
-    t.is(compiler(text.unorderList), html.unorderList, 'unorder list');
-    t.is(compiler(text.orderList), html.orderList, 'order list');
-    t.skip.is(compiler(text.blockquote), html.blockquote, 'blockquote');
+    t.is(compiler(text.emphasis), html.emphasis);
+  }
+);
+
+test(
+  'paragraph: markdown should compile to html',
+  t => {
+    t.is(compiler(text.paragraph), html.paragraph);
+  }
+);
+
+test(
+  'unorder list: markdown should compile to html',
+  t => {
+    t.is(compiler(text.unorderList), html.unorderList);
+  }
+);
+
+test(
+  'order list: markdown should compile to html',
+  t => {
+    t.is(compiler(text.orderList), html.orderList, '');
+  }
+);
+
+test(
+  'blockquote: markdown should compile to html',
+  t => {
+    t.skip.is(compiler(text.blockquote), html.blockquote, '');
   }
 );
