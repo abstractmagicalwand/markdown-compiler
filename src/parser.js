@@ -1,3 +1,5 @@
+const {tokens, } = require('../__test__/fixtures');
+
 function parser(tokens) { // eslint-disable-line
   const ast = {
     type: 'Program',
@@ -13,28 +15,41 @@ function parser(tokens) { // eslint-disable-line
   }
 
   while (current < tokens.length) {
-    if (!tokens[current - 1]) { // @TODO replace on BOF
+    if (tokens[current].type === 'BOF') {
       const paragraph = {
         type: 'Paragraph',
         body: [],
         closed: false,
         parent: node,
       };
+      const bof = {
+        type: 'BOF',
+      };
 
-      node.body.push(paragraph);
+      node.body.push(bof, paragraph);
       node = paragraph;
+      current++;
+      continue;
     }
 
-    if (current + 1 === tokens.length) { // @TODO replace on EOF
-      let n = node; // eslint-disable-line
+    if (tokens[current].type === 'EOF') {
+      let n = node;
+      const eof = {
+        type: 'EOF',
+      };
 
-      while (n && n.type !== 'Paragraph') {
+      while (n) {
+        if (n.type === 'Paragraph') {
+          n.closed = true;
+          break;
+        }
+
         n = n.parent;
       }
 
-      if (n) {
-        n.closed = true;
-      }
+      ast.body.push(eof);
+      current++;
+      continue;
     }
 
     if (tokens[current].type === 'NewLine') {
@@ -125,5 +140,7 @@ function parser(tokens) { // eslint-disable-line
 
   return ast;
 }
+
+parser(tokens.emphasis);
 
 module.exports = parser;

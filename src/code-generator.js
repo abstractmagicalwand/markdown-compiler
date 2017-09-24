@@ -54,6 +54,14 @@ function codeGenerator(ast) { // eslint-disable-line
 
         item.i++;
         continue;
+      } else if (node.type === 'BOF') {
+        item.i++;
+        continue;
+      } else if (node.type === 'EOF') {
+        html = html.trim();
+
+        item.i++;
+        continue;
       } else {
         html += node.operator;
       }

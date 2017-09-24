@@ -1,6 +1,10 @@
 function tokenizer(text) { // eslint-disable-line
   const tokens = [];
 
+  tokens.push({
+    type: 'BOF',
+  });
+
   for (let i = 0; i < text.length; i++) { // eslint-disable-line
     let char = text[i];
 
@@ -86,6 +90,10 @@ function tokenizer(text) { // eslint-disable-line
       });
     }
   }
+
+  tokens.push({
+    type: 'EOF',
+  });
 
   return tokens;
 }
