@@ -1,3 +1,5 @@
+/* const {ast} = require('../__test__/fixtures'); // eslint-disable-line */
+
 function codeGenerator(ast) { // eslint-disable-line
   let html = '';
   let stack = [];
@@ -15,6 +17,12 @@ function codeGenerator(ast) { // eslint-disable-line
         switch (item.node.type) {
         case 'Paragraph':
           html += '</p>\n';
+          break;
+        case 'ListItem':
+          html += '</li>';
+          break;
+        case 'UnorderList':
+          html += '</ul>';
           break;
         case 'Chars':
           break;
@@ -39,6 +47,12 @@ function codeGenerator(ast) { // eslint-disable-line
         switch (node.type) {
         case 'Paragraph':
           html += '<p>';
+          break;
+        case 'ListItem':
+          html += '<li>';
+          break;
+        case 'UnorderList':
+          html += '<ul>';
           break;
         case 'Bold':
           html += '<strong>';
@@ -77,5 +91,7 @@ function codeGenerator(ast) { // eslint-disable-line
 
   return html;
 }
+
+/* codeGenerator(ast.unorderList); */
 
 module.exports = codeGenerator;

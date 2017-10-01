@@ -1,4 +1,4 @@
-const {tokens, } = require('../__test__/fixtures');
+/* const {tokens} = require('../__test__/fixtures'); // eslint-disable-line */
 
 function parser(tokens) { // eslint-disable-line
   const ast = {
@@ -16,18 +16,18 @@ function parser(tokens) { // eslint-disable-line
 
   while (current < tokens.length) {
     if (tokens[current].type === 'BOF') {
-      const paragraph = {
+      /* const paragraph = {
         type: 'Paragraph',
         body: [],
         closed: false,
         parent: node,
-      };
+      }; */
       const bof = {
         type: 'BOF',
       };
 
-      node.body.push(bof, paragraph);
-      node = paragraph;
+      node.body.push(bof/* , paragraph */);
+      /* node = paragraph; */
       current++;
       continue;
     }
@@ -39,9 +39,8 @@ function parser(tokens) { // eslint-disable-line
       };
 
       while (n) {
-        if (n.type === 'Paragraph') {
+        if (n.type === 'Paragraph' || n.type === 'UnorderList' || n.type === 'ListItem') {
           n.closed = true;
-          break;
         }
 
         n = n.parent;
@@ -55,15 +54,81 @@ function parser(tokens) { // eslint-disable-line
     if (tokens[current].type === 'NewLine') {
       let parent = node;
 
-      while (parent && parent.type !== 'Paragraph') {
+      while (parent
+        && parent.type !== 'Paragraph'
+        && parent.type !== 'UnorderList') {
+
+        if (parent.type === 'ListItem') {
+          parent.closed = true;
+        }
+
         parent = parent.parent;
       }
 
-      if (parent && parent.type === 'Paragraph') {
+      if (parent) {
         parent.closed = true;
         node = parent.parent;
       }
 
+      current++;
+      continue;
+    }
+
+    // unorder list
+    if (tokens[current].type === 'Bullet') {
+      const item = {
+        type: 'ListItem',
+        value: tokens[current].value,
+        body: [],
+        closed: false,
+        depth: tokens[current].depth,
+      };
+
+      if (node.type === 'ListItem') {
+        if (tokens[current].depth === node.depth) {
+          node.closed = true;
+          node = node.parent;
+        } else if (tokens[current].depth > node.depth) {
+          const unorderList = {
+            type: 'UnorderList',
+            body: [],
+            closed: false,
+            parent: node,
+            depth: tokens[current].depth,
+          };
+
+          //node.closed = true;
+          node.body.push(unorderList);
+          node = unorderList;
+        } else if (tokens[current].depth < node.depth) {
+          while (node.depth !== tokens[current].depth) {
+            node.closed = true;
+            node = node.parent;
+          }
+
+          node.closed = true;
+          node = node.parent;
+        }
+      } else {
+        const unorderList = {
+          type: 'UnorderList',
+          body: [],
+          closed: false,
+          parent: node,
+        };
+
+        node.body.push(unorderList);
+        node = unorderList;
+      }
+
+      item.parent = node;
+      node.body.push(item);
+      node = item;
+      current++;
+      continue;
+    }
+
+    if (node.type === 'Program' || tokens[current].type === 'NewLine') {
       const paragraph = {
         type: 'Paragraph',
         body: [],
@@ -73,8 +138,6 @@ function parser(tokens) { // eslint-disable-line
 
       node.body.push(paragraph);
       node = paragraph;
-      current++;
-      continue;
     }
 
     if (tokens[current].type === 'Chars') {
@@ -141,6 +204,6 @@ function parser(tokens) { // eslint-disable-line
   return ast;
 }
 
-parser(tokens.emphasis);
+/* parser(tokens.paragraph); */
 
 module.exports = parser;
