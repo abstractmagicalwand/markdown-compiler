@@ -9,26 +9,7 @@ const text = `
 `.trim();
 
 const html = `
-<ol start="5">
-<li>
-<p>Bird</p>
-</li>
-<li>
-<p>McHale</p>
-</li>
-<li>
-<p>Parish</p>
-</li>
-<li>
-<ol start="2">
-<li>Bird</li>
-<li>McHale</li>
-</ol>
-</li>
-<li>
-<p>Parish</p>
-</li>
-</ol>
+<ol start="5"><li>Bird</li><li>McHale</li><li>Parish</li><li><ol start="2"><li>Bird</li><li>McHale</li><li>Parish</li></ol></li></ol>
 `.trim();
 
 module.exports = {
@@ -53,92 +34,95 @@ module.exports = {
     {
       type: 'Item',
       depth: 0,
-      value: '6',
+      value: '3',
       start: 8,
-      end: 12,
+      end: 13,
     },
     {
       type: 'Chars',
       value: 'McHale',
-      start: 12,
-      end: 16,
+      start: 13,
+      end: 19,
     },
     {
       type: 'Item',
       depth: 0,
-      value: '7',
-      start: 16,
-      end: 20,
+      value: '1',
+      start: 19,
+      end: 24,
     },
     {
       type: 'Chars',
       value: 'Parish',
-      start: 20,
-      end: 26,
+      start: 24,
+      end: 30,
     },
     {
       type: 'Item',
       depth: 0,
-      value: '8',
-      start: 26,
-      end: 29,
+      value: '3',
+      start: 30,
+      end: 35,
     },
     {
       type: 'Item',
       depth: 1,
       value: '2',
-      start: 29,
-      end: 32,
+      start: 35,
+      end: 38,
     },
     {
       type: 'Chars',
       value: 'Bird',
-      start: 32,
-      end: 36,
+      start: 38,
+      end: 42,
     },
     {
       type: 'Item',
       depth: 1,
-      value: '3',
-      start: 36,
-      end: 42,
+      value: '1',
+      start: 42,
+      end: 49,
     },
     {
       type: 'Chars',
       value: 'McHale',
-      start: 42,
-      end: 48,
+      start: 49,
+      end: 55,
     },
     {
       type: 'Item',
-      depth: 0,
-      value: '9',
-      start: 48,
-      end: 53,
+      depth: 1,
+      value: '8',
+      start: 55,
+      end: 61,
     },
     {
       type: 'Chars',
       value: 'Parish',
-      start: 53,
-      end: 59,
+      start: 61,
+      end: 67,
     },
     {
       type: 'EOF',
     },
   ],
   ast: {
-    type: 'Paragraph',
+    type: 'Program',
     body: [
       {
         type: 'BOF',
       },
       {
         type: 'OrderList',
+        depth: 0,
         start: '5',
+        value: '5',
         styleType: '1',
         body: [
           {
             type: 'ListItem',
+            depth: 0,
             value: '5',
             body: [
               {
@@ -150,7 +134,8 @@ module.exports = {
           },
           {
             type: 'ListItem',
-            value: '6',
+            depth: 0,
+            value: '3',
             body: [
               {
                 type: 'Chars',
@@ -161,7 +146,8 @@ module.exports = {
           },
           {
             type: 'ListItem',
-            value: '7',
+            depth: 0,
+            value: '1',
             body: [
               {
                 type: 'Chars',
@@ -172,16 +158,19 @@ module.exports = {
           },
           {
             type: 'ListItem',
-            value: '8',
+            depth: 0,
+            value: '3',
             body: [
               {
                 type: 'OrderList',
                 start: '2',
                 styleType: '1',
+                depth: 1,
                 body: [
                   {
                     type: 'ListItem',
                     value: '2',
+                    depth: 1,
                     body: [
                       {
                         type: 'Chars',
@@ -192,7 +181,8 @@ module.exports = {
                   },
                   {
                     type: 'ListItem',
-                    value: '3',
+                    value: '1',
+                    depth: 1,
                     body: [
                       {
                         type: 'Chars',
@@ -201,19 +191,20 @@ module.exports = {
                     ],
                     closed: true,
                   },
+                  {
+                    type: 'ListItem',
+                    value: '8',
+                    depth: 1,
+                    body: [
+                      {
+                        type: 'Chars',
+                        value: 'Parish',
+                      },
+                    ],
+                    closed: true,
+                  },
                 ],
                 closed: true,
-              },
-            ],
-            closed: true,
-          },
-          {
-            type: 'ListItem',
-            value: '9',
-            body: [
-              {
-                type: 'Chars',
-                value: 'Parish',
               },
             ],
             closed: true,
@@ -225,7 +216,7 @@ module.exports = {
         type: 'EOF',
       },
     ],
-    closed: true,
+    parent: null,
   },
   html,
 };
