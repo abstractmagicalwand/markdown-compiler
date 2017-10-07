@@ -1,9 +1,11 @@
-/* const {text} = require('../__test__/fixtures'); // eslint-disable-line */
+const {text} = require('../__test__/fixtures'); // eslint-disable-line
 
 function tokenizer(text) { // eslint-disable-line
   let tokens = [];
   let patternBullet = /\s{0,}(\*|\+|-)\s+/g;
   const patternCharsOfBullet = /(\*|\+|-)/;
+  const patternItem = /\s{0,}\d+\.\s+/g;
+  const patternNumbers = /\d/;
 
   tokens.push({
     type: 'BOF',
@@ -11,20 +13,20 @@ function tokenizer(text) { // eslint-disable-line
 
   for (let i = 0; i < text.length; i++) {
     let char = text[i];
-
+    patternNumbers.test(char);
     if (tokens[tokens.length - 1].type === 'BOF'
       || char === '\n'
       || patternCharsOfBullet.test(char)
-      && tokens[tokens.length - 1].type === 'Bullet') {
+      && tokens[tokens.length - 1].type === 'Bullet'
+      || patternNumbers.test(char)
+      && tokens[tokens.length - 1].type === 'Item') {
       patternBullet.lastIndex = i;
-
-      const result = patternBullet.exec(text);
-
-      if (result && result.index === i) {
+      const bullet = patternBullet.exec(text);
+      if (bullet && bullet.index === i) {
         let depth = 0;
 
-        for (let i = 0; i < result[0].length; i++) {
-          const char = result[0][i];
+        for (let i = 0; i < bullet[0].length; i++) {
+          const char = bullet[0][i];
 
           if (char === ' ') {
             depth += 0.5;
@@ -39,7 +41,7 @@ function tokenizer(text) { // eslint-disable-line
         if (patternCharsOfBullet.test(char)
           && tokens[tokens.length - 1].type !== 'BOF') {
           for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
-            if (tokens[j].type === 'Bullet') {
+            if (tokens[j].type === 'Bullet' || tokens[j].type === 'Item') {
               depth = tokens[j].depth + 1;
               break;
             }
@@ -51,12 +53,54 @@ function tokenizer(text) { // eslint-disable-line
         tokens.push({
           type: 'Bullet',
           depth,
-          value: result[0].trim(),
+          value: bullet[0].trim(),
           start: i,
-          end: i + result[0].length,
+          end: i + bullet[0].length,
         });
 
-        i += result[0].length - 1;
+        i += bullet[0].length - 1;
+        continue;
+      }
+
+      patternItem.lastIndex = i;
+      const item = patternItem.exec(text);
+      if (item && item.index === i) {
+        let depth = 0;
+
+        for (let i = 0; i < item[0].length; i++) {
+          const char = item[0][i];
+
+          if (char === ' ') {
+            depth += 0.5;
+            continue;
+          }
+
+          if (char !== '\n') {
+            break;
+          }
+        }
+
+        if (patternNumbers.test(char)
+        && tokens[tokens.length - 1].type !== 'BOF') {
+        for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
+            if (tokens[j].type === 'Bullet' || tokens[j].type === 'Item') {
+              depth = tokens[j].depth + 1;
+              break;
+            }
+          }
+        } else {
+          depth = Math.floor(depth);
+        }
+
+        tokens.push({
+          type: 'Item',
+          depth,
+          value: `${parseInt(item[0], 10)}`,
+          start: i,
+          end: i + item[0].length,
+        });
+
+        i += item[0].length - 1;
         continue;
       }
     }
@@ -164,6 +208,6 @@ function tokenizer(text) { // eslint-disable-line
   return tokens;
 }
 
-/* tokenizer(text.unorderList); */
+tokenizer(text.orderList);
 
 module.exports = tokenizer;

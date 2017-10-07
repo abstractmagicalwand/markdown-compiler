@@ -24,6 +24,9 @@ function codeGenerator(ast) { // eslint-disable-line
         case 'UnorderList':
           html += '</ul>';
           break;
+        case 'OrderList':
+          html += '</ol>';
+          break;
         case 'Chars':
           break;
         case 'Bold':
@@ -53,6 +56,9 @@ function codeGenerator(ast) { // eslint-disable-line
           break;
         case 'UnorderList':
           html += '<ul>';
+          break;
+        case 'OrderList':
+          html += `<ol start="${node.start}">`;
           break;
         case 'Bold':
           html += '<strong>';

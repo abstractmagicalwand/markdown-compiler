@@ -15,6 +15,31 @@ function parser(tokens) { // eslint-disable-line
   }
 
   while (current < tokens.length) {
+    if (tokens[current].type === 'NewLine') {
+      let parent = node;
+
+      while (parent
+        && parent.type !== 'Paragraph'
+        && parent.type !== 'UnorderList'
+        && parent.type !== 'OrderList') {
+
+        if (parent.type === 'ListItem') {
+          parent.closed = true;
+        }
+
+        parent = parent.parent;
+      }
+
+      if (parent) {
+        parent.closed = true;
+        node = parent.parent;
+      }
+
+      current++;
+      continue;
+    }
+
+    //bof
     if (tokens[current].type === 'BOF') {
       /* const paragraph = {
         type: 'Paragraph',
@@ -32,6 +57,7 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // eof
     if (tokens[current].type === 'EOF') {
       let n = node;
       const eof = {
@@ -39,7 +65,7 @@ function parser(tokens) { // eslint-disable-line
       };
 
       while (n) {
-        if (n.type === 'Paragraph' || n.type === 'UnorderList' || n.type === 'ListItem') {
+        if (n.type === 'Paragraph' || n.type === 'OrderList' || n.type === 'UnorderList' || n.type === 'ListItem') {
           n.closed = true;
         }
 
@@ -47,29 +73,6 @@ function parser(tokens) { // eslint-disable-line
       }
 
       ast.body.push(eof);
-      current++;
-      continue;
-    }
-
-    if (tokens[current].type === 'NewLine') {
-      let parent = node;
-
-      while (parent
-        && parent.type !== 'Paragraph'
-        && parent.type !== 'UnorderList') {
-
-        if (parent.type === 'ListItem') {
-          parent.closed = true;
-        }
-
-        parent = parent.parent;
-      }
-
-      if (parent) {
-        parent.closed = true;
-        node = parent.parent;
-      }
-
       current++;
       continue;
     }
@@ -128,6 +131,66 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // order list
+    if (tokens[current].type === 'Item') {
+      const item = {
+        type: 'ListItem',
+        value: tokens[current].value,
+        body: [],
+        closed: false,
+        depth: tokens[current].depth,
+      };
+
+      if (node.type === 'ListItem') {
+        if (tokens[current].depth === node.depth) {
+          node.closed = true;
+          node = node.parent;
+        } else if (tokens[current].depth > node.depth) {
+          const orderList = {
+            type: 'OrderList',
+            styleType: '1',
+            start: tokens[current].value,
+            body: [],
+            closed: false,
+            parent: node,
+            depth: tokens[current].depth,
+          };
+
+          //node.closed = true;
+          node.body.push(orderList);
+          node = orderList;
+        } else if (tokens[current].depth < node.depth) {
+          while (node.depth !== tokens[current].depth) {
+            node.closed = true;
+            node = node.parent;
+          }
+
+          node.closed = true;
+          node = node.parent;
+        }
+      } else {
+        const orderList = {
+          type: 'OrderList',
+          styleType: '1',
+          start: tokens[current].value,
+          body: [],
+          closed: false,
+          parent: node,
+          depth: tokens[current].depth,
+        };
+
+        node.body.push(orderList);
+        node = orderList;
+      }
+
+      item.parent = node;
+      node.body.push(item);
+      node = item;
+      current++;
+      continue;
+    }
+
+    // paragraph
     if (node.type === 'Program' || tokens[current].type === 'NewLine') {
       const paragraph = {
         type: 'Paragraph',
@@ -140,6 +203,7 @@ function parser(tokens) { // eslint-disable-line
       node = paragraph;
     }
 
+    // chars
     if (tokens[current].type === 'Chars') {
       const chars = {
         type: 'Chars',
@@ -151,6 +215,7 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // bold
     if ((tokens[current].type === 'Asterisk'
       || tokens[current].type === 'Underscore')
       && tokens[current].amount === 2 ) {
@@ -175,6 +240,7 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // italic
     if ((tokens[current].type === 'Asterisk'
       || tokens[current].type === 'Underscore')
       && tokens[current].amount === 1) {
@@ -204,6 +270,6 @@ function parser(tokens) { // eslint-disable-line
   return ast;
 }
 
-/* parser(tokens.paragraph); */
+/* parser(tokens.orderList); */
 
 module.exports = parser;
