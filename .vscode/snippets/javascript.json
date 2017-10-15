@@ -9,8 +9,7 @@
       "  start: $2,",
       "  end: $3,",
       "},$4"
-    ],
-    "description": "Token has got type Chars"
+    ]
   },
   "Signs": {
     "prefix": "ts",
@@ -58,8 +57,7 @@
       "  start: $3,",
       "  end: $4,",
       "},$5"
-    ],
-    "description": "Token has got type Chars"
+    ]
   },
   "Item": {
     "prefix": "ti",
@@ -71,8 +69,7 @@
       "  start: $3,",
       "  end: $4,",
       "},$5"
-    ],
-    "description": "Token has got type Chars"
+    ]
   },
   "NewLine": {
     "prefix": "tnl",
@@ -84,8 +81,7 @@
       "  start: $3,",
       "  end: $4,",
       "},$5"
-    ],
-    "description": "Token has got type NewLine"
+    ]
   },
   "Asterisk": {
     "prefix": "ta",
@@ -97,8 +93,7 @@
       "  start: $2",
       "  end: $3",
       "},$4"
-    ],
-    "description": "Token has got type Asterisk"
+    ]
   },
   "Underscore": {
     "prefix": "tu",
@@ -110,8 +105,7 @@
       "  start: $2",
       "  end: $3",
       "},$4"
-    ],
-    "description": "Token has got type Underscore"
+    ]
   },
   "Program": {
     "prefix": "ast",
@@ -119,9 +113,9 @@
       "\n{",
       "  type: 'Program',",
       "  body: [$1],",
+      "  parent: null,",
       "},$2"
-    ],
-    "description": "Node has got type Program"
+    ]
   },
   "Paragraph": {
     "prefix": "np",
@@ -131,8 +125,7 @@
       "  body: [$1],",
       "  isClosed: $2,",
       "}$3"
-    ],
-    "description": "Node has got type Paragraph"
+    ]
   },
   "UnorderList": {
     "prefix": "nul",
@@ -143,8 +136,7 @@
       "  body: [$1],",
       "  isClosed: $2,",
       "},$3"
-    ],
-    "description": "Node has got type UnorderList"
+    ]
   },
   "OrderList": {
     "prefix": "nol",
@@ -157,8 +149,7 @@
       "  body: [$2],",
       "  isClosed: $3,",
       "},$4"
-    ],
-    "description": "Node has got type OrderList"
+    ]
   },
   "ListItem": {
     "prefix": "nli",
@@ -169,8 +160,7 @@
       "  body: [$2],",
       "  isClosed: $3,",
       "},$4"
-    ],
-    "description": "Node has got type ListItem"
+    ]
   },
   "Header": {
     "prefix": "nh",
@@ -191,8 +181,7 @@
       "  type: 'Chars',",
       "  value: '$1'",
       "}$2"
-    ],
-    "description": "Node has got type Chars"
+    ]
   },
   "Italic": {
     "prefix": "ni",
@@ -203,8 +192,7 @@
       "  body: [$2],",
       "  isClosed: $3,",
       "}$4"
-    ],
-    "description": "Node has got type Italic"
+    ]
   },
   "Bold": {
     "prefix": "nb",
@@ -215,8 +203,7 @@
       "  body: [$2],",
       "  isClosed: $3,",
       "}$4"
-    ],
-    "description": "Node has got type Bold"
+    ]
   },
   "EOF": {
     "prefix": "eof",

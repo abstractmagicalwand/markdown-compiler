@@ -1,25 +1,24 @@
-const {text} = require('../__test__/fixtures'); // eslint-disable-line
+/* const {text} = require('../__test__/fixtures'); // eslint-disable-line */
 
 function tokenizer(text) { // eslint-disable-line
   let tokens = [];
-  let patternBullet = /\s{0,}(\*|\+|-)\s+/g;
-  const patternCharsOfBullet = /(\*|\+|-)/;
-  const patternItem = /\s{0,}\d+\.\s+/g;
-  const patternNumbers = /\d/;
 
+  // bof
   tokens.push({
     type: 'BOF',
   });
 
   for (let i = 0; i < text.length; i++) {
+    let lastToken = tokens[tokens.length - 1];
     let char = text[i];
-    patternNumbers.test(char);
-    if (tokens[tokens.length - 1].type === 'BOF'
-      || char === '\n'
-      || patternCharsOfBullet.test(char)
-      && tokens[tokens.length - 1].type === 'Bullet'
-      || patternNumbers.test(char)
-      && tokens[tokens.length - 1].type === 'Item') {
+
+    let patternBullets = /(\*|\+|-)/;
+    let patternItems = /\d/;
+    if (lastToken.type === 'BOF' || char === '\n'
+      || patternBullets.test(char) && lastToken.type === 'Bullet'
+      || patternItems.test(char) && lastToken.type === 'Item') {
+      // bullet
+      let patternBullet = /\s{0,}(\*|\+|-)\s+/g;
       patternBullet.lastIndex = i;
       const bullet = patternBullet.exec(text);
       if (bullet && bullet.index === i) {
@@ -38,8 +37,7 @@ function tokenizer(text) { // eslint-disable-line
           }
         }
 
-        if (patternCharsOfBullet.test(char)
-          && tokens[tokens.length - 1].type !== 'BOF') {
+        if (patternBullets.test(char) && lastToken.type !== 'BOF') {
           for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
             if (tokens[j].type === 'Bullet' || tokens[j].type === 'Item') {
               depth = tokens[j].depth + 1;
@@ -62,6 +60,8 @@ function tokenizer(text) { // eslint-disable-line
         continue;
       }
 
+      // item
+      let patternItem = /\s{0,}\d+\.\s+/g;
       patternItem.lastIndex = i;
       const item = patternItem.exec(text);
       if (item && item.index === i) {
@@ -80,9 +80,9 @@ function tokenizer(text) { // eslint-disable-line
           }
         }
 
-        if (patternNumbers.test(char)
-        && tokens[tokens.length - 1].type !== 'BOF') {
-        for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
+        if (patternItems.test(char)
+          && tokens[tokens.length - 1].type !== 'BOF') {
+          for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
             if (tokens[j].type === 'Bullet' || tokens[j].type === 'Item') {
               depth = tokens[j].depth + 1;
               break;
@@ -103,13 +103,39 @@ function tokenizer(text) { // eslint-disable-line
         i += item[0].length - 1;
         continue;
       }
+
+      // hashes
+      let patternHashes = /\n#{1,6} |^#/g ;
+      patternHashes.lastIndex = i;
+      const hashes = patternHashes.exec(text);
+      if (hashes && hashes.index === i) {
+        let hashes = {
+          type: 'Hashes',
+          value: '#',
+          amount: 0,
+          start: i,
+        };
+
+        while (text[i] !== ' ') {
+          if (text[i] === '#') {
+            hashes.amount++;
+          }
+          i++;
+        }
+
+        hashes.end = i + 1;
+        tokens.push(hashes);
+        continue;
+      }
     }
 
+    // new line
     if (char === '\n') {
       const start = i;
       let amount = 1;
 
-      for (i++; text[i] === '\n'; i++) {
+      i++;
+      for (; text[i] === '\n'; i++) {
         amount++;
       }
 
@@ -137,6 +163,7 @@ function tokenizer(text) { // eslint-disable-line
       char = text[i];
     }
 
+    // asterisk
     if (char === '*') {
       let token = {
         type: 'Asterisk',
@@ -162,6 +189,7 @@ function tokenizer(text) { // eslint-disable-line
       continue;
     }
 
+    // underscore
     if (char === '_') {
       let token = {
         type: 'Underscore',
@@ -186,7 +214,7 @@ function tokenizer(text) { // eslint-disable-line
       continue;
     }
 
-
+    // chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
       tokens[tokens.length - 1].end++;
@@ -201,6 +229,7 @@ function tokenizer(text) { // eslint-disable-line
     }
   }
 
+  // eof
   tokens.push({
     type: 'EOF',
   });
@@ -208,6 +237,6 @@ function tokenizer(text) { // eslint-disable-line
   return tokens;
 }
 
-tokenizer(text.orderList);
+/* tokenizer(text.atxHeader); */
 
 module.exports = tokenizer;

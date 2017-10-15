@@ -21,7 +21,8 @@ function parser(tokens) { // eslint-disable-line
       while (parent
         && parent.type !== 'Paragraph'
         && parent.type !== 'UnorderList'
-        && parent.type !== 'OrderList') {
+        && parent.type !== 'OrderList'
+        && parent.type !== 'Hashes') {
 
         if (parent.type === 'ListItem') {
           parent.isClosed = true;
@@ -65,7 +66,11 @@ function parser(tokens) { // eslint-disable-line
       };
 
       while (n) {
-        if (n.type === 'Paragraph' || n.type === 'OrderList' || n.type === 'UnorderList' || n.type === 'ListItem') {
+        if (n.type === 'Paragraph'
+          || n.type === 'OrderList'
+          || n.type === 'UnorderList'
+          || n.type === 'ListItem'
+          || n.type === 'Header') {
           n.isClosed = true;
         }
 
@@ -190,6 +195,28 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // atx header
+    if (tokens[current].type === 'Hashes') {
+      const header = {
+        type: 'Header',
+        amount: tokens[current].amount,
+        value: '#',
+        body: [],
+        isClosed: false,
+      };
+
+      if (node.type === 'Header') {
+        node.isClosed = true;
+        node = node.parent;
+      }
+
+      header.parent = node;
+      node.body.push(header);
+      node = header;
+      current++;
+      continue;
+    }
+
     // paragraph
     if (node.type === 'Program' || tokens[current].type === 'NewLine') {
       const paragraph = {
@@ -270,6 +297,6 @@ function parser(tokens) { // eslint-disable-line
   return ast;
 }
 
-/* parser(tokens.orderList); */
+/* parser(tokens.atxHeader); */
 
 module.exports = parser;

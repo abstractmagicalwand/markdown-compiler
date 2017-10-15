@@ -18,6 +18,9 @@ function codeGenerator(ast) { // eslint-disable-line
         case 'Paragraph':
           html += '</p>\n';
           break;
+        case 'Header':
+          html += `</h${item.node.amount}>\n`;
+          break;
         case 'ListItem':
           html += '</li>';
           break;
@@ -50,6 +53,9 @@ function codeGenerator(ast) { // eslint-disable-line
         switch (node.type) {
         case 'Paragraph':
           html += '<p>';
+          break;
+        case 'Header':
+          html += `<h${node.amount}>`;
           break;
         case 'ListItem':
           html += '<li>';
