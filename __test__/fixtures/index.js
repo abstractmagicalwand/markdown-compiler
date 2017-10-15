@@ -4,6 +4,8 @@ const paragraph = require('./paragraph');
 const unorderList = require('./unorder-list');
 const orderList = require('./order-list');
 const traverser = require('./traverser');
+const setextHeader = require('./setext-header');
+const atxHeader = require('./atx-header');
 
 module.exports = {
   text: {
@@ -12,6 +14,8 @@ module.exports = {
     paragraph: paragraph.text,
     unorderList: unorderList.text,
     orderList: orderList.text,
+    setextHeader: setextHeader.text,
+    atxHeader: atxHeader.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -19,6 +23,8 @@ module.exports = {
     paragraph: paragraph.tokens,
     unorderList: unorderList.tokens,
     orderList: orderList.tokens,
+    setextHeader: setextHeader.tokens,
+    atxHeader: atxHeader.tokens,
   },
   ast: {
     blockquote: blockquote.ast,
@@ -26,6 +32,8 @@ module.exports = {
     paragraph: paragraph.ast,
     unorderList: unorderList.ast,
     orderList: orderList.ast,
+    setextHeader: setextHeader.ast,
+    atxHeader: atxHeader.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -33,6 +41,8 @@ module.exports = {
     paragraph: paragraph.html,
     unorderList: unorderList.html,
     orderList: orderList.html,
+    setextHeader: setextHeader.html,
+    atxHeader: atxHeader.html,
   },
   traverser,
 };

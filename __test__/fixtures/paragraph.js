@@ -105,10 +105,10 @@ module.exports = {
                 value: 'Guardian Angel',
               },
             ],
-            closed: true,
+            isClosed: true,
           },
         ],
-        closed: true,
+        isClosed: true,
       },
       {
         type: 'Paragraph',
@@ -118,7 +118,7 @@ module.exports = {
             value: 'I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.',
           },
         ],
-        closed: true,
+        isClosed: true,
       },
       {
         type: 'Paragraph',
@@ -128,7 +128,7 @@ module.exports = {
             value: 'Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.',
           },
         ],
-        closed: true,
+        isClosed: true,
       },
       {
         type: 'Paragraph',
@@ -138,7 +138,7 @@ module.exports = {
             value: 'Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.',
           },
         ],
-        closed: true,
+        isClosed: true,
       },
       {
         type: 'EOF',

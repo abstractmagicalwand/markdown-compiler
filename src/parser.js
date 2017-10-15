@@ -24,14 +24,14 @@ function parser(tokens) { // eslint-disable-line
         && parent.type !== 'OrderList') {
 
         if (parent.type === 'ListItem') {
-          parent.closed = true;
+          parent.isClosed = true;
         }
 
         parent = parent.parent;
       }
 
       if (parent) {
-        parent.closed = true;
+        parent.isClosed = true;
         node = parent.parent;
       }
 
@@ -44,7 +44,7 @@ function parser(tokens) { // eslint-disable-line
       /* const paragraph = {
         type: 'Paragraph',
         body: [],
-        closed: false,
+        isClosed: false,
         parent: node,
       }; */
       const bof = {
@@ -66,7 +66,7 @@ function parser(tokens) { // eslint-disable-line
 
       while (n) {
         if (n.type === 'Paragraph' || n.type === 'OrderList' || n.type === 'UnorderList' || n.type === 'ListItem') {
-          n.closed = true;
+          n.isClosed = true;
         }
 
         n = n.parent;
@@ -83,40 +83,40 @@ function parser(tokens) { // eslint-disable-line
         type: 'ListItem',
         value: tokens[current].value,
         body: [],
-        closed: false,
+        isClosed: false,
         depth: tokens[current].depth,
       };
 
       if (node.type === 'ListItem') {
         if (tokens[current].depth === node.depth) {
-          node.closed = true;
+          node.isClosed = true;
           node = node.parent;
         } else if (tokens[current].depth > node.depth) {
           const unorderList = {
             type: 'UnorderList',
             body: [],
-            closed: false,
+            isClosed: false,
             parent: node,
             depth: tokens[current].depth,
           };
 
-          //node.closed = true;
+          //node.isClosed = true;
           node.body.push(unorderList);
           node = unorderList;
         } else if (tokens[current].depth < node.depth) {
           while (node.depth !== tokens[current].depth) {
-            node.closed = true;
+            node.isClosed = true;
             node = node.parent;
           }
 
-          node.closed = true;
+          node.isClosed = true;
           node = node.parent;
         }
       } else {
         const unorderList = {
           type: 'UnorderList',
           body: [],
-          closed: false,
+          isClosed: false,
           parent: node,
         };
 
@@ -137,13 +137,13 @@ function parser(tokens) { // eslint-disable-line
         type: 'ListItem',
         value: tokens[current].value,
         body: [],
-        closed: false,
+        isClosed: false,
         depth: tokens[current].depth,
       };
 
       if (node.type === 'ListItem') {
         if (tokens[current].depth === node.depth) {
-          node.closed = true;
+          node.isClosed = true;
           node = node.parent;
         } else if (tokens[current].depth > node.depth) {
           const orderList = {
@@ -151,21 +151,21 @@ function parser(tokens) { // eslint-disable-line
             styleType: '1',
             start: tokens[current].value,
             body: [],
-            closed: false,
+            isClosed: false,
             parent: node,
             depth: tokens[current].depth,
           };
 
-          //node.closed = true;
+          //node.isClosed = true;
           node.body.push(orderList);
           node = orderList;
         } else if (tokens[current].depth < node.depth) {
           while (node.depth !== tokens[current].depth) {
-            node.closed = true;
+            node.isClosed = true;
             node = node.parent;
           }
 
-          node.closed = true;
+          node.isClosed = true;
           node = node.parent;
         }
       } else {
@@ -174,7 +174,7 @@ function parser(tokens) { // eslint-disable-line
           styleType: '1',
           start: tokens[current].value,
           body: [],
-          closed: false,
+          isClosed: false,
           parent: node,
           depth: tokens[current].depth,
         };
@@ -195,7 +195,7 @@ function parser(tokens) { // eslint-disable-line
       const paragraph = {
         type: 'Paragraph',
         body: [],
-        closed: false,
+        isClosed: false,
         parent: node,
       };
 
@@ -221,14 +221,14 @@ function parser(tokens) { // eslint-disable-line
       && tokens[current].amount === 2 ) {
       if (node.type === 'Bold'
         && node.operator === tokens[current].value.repeat(2)) {
-        node.closed = true;
+        node.isClosed = true;
         node = node.parent;
       } else {
         const bold = {
           type: 'Bold',
           operator: tokens[current].value.repeat(2),
           body: [],
-          closed: false,
+          isClosed: false,
           parent: node,
         };
 
@@ -245,14 +245,14 @@ function parser(tokens) { // eslint-disable-line
       || tokens[current].type === 'Underscore')
       && tokens[current].amount === 1) {
       if (node.type === 'Italic' && node.operator === tokens[current].value) {
-        node.closed = true;
+        node.isClosed = true;
         node = node.parent;
       } else {
         const italic = {
           type: 'Italic',
           operator: tokens[current].value,
           body: [],
-          closed: false,
+          isClosed: false,
           parent: node,
         };
 

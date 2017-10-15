@@ -32,6 +32,20 @@ test(
 );
 
 test(
+  'atx header: text should transform to tokens',
+  t => {
+    t.deepEqual(tokenizer(text.atxHeader), tokens.atxHeader);
+  }
+);
+
+test(
+  'setext header: text should transform to tokens',
+  t => {
+    t.deepEqual(tokenizer(text.setextHeader), tokens.setextHeader);
+  }
+);
+
+test(
   'blockquote: text should transform to tokens',
   t => {
     t.skip.deepEqual(tokenizer(text.blockquote), tokens.blockquote);

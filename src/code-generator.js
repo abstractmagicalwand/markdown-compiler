@@ -13,7 +13,7 @@ function codeGenerator(ast) { // eslint-disable-line
     const item = stack[stack.length - 1];
 
     if (!item.node.body || item.node.body.length === item.i) {
-      if (item.node.closed) {
+      if (item.node.isClosed) {
         switch (item.node.type) {
         case 'Paragraph':
           html += '</p>\n';
@@ -46,7 +46,7 @@ function codeGenerator(ast) { // eslint-disable-line
     while (item.node.body.length > item.i) {
       const node = item.node.body[item.i];
 
-      if (node.closed) {
+      if (node.isClosed) {
         switch (node.type) {
         case 'Paragraph':
           html += '<p>';

@@ -32,6 +32,20 @@ test(
 );
 
 test(
+  'atx header: markdown should compile to html',
+  t => {
+    t.is(compiler(text.atxHeader), html.atxHeader, '');
+  }
+);
+
+test(
+  'setext list: markdown should compile to html',
+  t => {
+    t.is(compiler(text.setextHeader), html.setextHeader, '');
+  }
+);
+
+test(
   'blockquote: markdown should compile to html',
   t => {
     t.skip.is(compiler(text.blockquote), html.blockquote, '');

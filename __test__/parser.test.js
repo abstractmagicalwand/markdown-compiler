@@ -25,7 +25,7 @@ test(
 );
 
 test(
-  'unorderList: tokens should parse to abstract syntax tree',
+  'unorder list: tokens should parse to abstract syntax tree',
   t =>{
     isMatch(parser(tokens.unorderList), [ast.unorderList], (a, b) => {
       t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
@@ -34,9 +34,27 @@ test(
 );
 
 test(
-  'orderList: tokens should parse to abstract syntax tree',
+  'order list: tokens should parse to abstract syntax tree',
   t => {
     isMatch(parser(tokens.orderList), [ast.orderList], (a, b) => {
+      t.is(a, b, `order list: ${a} isn't equal ${b}`);
+    });
+  }
+);
+
+test(
+  'atx header: tokens should parse to abstract syntax tree',
+  t => {
+    isMatch(parser(tokens.atxHeader), [ast.atxHeader], (a, b) => {
+      t.is(a, b, `order list: ${a} isn't equal ${b}`);
+    });
+  }
+);
+
+test(
+  'setext header: tokens should parse to abstract syntax tree',
+  t => {
+    isMatch(parser(tokens.setextHeader), [ast.setextHeader], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }

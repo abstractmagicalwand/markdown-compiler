@@ -18,7 +18,7 @@ test('should transform nodes', t => {
       },
       exit(node) {
         node.body = node.body.filter(node => !node.body || node.body.length);
-        node.closed = false;
+        node.isClosed = false;
       },
     },
     Chars: {

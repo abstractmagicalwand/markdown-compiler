@@ -32,6 +32,20 @@ test(
   }
 );
 
+test(
+  'atx header: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.atxHeader), html.atxHeader);
+  }
+);
+
+test(
+  'setext list: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.setextHeader), html.setextHeader);
+  }
+);
+
 test.skip(
   'blockquote: code should generate to html',
   t => {

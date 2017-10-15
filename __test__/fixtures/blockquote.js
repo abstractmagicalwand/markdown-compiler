@@ -13,6 +13,10 @@ const text = `
 > Back to the first level.
 `.trim();
 
+const text2 = `
+> ## This is an H2 in a blockquote
+`.trim();
+
 const html = `
 <blockquote><p><b>This</b>is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p><p> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p></blockquote>
 <blockquote><p>This is the first level of quoting.</p><blockquote><p>This is nested blockquote.</p></blockquote><p>Back to the first level</p></blockquote>
@@ -250,7 +254,7 @@ module.exports = {
                 value: 'This',
               },
             ],
-            closed: true,
+            isClosed: true,
           },
           {
             type: 'Chars',

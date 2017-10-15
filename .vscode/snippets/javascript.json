@@ -12,6 +12,42 @@
     ],
     "description": "Token has got type Chars"
   },
+  "Signs": {
+    "prefix": "ts",
+    "body": [
+      "\n{",
+      "  type: 'Signs',",
+      "  value: '=',",
+      "  amount: $1,",
+      "  start: $2,",
+      "  end: $3,",
+      "},$4"
+    ]
+  },
+  "Hyphens": {
+    "prefix": "thy",
+    "body": [
+      "\n{",
+      "  type: 'Hyphens',",
+      "  value: '-',",
+      "  amount: $1,",
+      "  start: $2,",
+      "  end: $3,",
+      "},$4"
+    ]
+  },
+  "Hashes": {
+    "prefix": "th",
+    "body": [
+      "\n{",
+      "  type: 'Hashes',",
+      "  value: '#',",
+      "  amount: $1,",
+      "  start: $2,",
+      "  end: $3,",
+      "},$4"
+    ]
+  },
   "Bullet": {
     "prefix": "tb",
     "body": [
@@ -93,7 +129,7 @@
       "\n{",
       "  type: 'Paragraph',",
       "  body: [$1],",
-      "  closed: $2,",
+      "  isClosed: $2,",
       "}$3"
     ],
     "description": "Node has got type Paragraph"
@@ -105,7 +141,7 @@
       "  type: 'UnorderList',",
       "  depth: $1,",
       "  body: [$1],",
-      "  closed: $2,",
+      "  isClosed: $2,",
       "},$3"
     ],
     "description": "Node has got type UnorderList"
@@ -119,7 +155,7 @@
       "  styleType: '1',",
       "  depth: $1,",
       "  body: [$2],",
-      "  closed: $3,",
+      "  isClosed: $3,",
       "},$4"
     ],
     "description": "Node has got type OrderList"
@@ -131,10 +167,22 @@
       "  type: 'ListItem',",
       "  value: '$1',",
       "  body: [$2],",
-      "  closed: $3,",
+      "  isClosed: $3,",
       "},$4"
     ],
     "description": "Node has got type ListItem"
+  },
+  "Header": {
+    "prefix": "nh",
+    "body": [
+      "\n{",
+      "    type: 'Header',",
+      "    styleType: '1',",
+      "    value: '$1',",
+      "    body: [$2],",
+      "    isClosed: $4,",
+      "},$5"
+    ]
   },
   "CharsNode": {
     "prefix": "nc",
@@ -153,7 +201,7 @@
       "  type: 'Italic',",
       "  operator: '$1',",
       "  body: [$2],",
-      "  closed: $3,",
+      "  isClosed: $3,",
       "}$4"
     ],
     "description": "Node has got type Italic"
@@ -165,7 +213,7 @@
       "  type: 'Bold',",
       "  operator: '$1',",
       "  body: [$2],",
-      "  closed: $3,",
+      "  isClosed: $3,",
       "}$4"
     ],
     "description": "Node has got type Bold"
