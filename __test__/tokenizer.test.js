@@ -55,7 +55,7 @@ test(
 test(
   'horizontal rules: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.horizontalRules), tokens.horizontalRules);
+    t.deepEqual(tokenizer(text.HorizontalRule), tokens.HorizontalRule);
   }
 );
 

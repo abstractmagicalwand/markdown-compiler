@@ -218,9 +218,9 @@ function parser(tokens) { // eslint-disable-line
     }
 
     // setext header
-    if (node.type === 'Paragraph' 
+    if (node.type === 'Paragraph'
       && !node.isClosed
-      && (tokens[current].type === 'Signs' 
+      && (tokens[current].type === 'Signs'
       || tokens[current].type === 'Hyphens')) {
       const header = {
         type: 'Header',
@@ -246,9 +246,26 @@ function parser(tokens) { // eslint-disable-line
         node.isClosed = true;
         node = node.parent;
       }
-      
+
       header.parent = node;
       node.body.push(header);
+      current++;
+      continue;
+    }
+
+    // horizontal rule
+    if (tokens[current].type === 'HorizontalRule') {
+      const rule = {
+        type: 'HorizontalRule',
+      };
+
+      while (node.parent) {
+        node.isClosed = true;
+        node = node.parent;
+      }
+
+      rule.parent = node;
+      node.body.push(rule);
       current++;
       continue;
     }

@@ -6,7 +6,7 @@ const orderList = require('./order-list');
 const traverser = require('./traverser');
 const setextHeader = require('./setext-header');
 const atxHeader = require('./atx-header');
-const horizontalRules = require('./horizontal-rules');
+const HorizontalRule = require('./horizontal-rule');
 
 module.exports = {
   text: {
@@ -17,7 +17,7 @@ module.exports = {
     orderList: orderList.text,
     setextHeader: setextHeader.text,
     atxHeader: atxHeader.text,
-    horizontalRules: horizontalRules.text,
+    HorizontalRule: HorizontalRule.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -27,7 +27,7 @@ module.exports = {
     orderList: orderList.tokens,
     setextHeader: setextHeader.tokens,
     atxHeader: atxHeader.tokens,
-    horizontalRules: horizontalRules.tokens,
+    HorizontalRule: HorizontalRule.tokens,
   },
   ast: {
     blockquote: blockquote.ast,
@@ -37,7 +37,7 @@ module.exports = {
     orderList: orderList.ast,
     setextHeader: setextHeader.ast,
     atxHeader: atxHeader.ast,
-    horizontalRules: horizontalRules.ast,
+    HorizontalRule: HorizontalRule.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -47,7 +47,7 @@ module.exports = {
     orderList: orderList.html,
     setextHeader: setextHeader.html,
     atxHeader: atxHeader.html,
-    horizontalRules: horizontalRules.html,
+    HorizontalRule: HorizontalRule.html,
   },
   traverser,
 };

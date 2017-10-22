@@ -63,7 +63,7 @@ test(
 test(
   'horizontal rules: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.horizontalRules), [ast.horizontalRules], (a, b) => {
+    isMatch(parser(tokens.HorizontalRule), [ast.HorizontalRule], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }

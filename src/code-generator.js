@@ -80,6 +80,11 @@ function codeGenerator(ast) { // eslint-disable-line
 
         item.i++;
         continue;
+      } else if (node.type === 'HorizontalRule') {
+        html += '<hr>\n';
+
+        item.i++;
+        continue;
       } else if (node.type === 'BOF') {
         item.i++;
         continue;

@@ -17,6 +17,49 @@ function tokenizer(text) { // eslint-disable-line
     if (lastToken.type === 'BOF' || char === '\n'
       || patternBullets.test(char) && lastToken.type === 'Bullet'
       || patternItems.test(char) && lastToken.type === 'Item') {
+
+      // horizontal rule
+      if (lastToken.type !== 'Chars') {
+        const start = i;
+
+        let isRule = true;
+        let k = i + 1;
+        for (; k < text.length; k++) {
+          if (/\S/.test(text[k])) {
+            break;
+          }
+        }
+
+        const value = text[k];
+        let j;
+        for (j = k; j < text.length; j++) {
+          if (text[j] === '\n') {
+            if (j - start <= 1) {
+              isRule = false;
+            }
+
+            break;
+          }
+
+          if (text[j] !== value && text[j] !== ' ') {
+            isRule = false;
+            break;
+          }
+        }
+
+        if (isRule) {
+          i = j - 1;
+          tokens.push({
+            type: 'HorizontalRule',
+            value,
+            start,
+            end: i + 1,
+          });
+
+          continue;
+        }
+      }
+
       // bullet
       let patternBullet = /\s{0,}(\*|\+|-)\s+/g;
       patternBullet.lastIndex = i;
@@ -136,10 +179,17 @@ function tokenizer(text) { // eslint-disable-line
         const char = SignsOrHyphens[0][1];
         let signsOrHyphens = {
           type: char === '-' ? 'Hyphens' : 'Signs',
+          amount: 0,
           value: char,
           start: i,
           end: i + 1,
         };
+
+        for (let j = 0; j < SignsOrHyphens[0].length; j++) {
+          if (SignsOrHyphens[0][j] === char) {
+            signsOrHyphens.amount++;
+          }
+        }
 
         while (text[signsOrHyphens.end] === char) {
           signsOrHyphens.end++;
@@ -261,6 +311,6 @@ function tokenizer(text) { // eslint-disable-line
   return tokens;
 }
 
-/* tokenizer(text.setextHeader); */
+/* tokenizer(text.HorizontalRule); */
 
 module.exports = tokenizer;
