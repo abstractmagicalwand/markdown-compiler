@@ -27,6 +27,7 @@ module.exports = {
     },
     {
       type: 'Signs',
+      amount: 20,
       value: '=',
       start: 20,
       end: 41,
@@ -46,6 +47,7 @@ module.exports = {
     },
     {
       type: 'Hyphens',
+      amount: 21,
       value: '-',
       start: 97,
       end: 119,

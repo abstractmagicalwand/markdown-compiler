@@ -16,8 +16,8 @@
     "body": [
       "\n{",
       "  type: 'Signs',",
-      "  value: '=',",
       "  amount: $1,",
+      "  value: '=',",
       "  start: $2,",
       "  end: $3,",
       "},$4"
@@ -28,8 +28,8 @@
     "body": [
       "\n{",
       "  type: 'Hyphens',",
-      "  value: '-',",
       "  amount: $1,",
+      "  value: '-',",
       "  start: $2,",
       "  end: $3,",
       "},$4"
@@ -40,8 +40,8 @@
     "body": [
       "\n{",
       "  type: 'Hashes',",
-      "  value: '#',",
       "  amount: $1,",
+      "  value: '#',",
       "  start: $2,",
       "  end: $3,",
       "},$4"
@@ -88,10 +88,10 @@
     "body": [
       "\n{",
       "  type: 'Asterisk',",
-      "  amount: $1",
-      "  value: '*'",
-      "  start: $2",
-      "  end: $3",
+      "  amount: $1,",
+      "  value: '*',",
+      "  start: $2,",
+      "  end: $3,",
       "},$4"
     ]
   },
@@ -100,10 +100,10 @@
     "body": [
       "\n{",
       "  type: 'Underscore',",
-      "  amount: $1",
-      "  value: '_'",
-      "  start: $2",
-      "  end: $3",
+      "  amount: $1,",
+      "  value: '_',",
+      "  start: $2,",
+      "  end: $3,",
       "},$4"
     ]
   },
@@ -166,12 +166,21 @@
     "prefix": "nh",
     "body": [
       "\n{",
-      "    type: 'Header',",
-      "    styleType: '1',",
-      "    value: '$1',",
-      "    body: [$2],",
-      "    isClosed: $4,",
+      "  type: 'Header',",
+      "  styleType: '1',",
+      "  value: '$1',",
+      "  body: [$2],",
+      "  isClosed: $4,",
       "},$5"
+    ]
+  },
+  "HorizontalRule": {
+    "prefix": "nhr",
+    "body": [
+      "\n{",
+        "  type: 'HorizontalRule',",
+        "  value: '$1',",
+        "},$5"
     ]
   },
   "CharsNode": {

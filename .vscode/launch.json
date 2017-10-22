@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceRoot}/src/parser.js"
+      "program": "${workspaceRoot}/src/tokenizer.js"
     }
   ]
 }

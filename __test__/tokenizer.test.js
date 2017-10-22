@@ -11,6 +11,13 @@ test(
 );
 
 test(
+  'emphasis: text should transform to tokens',
+  t => {
+    t.deepEqual(tokenizer(text.emphasis), tokens.emphasis);
+  }
+);
+
+test(
   'paragraph: text should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.paragraph), tokens.paragraph);
@@ -42,6 +49,13 @@ test(
   'setext header: text should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.setextHeader), tokens.setextHeader);
+  }
+);
+
+test(
+  'horizontal rules: text should transform to tokens',
+  t => {
+    t.deepEqual(tokenizer(text.horizontalRules), tokens.horizontalRules);
   }
 );
 

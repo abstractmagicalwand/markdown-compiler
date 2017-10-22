@@ -46,6 +46,13 @@ test(
 );
 
 test(
+  'horizontal rules: markdown should compile to html',
+  t => {
+    t.is(compiler(text.horizontalRules), html.horizontalRules, '');
+  }
+);
+
+test(
   'blockquote: markdown should compile to html',
   t => {
     t.skip.is(compiler(text.blockquote), html.blockquote, '');

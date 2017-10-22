@@ -60,6 +60,15 @@ test(
   }
 );
 
+test(
+  'horizontal rules: tokens should parse to abstract syntax tree',
+  t => {
+    isMatch(parser(tokens.horizontalRules), [ast.horizontalRules], (a, b) => {
+      t.is(a, b, `order list: ${a} isn't equal ${b}`);
+    });
+  }
+);
+
 test.skip(
   'blockquote: tokens should parse to abstract syntax tree',
   t => {
