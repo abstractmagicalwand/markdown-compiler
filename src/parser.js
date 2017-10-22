@@ -217,6 +217,42 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // setext header
+    if (node.type === 'Paragraph' 
+      && !node.isClosed
+      && (tokens[current].type === 'Signs' 
+      || tokens[current].type === 'Hyphens')) {
+      const header = {
+        type: 'Header',
+        amount: tokens[current].type === 'Signs' ? 1 : 2,
+        value: tokens[current].value,
+        body: [],
+        isClosed: true,
+      };
+
+      header.body.push(node.body.pop());
+      if (!node.body.length) {
+        for (let j = 0; j < node.parent.body.length; j++) {
+          if (node.parent.body[j] !== node) {
+            continue;
+          }
+
+          node.parent.body.splice(j, 1);
+          break;
+        }
+      }
+
+      while (node.parent) {
+        node.isClosed = true;
+        node = node.parent;
+      }
+      
+      header.parent = node;
+      node.body.push(header);
+      current++;
+      continue;
+    }
+
     // paragraph
     if (node.type === 'Program' || tokens[current].type === 'NewLine') {
       const paragraph = {
@@ -297,6 +333,6 @@ function parser(tokens) { // eslint-disable-line
   return ast;
 }
 
-/* parser(tokens.atxHeader); */
+/* parser(tokens.setextHeader); */
 
 module.exports = parser;

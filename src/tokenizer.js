@@ -127,6 +127,28 @@ function tokenizer(text) { // eslint-disable-line
         tokens.push(hashes);
         continue;
       }
+      
+      // signs and hyphens
+      let patternSignsOrHyphens = /\n+(=|-)+\n+/g; // \n+ is the good solution
+      patternSignsOrHyphens.lastIndex = i;
+      const SignsOrHyphens = patternSignsOrHyphens.exec(text);
+      if (SignsOrHyphens && SignsOrHyphens.index === i) {
+        const char = SignsOrHyphens[0][1];
+        let signsOrHyphens = {
+          type: char === '-' ? 'Hyphens' : 'Signs',
+          value: char,
+          start: i,
+          end: i + 1,
+        };
+
+        while (text[signsOrHyphens.end] === char) {
+          signsOrHyphens.end++;
+          i++;
+        }
+
+        tokens.push(signsOrHyphens);
+        continue;
+      }
     }
 
     // new line
@@ -139,7 +161,9 @@ function tokenizer(text) { // eslint-disable-line
         amount++;
       }
 
-      if (amount > 1) {
+      if (amount > 1 
+        || lastToken.type === 'Signs' 
+        || lastToken.type === 'Hyphens') {
         tokens.push({
           type: 'NewLine',
           amount,
@@ -237,6 +261,6 @@ function tokenizer(text) { // eslint-disable-line
   return tokens;
 }
 
-/* tokenizer(text.atxHeader); */
+/* tokenizer(text.setextHeader); */
 
 module.exports = tokenizer;
