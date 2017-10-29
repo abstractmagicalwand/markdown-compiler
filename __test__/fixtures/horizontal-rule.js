@@ -1,20 +1,22 @@
-const text = `
-* * *
+const strip = require('../helpers/strip');
 
-***
-*****
+const text = strip(`
+    * * *
 
-- - -
----------------------------------------
-`.trim();
+    ***
+    *****
 
-const html = `
-<hr>
-<hr>
-<hr>
-<hr>
-<hr>
-`.trim();
+    - - -
+    ---------------------------------------
+  `);
+
+const html = strip(`
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+    <hr>
+  `);
 
 module.exports = {
   text,

@@ -1,5 +1,17 @@
 /* need extension https://marketplace.visualstudio.com/items?itemName=rebornix.project-snippets */
 {
+  "Backtick": {
+    "prefix": "tbt",
+    "body": [
+      "\n{",
+      "  type: 'CodeBlock',",
+      "  value: '$1',",
+      "  isClosed: $2,",
+      "  start: $3,",
+      "  end: $4,",
+      "}$5"
+    ]
+  },
   "Chars": {
     "prefix": "tc",
     "body": [
@@ -181,6 +193,16 @@
         "  type: 'HorizontalRule',",
         "  value: '$1',",
         "},$5"
+    ]
+  },
+  "CodeBlock": {
+    "prefix": "ncb",
+    "body": [
+      "\n{",
+      "  type: 'CodeBlock',",
+      "  body: [$1],",
+      "  isClosed: $2,",
+      "}$3"
     ]
   },
   "CharsNode": {

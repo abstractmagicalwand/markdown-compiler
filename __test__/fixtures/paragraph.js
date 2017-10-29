@@ -1,22 +1,24 @@
-const text = `
-**Guardian Angel**
+const strip = require('../helpers/strip');
 
-I love You, My Guardian Angel, in gloom.
-In gloom, that has followed me out of the womb.
+const text = strip(`
+    **Guardian Angel**
 
-Because you were once my fair gorgeous bride.
-Because you have seen all the secrets I hide.
+    I love You, My Guardian Angel, in gloom.
+    In gloom, that has followed me out of the womb.
 
-Because we are bound by secrets and night.
-Because you’re my sister, my daughter, my bride.
-`.trim();
+    Because you were once my fair gorgeous bride.
+    Because you have seen all the secrets I hide.
 
-const html = `
-<p><strong>Guardian Angel</strong></p>
-<p>I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.</p>
-<p>Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.</p>
-<p>Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.</p>
-`.trim();
+    Because we are bound by secrets and night.
+    Because you’re my sister, my daughter, my bride.
+  `);
+
+const html = strip(`
+    <p><strong>Guardian Angel</strong></p>
+    <p>I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.</p>
+    <p>Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.</p>
+    <p>Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.</p>
+  `);
 
 module.exports = {
   text,

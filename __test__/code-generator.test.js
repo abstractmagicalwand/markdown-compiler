@@ -46,6 +46,13 @@ test(
   }
 );
 
+test(
+  'code block: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.codeBlock), html.codeBlock);
+  }
+);
+
 test.skip(
   'blockquote: code should generate to html',
   t => {

@@ -1,16 +1,16 @@
-const text = `
-5.  Bird
-3.  McHale
-1.  Parish
+const strip = require('../helpers/strip');
 
-3. 2. Bird
-   1. McHale
-  8. Parish
-`.trim();
+const text = strip(`
+    5.  Bird
+    3.  McHale
+    1.  Parish
 
-const html = `
-<ol start="5"><li>Bird</li><li>McHale</li><li>Parish</li><li><ol start="2"><li>Bird</li><li>McHale</li><li>Parish</li></ol></li></ol>
-`.trim();
+    3. 2. Bird
+      1. McHale
+      8. Parish
+  `);
+
+const html = '<ol start="5"><li>Bird</li><li>McHale</li><li>Parish</li><li><ol start="2"><li>Bird</li><li>McHale</li><li>Parish</li></ol></li></ol>';
 
 module.exports = {
   text,
@@ -82,26 +82,26 @@ module.exports = {
       depth: 1,
       value: '1',
       start: 42,
-      end: 49,
+      end: 48,
     },
     {
       type: 'Chars',
       value: 'McHale',
-      start: 49,
-      end: 55,
+      start: 48,
+      end: 54,
     },
     {
       type: 'Item',
       depth: 1,
       value: '8',
-      start: 55,
-      end: 61,
+      start: 54,
+      end: 60,
     },
     {
       type: 'Chars',
       value: 'Parish',
-      start: 61,
-      end: 67,
+      start: 60,
+      end: 66,
     },
     {
       type: 'EOF',

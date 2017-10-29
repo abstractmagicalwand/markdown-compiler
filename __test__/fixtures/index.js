@@ -7,6 +7,7 @@ const traverser = require('./traverser');
 const setextHeader = require('./setext-header');
 const atxHeader = require('./atx-header');
 const HorizontalRule = require('./horizontal-rule');
+const codeBlock = require('./code-blocks');
 
 module.exports = {
   text: {
@@ -18,6 +19,7 @@ module.exports = {
     setextHeader: setextHeader.text,
     atxHeader: atxHeader.text,
     HorizontalRule: HorizontalRule.text,
+    codeBlock: codeBlock.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -28,6 +30,7 @@ module.exports = {
     setextHeader: setextHeader.tokens,
     atxHeader: atxHeader.tokens,
     HorizontalRule: HorizontalRule.tokens,
+    codeBlock: codeBlock.tokens,
   },
   ast: {
     blockquote: blockquote.ast,
@@ -38,6 +41,7 @@ module.exports = {
     setextHeader: setextHeader.ast,
     atxHeader: atxHeader.ast,
     HorizontalRule: HorizontalRule.ast,
+    codeBlock: codeBlock.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -48,6 +52,7 @@ module.exports = {
     setextHeader: setextHeader.html,
     atxHeader: atxHeader.html,
     HorizontalRule: HorizontalRule.html,
+    codeBlock: codeBlock.html,
   },
   traverser,
 };

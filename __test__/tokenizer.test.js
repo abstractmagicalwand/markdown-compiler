@@ -60,6 +60,13 @@ test(
 );
 
 test(
+  'code block: text should transform to tokens',
+  t => {
+    t.deepEqual(tokenizer(text.codeBlock), tokens.codeBlock);
+  }
+);
+
+test(
   'blockquote: text should transform to tokens',
   t => {
     t.skip.deepEqual(tokenizer(text.blockquote), tokens.blockquote);

@@ -1,5 +1,7 @@
-const isMatch = require('./is-match');
+const isMatched = require('./is-match');
+const strip = require('./strip');
 
 module.exports = {
-  isMatch,
+  isMatched,
+  strip,
 };

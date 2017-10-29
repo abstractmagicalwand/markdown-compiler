@@ -1,17 +1,19 @@
-const text = `
-A First Level Header
-====================
-This is just a regular paragraph.
-A Second Level Header
----------------------
-This is just a regular paragraph.
-`.trim();
+const strip = require('../helpers/strip');
 
-const html = `
-<h1>A First Level Header</h1>
-<h2>This is just a regular paragraph. A Second Level Header</h2>
-<p>This is just a regular paragraph.</p>
-`.trim();
+const text = strip(`
+    A First Level Header
+    ====================
+    This is just a regular paragraph.
+    A Second Level Header
+    ---------------------
+    This is just a regular paragraph.
+  `);
+
+const html = strip(`
+    <h1>A First Level Header</h1>
+    <h2>This is just a regular paragraph. A Second Level Header</h2>
+    <p>This is just a regular paragraph.</p>
+  `);
 
 module.exports = {
   text,

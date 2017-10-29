@@ -1,4 +1,4 @@
-const isMatch = (object, sources, test) => { // eslint-disable-line
+const isMatched = (object, sources, test) => { // eslint-disable-line
   sources = sources || [{}]; // eslint-disable-line
 
   sources.forEach(source => {
@@ -10,7 +10,7 @@ const isMatch = (object, sources, test) => { // eslint-disable-line
   });
 
   if (object.body) {
-    object.body.forEach((object, i) => isMatch(
+    object.body.forEach((object, i) => isMatched(
       object,
       sources.map(source => source.body && source.body[i] || {}),
       test
@@ -18,4 +18,4 @@ const isMatch = (object, sources, test) => { // eslint-disable-line
   }
 };
 
-module.exports = isMatch;
+module.exports = isMatched;

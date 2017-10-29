@@ -1,7 +1,7 @@
 /* eslint comma-dangle: 0 */
 
 import test from 'ava';
-import isMatch from '../__test__/helpers/is-match';
+import isMatched from '../__test__/helpers/is-match';
 
 import parser from '../src/parser';
 import {tokens, ast} from './fixtures';
@@ -9,7 +9,7 @@ import {tokens, ast} from './fixtures';
 test(
   'emphasis: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.emphasis), [ast.emphasis], (a, b) => {
+    isMatched(parser(tokens.emphasis), [ast.emphasis], (a, b) => {
       t.is(a, b, `emphasis: ${a} isn't equal ${b}`);
     });
   }
@@ -18,7 +18,7 @@ test(
 test(
   'paragraph: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.paragraph), [ast.paragraph], (a, b) => {
+    isMatched(parser(tokens.paragraph), [ast.paragraph], (a, b) => {
       t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
     });
   }
@@ -27,7 +27,7 @@ test(
 test(
   'unorder list: tokens should parse to abstract syntax tree',
   t =>{
-    isMatch(parser(tokens.unorderList), [ast.unorderList], (a, b) => {
+    isMatched(parser(tokens.unorderList), [ast.unorderList], (a, b) => {
       t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
     });
   }
@@ -36,7 +36,7 @@ test(
 test(
   'order list: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.orderList), [ast.orderList], (a, b) => {
+    isMatched(parser(tokens.orderList), [ast.orderList], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
@@ -45,7 +45,7 @@ test(
 test(
   'atx header: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.atxHeader), [ast.atxHeader], (a, b) => {
+    isMatched(parser(tokens.atxHeader), [ast.atxHeader], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
@@ -54,7 +54,7 @@ test(
 test(
   'setext header: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.setextHeader), [ast.setextHeader], (a, b) => {
+    isMatched(parser(tokens.setextHeader), [ast.setextHeader], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
@@ -63,8 +63,17 @@ test(
 test(
   'horizontal rules: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.HorizontalRule), [ast.HorizontalRule], (a, b) => {
+    isMatched(parser(tokens.HorizontalRule), [ast.HorizontalRule], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
+    });
+  }
+);
+
+test(
+  'code block: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(parser(tokens.codeBlock), [ast.codeBlock], (a, b) => {
+      t.is(a, b, `code block: ${a} isn't equal ${b}`);
     });
   }
 );
@@ -72,7 +81,7 @@ test(
 test.skip(
   'blockquote: tokens should parse to abstract syntax tree',
   t => {
-    isMatch(parser(tokens.blockquote), [ast.blockquote], (a, b) => {
+    isMatched(parser(tokens.blockquote), [ast.blockquote], (a, b) => {
       t.is(a, b, `blockquote: ${a} isn't equal ${b}`);
     });
   }
