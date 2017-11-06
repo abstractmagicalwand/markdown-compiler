@@ -38,6 +38,9 @@ function codeGenerator(ast) { // eslint-disable-line
         case 'Italic':
           html += '</em>';
           break;
+        case 'CodeBlock':
+          html += '\n</code></pre>\n';
+          break;
         default:
           break;
         }
@@ -71,6 +74,9 @@ function codeGenerator(ast) { // eslint-disable-line
           break;
         case 'Italic':
           html += '<em>';
+          break;
+        case 'CodeBlock':
+          html += '<pre><code>\n';
           break;
         default:
           break;

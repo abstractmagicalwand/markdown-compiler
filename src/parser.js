@@ -1,4 +1,4 @@
-/* const {tokens} = require('../__test__/fixtures'); // eslint-disable-line */
+const {tokens} = require('../__test__/fixtures'); // eslint-disable-line
 
 function parser(tokens) { // eslint-disable-line
   const ast = {
@@ -270,8 +270,35 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // code block
+    if (tokens[current].type === 'CodeBlock') {
+      const codeBlock = {
+        type: 'CodeBlock',
+        body: [],
+      };
+
+      while (node.parent) {
+        node.isClosed = true;
+        node = node.parent;
+      }
+
+      codeBlock.body.push({
+        type: 'Chars',
+        value: tokens[current].value, // @TODO take out to tokenizer
+      });
+      codeBlock.isClosed = tokens[current].isClosed;
+      codeBlock.parent = node;
+
+      node.body.push(codeBlock);
+      current++;
+      continue;
+    }
+
     // paragraph
-    if (node.type === 'Program' || tokens[current].type === 'NewLine') {
+    if (node.type === 'Program'
+      || tokens[current].type === 'NewLine'
+      || tokens[current].type === 'Chars'
+      && tokens[current - 1].type === 'BOF') {
       const paragraph = {
         type: 'Paragraph',
         body: [],
@@ -350,6 +377,6 @@ function parser(tokens) { // eslint-disable-line
   return ast;
 }
 
-/* parser(tokens.setextHeader); */
+parser(tokens.codeBlock);
 
 module.exports = parser;

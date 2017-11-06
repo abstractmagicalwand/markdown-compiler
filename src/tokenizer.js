@@ -17,9 +17,51 @@ function tokenizer(text) { // eslint-disable-line
     if (lastToken.type === 'BOF' || char === '\n'
       || patternBullets.test(char) && lastToken.type === 'Bullet'
       || patternItems.test(char) && lastToken.type === 'Item') {
+      // code block
+      let patternCodeBlock = lastToken.type === 'BOF'
+        ? /```\n/g
+        : /\n\n?```\n/g;
+      patternCodeBlock.lastIndex = i;
+      const codeBlock = patternCodeBlock.exec(text);
+      if (codeBlock && codeBlock.index === i) {
+        const start = i;
+
+        for (; i < text.length; i++) {
+          if (text[i] === '\n' || text[i] === '`') {
+            continue;
+          }
+
+          break;
+        }
+
+        let value = '';
+        let backtickCounter = 0;
+        for (; i < text.length && backtickCounter < 3; i++) {
+          if (text[i] === '`') {
+            backtickCounter++;
+          } else if (text[i] === '&') {
+            value += '&amp;';
+          } else if (text[i] === '<') {
+            value += '&lt;';
+          } else if (text[i] === '>') {
+            value += '&gt;';
+          } else {
+            value += text[i];
+          }
+        }
+
+        tokens.push({
+          type: 'CodeBlock',
+          value: value.trim(),
+          isClosed: backtickCounter === 3,
+          start: start,
+          end: i + 1,
+        });
+        continue;
+      }
 
       // horizontal rule
-      if (lastToken.type !== 'Chars') {
+      if (lastToken.type !== 'Chars' && lastToken.type !== 'CodeBlock') {
         const start = i;
 
         let isRule = true;
@@ -311,6 +353,6 @@ function tokenizer(text) { // eslint-disable-line
   return tokens;
 }
 
-/* tokenizer(text.HorizontalRule); */
+/* tokenizer(text.codeBlock); */
 
 module.exports = tokenizer;
