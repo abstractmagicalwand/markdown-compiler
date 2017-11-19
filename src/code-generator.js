@@ -1,6 +1,5 @@
-/* const {ast} = require('../__test__/fixtures'); // eslint-disable-line */
-
-function codeGenerator(ast) { // eslint-disable-line
+/* eslint complexity: 0 */
+function codeGenerator(ast) {
   let html = '';
   let stack = [];
 
@@ -114,7 +113,5 @@ function codeGenerator(ast) { // eslint-disable-line
 
   return html;
 }
-
-/* codeGenerator(ast.unorderList); */
 
 module.exports = codeGenerator;

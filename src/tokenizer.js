@@ -1,6 +1,5 @@
-/* const {text} = require('../__test__/fixtures'); // eslint-disable-line */
-
-function tokenizer(text) { // eslint-disable-line
+/* eslint complexity: 0 */
+function tokenizer(text) {
   let tokens = [];
 
   // bof
@@ -73,8 +72,8 @@ function tokenizer(text) { // eslint-disable-line
         }
 
         const value = text[k];
-        let j;
-        for (j = k; j < text.length; j++) {
+        let j = k;
+        for (; j < text.length; j++) {
           if (text[j] === '\n') {
             if (j - start <= 1) {
               isRule = false;
@@ -352,7 +351,5 @@ function tokenizer(text) { // eslint-disable-line
 
   return tokens;
 }
-
-/* tokenizer(text.codeBlock); */
 
 module.exports = tokenizer;

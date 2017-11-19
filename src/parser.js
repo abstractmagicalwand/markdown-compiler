@@ -1,5 +1,4 @@
-const {tokens} = require('../__test__/fixtures'); // eslint-disable-line
-
+/* eslint complexity: 0 */
 function parser(tokens) { // eslint-disable-line
   const ast = {
     type: 'Program',
@@ -376,7 +375,5 @@ function parser(tokens) { // eslint-disable-line
 
   return ast;
 }
-
-parser(tokens.codeBlock);
 
 module.exports = parser;

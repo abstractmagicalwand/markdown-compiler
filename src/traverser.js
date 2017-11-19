@@ -1,4 +1,5 @@
-function traverser(ast, visitor) { // eslint-disable-line
+/* eslint complexity: 0 */
+function traverser(ast, visitor) {
   const stack = [];
   const originType = ast.type;
 

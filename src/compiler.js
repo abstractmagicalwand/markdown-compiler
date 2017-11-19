@@ -1,10 +1,17 @@
-const flow = require('lodash/flow');
-
 const tokenizer = require('./tokenizer');
 const parser = require('./parser');
 const codeGenerator = require('./code-generator');
 const transformer = require('./transformer');
 
-const compiler = flow(tokenizer, parser, transformer, codeGenerator);
+function compiler(text) {
+  const steps = [tokenizer, parser, transformer, codeGenerator];
+
+  let result = text;
+  for (let i = 0; i < steps.length; i++) {
+    result = steps[i](result);
+  }
+
+  return result;
+}
 
 module.exports = compiler;
