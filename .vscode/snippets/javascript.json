@@ -1,7 +1,7 @@
 /* need extension https://marketplace.visualstudio.com/items?itemName=rebornix.project-snippets */
 {
   "Backtick": {
-    "prefix": "tbt",
+    "prefix": "tcb",
     "body": [
       "\n{",
       "  type: 'CodeBlock',",
@@ -119,10 +119,22 @@
       "},$4"
     ]
   },
+  "CodeInline": {
+    "prefix": "tci",
+    "body": [
+      "\n{",
+      "  type: 'Code',",
+      "  value: '$1',",
+      "  isClosed: $2,",
+      "  start: $3,",
+      "  end: $4,",
+      "}$5"
+    ]
+  },
   "Program": {
     "prefix": "ast",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Program',",
       "  body: [$1],",
       "  parent: null,",
@@ -205,13 +217,23 @@
       "}$3"
     ]
   },
+  "CodeNode": {
+    "prefix": "nci",
+    "body": [
+      "\n{",
+      "  type: 'Code',",
+      "  body: [$1],",
+      "  isClosed: $2,",
+      "}$3"
+    ]
+  },
   "CharsNode": {
     "prefix": "nc",
     "body": [
       "\n{",
       "  type: 'Chars',",
       "  value: '$1'",
-      "}$2"
+      "},$2"
     ]
   },
   "Italic": {

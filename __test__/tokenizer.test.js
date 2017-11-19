@@ -11,9 +11,14 @@ test(
 );
 
 test(
-  'emphasis: text should transform to tokens',
+  'code: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.emphasis), tokens.emphasis);
+    t.deepEqual(tokenizer(text.code.$1), tokens.code.$1, '$1');
+    t.deepEqual(tokenizer(text.code.$2), tokens.code.$2, '$2');
+    t.deepEqual(tokenizer(text.code.$3), tokens.code.$3, '$3');
+    t.deepEqual(tokenizer(text.code.$4), tokens.code.$4, '$4');
+    t.deepEqual(tokenizer(text.code.$5), tokens.code.$5, '$5');
+    t.deepEqual(tokenizer(text.code.$6), tokens.code.$6, '$6');
   }
 );
 

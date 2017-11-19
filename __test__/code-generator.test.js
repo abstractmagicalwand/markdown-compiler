@@ -11,12 +11,23 @@ test(
 );
 
 test(
+  'code: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.code.$1), html.code.$1, '$1');
+    t.is(codeGenerator(ast.code.$2), html.code.$2, '$2');
+    t.is(codeGenerator(ast.code.$3), html.code.$3, '$3');
+    t.is(codeGenerator(ast.code.$4), html.code.$4, '$4');
+    t.is(codeGenerator(ast.code.$5), html.code.$5, '$5');
+    t.is(codeGenerator(ast.code.$6), html.code.$6, '$6');
+  }
+);
+
+test(
   'paragraph: code should generate to html',
   t => {
     t.is(codeGenerator(ast.paragraph), html.paragraph);
   }
 );
-
 
 test(
   'unorder list: code should generate to html',

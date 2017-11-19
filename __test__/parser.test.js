@@ -16,6 +16,35 @@ test(
 );
 
 test(
+  'code: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(parser(tokens.code.$1), [ast.code.$1], (a, b) => {
+      t.is(a, b, `code($1): ${a} isn't equal ${b}`);
+    });
+
+    isMatched(parser(tokens.code.$2), [ast.code.$2], (a, b) => {
+      t.is(a, b, `code($2): ${a} isn't equal ${b}`);
+    });
+
+    isMatched(parser(tokens.code.$3), [ast.code.$3], (a, b) => {
+      t.is(a, b, `code($3): ${a} isn't equal ${b}`);
+    });
+
+    isMatched(parser(tokens.code.$4), [ast.code.$4], (a, b) => {
+      t.is(a, b, `code($4): ${a} isn't equal ${b}`);
+    });
+
+    isMatched(parser(tokens.code.$5), [ast.code.$5], (a, b) => {
+      t.is(a, b, `code($5): ${a} isn't equal ${b}`);
+    });
+
+    isMatched(parser(tokens.code.$6), [ast.code.$6], (a, b) => {
+      t.is(a, b, `code($6): ${a} isn't equal ${b}`);
+    });
+  }
+);
+
+test(
   'paragraph: tokens should parse to abstract syntax tree',
   t => {
     isMatched(parser(tokens.paragraph), [ast.paragraph], (a, b) => {

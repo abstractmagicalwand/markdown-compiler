@@ -11,6 +11,18 @@ test(
 );
 
 test(
+  'code: markdown should compile to html',
+  t => {
+    t.is(compiler(text.code.$1), html.code.$1, '$1');
+    t.is(compiler(text.code.$2), html.code.$2, '$2');
+    t.is(compiler(text.code.$3), html.code.$3, '$3');
+    t.is(compiler(text.code.$4), html.code.$4, '$4');
+    t.is(compiler(text.code.$5), html.code.$5, '$5');
+    t.is(compiler(text.code.$6), html.code.$6, '$6');
+  }
+);
+
+test(
   'paragraph: markdown should compile to html',
   t => {
     t.is(compiler(text.paragraph), html.paragraph);
