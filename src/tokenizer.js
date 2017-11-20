@@ -329,6 +329,65 @@ function tokenizer(text) {
       continue;
     }
 
+    // code
+    if (char === '`') {
+      let value = '';
+      const start = i;
+
+      let amountOpenedBacktick = 1;
+      for (let j = i + 1; j < text.length; j++) {
+        if (text[j] === '`') {
+          amountOpenedBacktick++;
+          continue;
+        }
+
+        i = j - 1;
+        break;
+      }
+
+      let isClosed = false;
+      for (let j = i + 1; j < text.length; j++) {
+        if (text[j] === '`') {
+          let amountClosedBacktick = 1;
+          for (let k = j + 1; k < text.length
+            || amountClosedBacktick === amountOpenedBacktick; k++) {
+            if (text[k] === '`') {
+              amountClosedBacktick++;
+              continue;
+            }
+
+            j = k - 1;
+            break;
+          }
+
+          if (amountClosedBacktick === amountOpenedBacktick) {
+            isClosed = true;
+            i = j;
+            break;
+          } else {
+            value += char.repeat(amountClosedBacktick);
+          }
+        } else if (text[j] === '&') {
+          value += '&amp;';
+        } else if (text[j] === '<') {
+          value += '&lt;';
+        } else if (text[j] === '>') {
+          value += '&gt;';
+        } else {
+          value += text[j];
+        }
+      }
+
+      tokens.push({
+        type: 'Code',
+        value: value.trim(),
+        isClosed,
+        start,
+        end: i + 1,
+      });
+      continue;
+    }
+
     // chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {

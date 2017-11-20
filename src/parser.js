@@ -370,6 +370,27 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
+    // code
+    if (tokens[current].type === 'Code') {
+      const {type, value, isClosed} = tokens[current];
+
+      const code = {
+        type,
+        body: [
+          {
+            type: 'Chars',
+            value,
+          },
+        ],
+        isClosed,
+        parent: node,
+      };
+
+      node.body.push(code);
+      current++;
+      continue;
+    }
+
     throw new Error('Token\'s incorrect');
   }
 

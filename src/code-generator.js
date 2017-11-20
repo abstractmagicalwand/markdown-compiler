@@ -29,6 +29,9 @@ function codeGenerator(ast) {
         case 'OrderList':
           html += '</ol>';
           break;
+        case 'CodeBlock':
+          html += '\n</code></pre>\n';
+          break;
         case 'Chars':
           break;
         case 'Bold':
@@ -37,8 +40,8 @@ function codeGenerator(ast) {
         case 'Italic':
           html += '</em>';
           break;
-        case 'CodeBlock':
-          html += '\n</code></pre>\n';
+        case 'Code':
+          html += '</code>';
           break;
         default:
           break;
@@ -68,14 +71,17 @@ function codeGenerator(ast) {
         case 'OrderList':
           html += `<ol start="${node.start}">`;
           break;
+        case 'CodeBlock':
+          html += '<pre><code>\n';
+          break;
         case 'Bold':
           html += '<strong>';
           break;
         case 'Italic':
           html += '<em>';
           break;
-        case 'CodeBlock':
-          html += '<pre><code>\n';
+        case 'Code':
+          html += '<code>';
           break;
         default:
           break;
