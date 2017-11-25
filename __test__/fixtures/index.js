@@ -9,6 +9,7 @@ const atxHeader = require('./atx-header');
 const HorizontalRule = require('./horizontal-rule');
 const codeBlock = require('./code-blocks');
 const code = require('./code');
+const linkInline = require('./link-inline');
 
 module.exports = {
   text: {
@@ -22,6 +23,7 @@ module.exports = {
     HorizontalRule: HorizontalRule.text,
     codeBlock: codeBlock.text,
     code: code.text,
+    linkInline: linkInline.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -34,6 +36,7 @@ module.exports = {
     HorizontalRule: HorizontalRule.tokens,
     codeBlock: codeBlock.tokens,
     code: code.tokens,
+    linkInline: linkInline.tokens,
   },
   ast: {
     blockquote: blockquote.ast,
@@ -46,6 +49,7 @@ module.exports = {
     HorizontalRule: HorizontalRule.ast,
     codeBlock: codeBlock.ast,
     code: code.ast,
+    linkInline: linkInline.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -58,6 +62,7 @@ module.exports = {
     HorizontalRule: HorizontalRule.html,
     codeBlock: codeBlock.html,
     code: code.html,
+    linkInline: linkInline.html,
   },
   traverser,
 };

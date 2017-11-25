@@ -22,6 +22,33 @@ test(
   }
 );
 
+
+test(
+  'link inline: markdown should compile to html',
+  t => {
+    t.is(
+      compiler(text.linkInline.withTitle),
+      html.linkInline.withTitle,
+      'with title'
+    );
+    t.is(
+      compiler(text.linkInline.withoutTitle),
+      html.linkInline.withoutTitle,
+      'without title'
+    );
+    t.is(
+      compiler(text.linkInline.relativePath),
+      html.linkInline.relativePath,
+      'relative path'
+    );
+    t.is(
+      compiler(text.linkInline.withEmphasis),
+      html.linkInline.withEmphasis,
+      'with emphasis'
+    );
+  }
+);
+
 test(
   'paragraph: markdown should compile to html',
   t => {

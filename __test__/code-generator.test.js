@@ -23,6 +23,32 @@ test(
 );
 
 test(
+  'link inline: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.linkInline.withTitle),
+      html.linkInline.withTitle,
+      'with title'
+    );
+    t.is(
+      codeGenerator(ast.linkInline.withoutTitle),
+      html.linkInline.withoutTitle,
+      'without title'
+    );
+    t.is(
+      codeGenerator(ast.linkInline.relativePath),
+      html.linkInline.relativePath,
+      'relative path'
+    );
+    t.is(
+      codeGenerator(ast.linkInline.withEmphasis),
+      html.linkInline.withEmphasis,
+      'with emphasis'
+    );
+  }
+);
+
+test(
   'paragraph: code should generate to html',
   t => {
     t.is(codeGenerator(ast.paragraph), html.paragraph);

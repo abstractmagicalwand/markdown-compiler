@@ -45,6 +45,32 @@ test(
 );
 
 test(
+  'link inline: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser(tokens.linkInline.withTitle),
+      ast.linkInline.withTitle,
+      'with title'
+    );
+    t.deepEqual(
+      parser(tokens.linkInline.withoutTitle),
+      ast.linkInline.withoutTitle,
+      'without title'
+    );
+    t.deepEqual(
+      parser(tokens.linkInline.relativePath),
+      ast.linkInline.relativePath,
+      'relative path'
+    );
+    t.deepEqual(
+      parser(tokens.linkInline.withEmphasis),
+      ast.linkInline.withEmphasis,
+      'with emphasis'
+    );
+  }
+);
+
+test(
   'paragraph: tokens should parse to abstract syntax tree',
   t => {
     isMatched(parser(tokens.paragraph), [ast.paragraph], (a, b) => {

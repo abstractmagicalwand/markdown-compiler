@@ -23,6 +23,32 @@ test(
 );
 
 test(
+  'link inline: text should transform to tokens',
+  t => {
+    t.deepEqual(
+      tokenizer(text.linkInline.withTitle),
+      tokens.linkInline.withTitle,
+      'with title'
+    );
+    t.deepEqual(
+      tokenizer(text.linkInline.withoutTitle),
+      tokens.linkInline.withoutTitle,
+      'without title'
+    );
+    t.deepEqual(
+      tokenizer(text.linkInline.relativePath),
+      tokens.linkInline.relativePath,
+      'relative path'
+    );
+    t.deepEqual(
+      tokenizer(text.linkInline.withEmphasis),
+      tokens.linkInline.withEmphasis,
+      'with emphasis'
+    );
+  }
+);
+
+test(
   'paragraph: text should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.paragraph), tokens.paragraph);

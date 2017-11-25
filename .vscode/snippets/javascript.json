@@ -3,19 +3,19 @@
   "Backtick": {
     "prefix": "tcb",
     "body": [
-      "\n{",
+      "{",
       "  type: 'CodeBlock',",
       "  value: '$1',",
       "  isClosed: $2,",
       "  start: $3,",
       "  end: $4,",
-      "}$5"
+      "},$5"
     ]
   },
   "Chars": {
     "prefix": "tc",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Chars',",
       "  value: '$1',",
       "  start: $2,",
@@ -26,7 +26,7 @@
   "Signs": {
     "prefix": "ts",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Signs',",
       "  amount: $1,",
       "  value: '=',",
@@ -38,7 +38,7 @@
   "Hyphens": {
     "prefix": "thy",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Hyphens',",
       "  amount: $1,",
       "  value: '-',",
@@ -50,7 +50,7 @@
   "Hashes": {
     "prefix": "th",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Hashes',",
       "  amount: $1,",
       "  value: '#',",
@@ -62,7 +62,7 @@
   "Bullet": {
     "prefix": "tb",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Bullet',",
       "  depth: $1,",
       "  value: '$2',",
@@ -74,7 +74,7 @@
   "Item": {
     "prefix": "ti",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Item',",
       "  depth: $1,",
       "  value: $2,",
@@ -86,7 +86,7 @@
   "NewLine": {
     "prefix": "tnl",
     "body": [
-      "\n{",
+      "{",
       "  type: 'NewLine',",
       "  amount: $1,",
       "  value: '$2',",
@@ -98,7 +98,7 @@
   "Asterisk": {
     "prefix": "ta",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Asterisk',",
       "  amount: $1,",
       "  value: '*',",
@@ -110,7 +110,7 @@
   "Underscore": {
     "prefix": "tu",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Underscore',",
       "  amount: $1,",
       "  value: '_',",
@@ -122,13 +122,57 @@
   "CodeInline": {
     "prefix": "tci",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Code',",
       "  value: '$1',",
       "  isClosed: $2,",
       "  start: $3,",
       "  end: $4,",
-      "}$5"
+      "},$5"
+    ]
+  },
+  "LeftSquareBracket": {
+    "prefix": "tlsb",
+    "body": [
+      "{",
+      "  type: 'LeftSquareBracket',",
+      "  value: '[',",
+      "  start: $1,",
+      "  end: $2,",
+      "},$3"
+    ]
+  },
+  "RightSquareBracket": {
+    "prefix": "trsb",
+    "body": [
+      "{",
+      "  type: 'RightSquareBracket',",
+      "  value: ']',",
+      "  start: $1,",
+      "  end: $2,",
+      "},$3"
+    ]
+  },
+  "RightParenthesis": {
+    "prefix": "trp",
+    "body": [
+      "{",
+      "  type: 'RightParenthesis',",
+      "  value: ')',",
+      "  start: $1,",
+      "  end: $2,",
+      "},$3"
+    ]
+  },
+  "LeftParenthesis": {
+    "prefix": "tlp",
+    "body": [
+      "{",
+      "  type: 'LeftParenthesis',",
+      "  value: '(',",
+      "  start: $1,",
+      "  end: $2,",
+      "},$3"
     ]
   },
   "Program": {
@@ -144,7 +188,7 @@
   "Paragraph": {
     "prefix": "np",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Paragraph',",
       "  body: [$1],",
       "  isClosed: $2,",
@@ -154,31 +198,31 @@
   "UnorderList": {
     "prefix": "nul",
     "body": [
-      "\n{",
+      "{",
       "  type: 'UnorderList',",
-      "  depth: $1,",
-      "  body: [$1],",
-      "  isClosed: $2,",
-      "},$3"
-    ]
-  },
-  "OrderList": {
-    "prefix": "nol",
-    "body": [
-      "\n{",
-      "  type: 'OrderList',",
-      "  start: '$1',",
-      "  styleType: '1',",
       "  depth: $1,",
       "  body: [$2],",
       "  isClosed: $3,",
       "},$4"
     ]
   },
+  "OrderList": {
+    "prefix": "nol",
+    "body": [
+      "{",
+      "  type: 'OrderList',",
+      "  start: '$1',",
+      "  styleType: '1',",
+      "  depth: $2,",
+      "  body: [$3],",
+      "  isClosed: $4,",
+      "},$5"
+    ]
+  },
   "ListItem": {
     "prefix": "nli",
     "body": [
-      "\n{",
+      "{",
       "  type: 'ListItem',",
       "  value: '$1',",
       "  body: [$2],",
@@ -189,48 +233,48 @@
   "Header": {
     "prefix": "nh",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Header',",
       "  styleType: '1',",
       "  value: '$1',",
       "  body: [$2],",
-      "  isClosed: $4,",
-      "},$5"
+      "  isClosed: $3,",
+      "},$4"
     ]
   },
   "HorizontalRule": {
     "prefix": "nhr",
     "body": [
-      "\n{",
-        "  type: 'HorizontalRule',",
-        "  value: '$1',",
-        "},$5"
+      "{",
+      "  type: 'HorizontalRule',",
+      "  value: '$1',",
+      "},$2"
     ]
   },
   "CodeBlock": {
     "prefix": "ncb",
     "body": [
-      "\n{",
+      "{",
       "  type: 'CodeBlock',",
       "  body: [$1],",
       "  isClosed: $2,",
-      "}$3"
+      "},$3"
     ]
   },
   "CodeNode": {
     "prefix": "nci",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Code',",
       "  body: [$1],",
       "  isClosed: $2,",
-      "}$3"
+      "},$3"
     ]
   },
   "CharsNode": {
     "prefix": "nc",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Chars',",
       "  value: '$1'",
       "},$2"
@@ -239,39 +283,63 @@
   "Italic": {
     "prefix": "ni",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Italic',",
       "  operator: '$1',",
       "  body: [$2],",
       "  isClosed: $3,",
-      "}$4"
+      "},$4"
     ]
   },
   "Bold": {
     "prefix": "nb",
     "body": [
-      "\n{",
+      "{",
       "  type: 'Bold',",
       "  operator: '$1',",
       "  body: [$2],",
       "  isClosed: $3,",
-      "}$4"
+      "},$4"
+    ]
+  },
+  "LinkInlineChildren": {
+    "prefix": "nlc",
+    "body": [
+      "{",
+      "  type: 'LinkInlineChildren',",
+      "  operator: ['[', ']'],",
+      "  body: [$1],",
+      "  isClosed: $2,",
+      "},$3"
+    ]
+  },
+  "LinkInline": {
+    "prefix": "nl",
+    "body": [
+      "{",
+      "  type: 'LinkInline',",
+      "  operator: ['(', ')'],",
+      "  href: '',",
+      "  title: $1,",
+      "  body: [$2],",
+      "  isClosed: $3,",
+      "},$4"
     ]
   },
   "EOF": {
     "prefix": "eof",
     "body": [
-      "\n{",
+      "{",
       "  type: 'EOF',",
-      "},"
+      "},$1"
     ]
   },
   "BOF": {
     "prefix": "bof",
     "body": [
-      "\n{",
+      "{",
       "  type: 'BOF',",
-      "},"
+      "},$1"
     ]
   }
 }
