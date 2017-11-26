@@ -278,6 +278,56 @@ function tokenizer(text) {
       char = text[i];
     }
 
+    // square bracket
+    if (char === '[') {
+      let token = {
+        type: 'LeftSquareBracket',
+        value: char,
+        start: i,
+        end: i + 1,
+      };
+
+      tokens.push(token);
+      continue;
+    }
+
+    if (char === ']') {
+      let token = {
+        type: 'RightSquareBracket',
+        value: char,
+        start: i,
+        end: i + 1,
+      };
+
+      tokens.push(token);
+      continue;
+    }
+
+    // parenthesis
+    if (char === '(') {
+      let token = {
+        type: 'LeftParenthesis',
+        value: char,
+        start: i,
+        end: i + 1,
+      };
+
+      tokens.push(token);
+      continue;
+    }
+
+    if (char === ')') {
+      let token = {
+        type: 'RightParenthesis',
+        value: char,
+        start: i,
+        end: i + 1,
+      };
+
+      tokens.push(token);
+      continue;
+    }
+
     // asterisk
     if (char === '*') {
       let token = {
@@ -298,7 +348,6 @@ function tokenizer(text) {
         i = j - 1;
         break;
       }
-
 
       tokens.push(token);
       continue;

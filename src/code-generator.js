@@ -43,6 +43,11 @@ function codeGenerator(ast) {
         case 'Code':
           html += '</code>';
           break;
+        case 'LinkInline':
+          html += '</a>';
+          break;
+        case 'LinkInlineChildren':
+          break;
         default:
           break;
         }
@@ -82,6 +87,11 @@ function codeGenerator(ast) {
           break;
         case 'Code':
           html += '<code>';
+          break;
+        case 'LinkInline':
+          html += `<a href="${node.href}"${node.title && node.title.value ? ` title="${node.title.value}"` : ''}>`;
+          break;
+        case 'LinkInlineChildren':
           break;
         default:
           break;

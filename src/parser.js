@@ -49,6 +49,7 @@ function parser(tokens) { // eslint-disable-line
       }; */
       const bof = {
         type: 'BOF',
+        parent: ast,
       };
 
       node.body.push(bof/* , paragraph */);
@@ -76,6 +77,7 @@ function parser(tokens) { // eslint-disable-line
         n = n.parent;
       }
 
+      eof.parent = ast;
       ast.body.push(eof);
       current++;
       continue;
@@ -284,6 +286,7 @@ function parser(tokens) { // eslint-disable-line
       codeBlock.body.push({
         type: 'Chars',
         value: tokens[current].value, // @TODO take out to tokenizer
+        parent: codeBlock,
       });
       codeBlock.isClosed = tokens[current].isClosed;
       codeBlock.parent = node;
@@ -314,6 +317,7 @@ function parser(tokens) { // eslint-disable-line
       const chars = {
         type: 'Chars',
         value: tokens[current].value,
+        parent: node,
       };
 
       node.body.push(chars);
@@ -376,19 +380,138 @@ function parser(tokens) { // eslint-disable-line
 
       const code = {
         type,
-        body: [
-          {
-            type: 'Chars',
-            value,
-          },
-        ],
+        body: [],
         isClosed,
         parent: node,
       };
 
+      const chars = {
+        type: 'Chars',
+        value,
+        parent: code,
+      };
+      code.body.push(chars);
+
       node.body.push(code);
       current++;
       continue;
+    }
+
+    // link inline
+    if (tokens[current].type === 'LeftParenthesis') {
+      const siblings = node.body;
+
+      let operator = [tokens[current].value];
+      let href = '';
+      let title = null;
+      let isClosed = false;
+      let body = [];
+
+      let indexLinkInlineChildren = null;
+      let deleteCount = null;
+      if (siblings[siblings.length - 1]
+        && siblings[siblings.length - 1].type === 'LinkInlineChildren') {
+        indexLinkInlineChildren = siblings.length - 1;
+        deleteCount = 1;
+      } else if (siblings[siblings.length - 1]
+        && siblings[siblings.length - 1].type === 'Chars'
+        && /\s+/.test(siblings[siblings.length - 1].value)
+        && node.body[node.body.length - 2]
+        && node.body[node.body.length - 2].type === 'LinkInlineChildren') {
+        indexLinkInlineChildren = siblings.length - 2;
+        deleteCount = 2;
+      } else {
+        if (siblings[siblings.length - 1].type === 'Chars') {
+          siblings[siblings.length - 1].value += tokens[current].value;
+        } else {
+          node.body.push({
+            type: 'Chars',
+            value: tokens[current].value,
+            parent: node,
+          });
+        }
+
+        current++;
+        continue;
+      }
+
+      body.push(siblings[indexLinkInlineChildren]);
+      siblings.splice(indexLinkInlineChildren, deleteCount);
+
+      current++;
+      if (tokens[current].type === 'Chars') {
+        const value = tokens[current].value.split(' ');
+
+        href = value[0];
+        title = value[1] ? {
+          operator: value[1].slice(0, 1),
+          value: value[1].slice(1, -1),
+        } : title;
+      }
+
+      current++;
+      if (tokens[current].type === 'RightParenthesis') {
+        operator.push(tokens[current].value);
+        isClosed = true;
+      }
+
+      const linkInline = {
+        type: 'LinkInline',
+        operator,
+        href,
+        title,
+        isClosed,
+        body,
+        parent: node,
+      };
+      linkInline.body[0].parent = linkInline;
+
+      node.body.push(linkInline);
+      current++;
+      continue;
+    }
+
+    // link inline children
+    if (tokens[current].type === 'LeftSquareBracket') {
+      const linkInlineChildren = {
+        type: 'LinkInlineChildren',
+        operator: ['['],
+        body: [],
+        isClosed: false,
+        parent: node,
+      };
+
+      linkInlineChildren.parent = node;
+      node.body.push(linkInlineChildren);
+      node = linkInlineChildren;
+
+      current++;
+      continue;
+    }
+
+    if (tokens[current].type === 'RightSquareBracket') {
+      let n = node;
+      while (n.type !== 'Paragraph' && n.type !== 'LinkInlineChildren') {
+        n = n.parent;
+      }
+
+      if (n.type === 'Paragraph') {
+        node.body.push({
+          type: 'Chars',
+          value: tokens[current].value,
+          parent: node,
+        });
+
+        current++;
+        continue;
+      } else if (n.type === 'LinkInlineChildren') {
+        n.isClosed = true;
+        n.operator.push(tokens[current].value);
+
+        node = n.parent;
+        current++;
+        continue;
+      }
     }
 
     throw new Error('Token\'s incorrect');
