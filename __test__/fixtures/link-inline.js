@@ -3,6 +3,7 @@ const text = {
   withoutTitle: '[This link](http://example.net/) has no title attribute.',
   relativePath: 'See my [About](/about/) page for details.',
   withEmphasis: '[_This_ **link**](http://example.net/) has no title attribute.',
+  invalid: '[amor] vincit (http://example.net/) omnia',
 };
 
 const html = {
@@ -10,6 +11,7 @@ const html = {
   withoutTitle: '<p><a href="http://example.net/">This link</a> has no title attribute.</p>',
   relativePath: '<p>See my <a href="/about/">About</a> page for details.</p>',
   withEmphasis: '<p><a href="http://example.net/"><em>This</em> <strong>link</strong></a> has no title attribute.</p>',
+  invalid: '<p>[amor] vincit (http://example.net/) omnia</p>',
 };
 
 const tokens = {
@@ -260,6 +262,62 @@ const tokens = {
       value: ' has no title attribute.',
       start: 38,
       end: 62,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  invalid: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'LeftSquareBracket',
+      value: '[',
+      start: 0,
+      end: 1,
+    },
+    {
+      type: 'Chars',
+      value: 'amor',
+      start: 1,
+      end: 5,
+    },
+    {
+      type: 'RightSquareBracket',
+      value: ']',
+      start: 5,
+      end: 6,
+    },
+    {
+      type: 'Chars',
+      value: ' vincit ',
+      start: 6,
+      end: 14,
+    },
+    {
+      type: 'LeftParenthesis',
+      value: '(',
+      start: 14,
+      end: 15,
+    },
+    {
+      type: 'Chars',
+      value: 'http://example.net/',
+      start: 15,
+      end: 34,
+    },
+    {
+      type: 'RightParenthesis',
+      value: ')',
+      start: 34,
+      end: 35,
+    },
+    {
+      type: 'Chars',
+      value: ' omnia',
+      start: 35,
+      end: 41,
     },
     {
       type: 'EOF',
@@ -524,6 +582,35 @@ ast.withEmphasis.body[1].body[0].body[0].body[2].parent = ast.withEmphasis.body[
 
 ast.withEmphasis.body[1].body[0].body[0].body[0].body[0].parent = ast.withEmphasis.body[1].body[0].body[0].body[0];
 ast.withEmphasis.body[1].body[0].body[0].body[2].body[0].parent = ast.withEmphasis.body[1].body[0].body[0].body[2];
+
+ast.invalid = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Chars',
+          value: '[amor] vincit (http://example.net/) omnia',
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.invalid.body[0].parent = ast.invalid;
+ast.invalid.body[1].parent = ast.invalid;
+ast.invalid.body[2].parent = ast.invalid;
+
+ast.invalid.body[1].body[0].parent = ast.invalid.body[1];
 
 module.exports = {
   text,

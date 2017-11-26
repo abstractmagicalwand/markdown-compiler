@@ -67,6 +67,11 @@ test(
       ast.linkInline.withEmphasis,
       'with emphasis'
     );
+    t.deepEqual(
+      parser(tokens.linkInline.invalid),
+      ast.linkInline.invalid,
+      'invalid'
+    );
   }
 );
 

@@ -45,6 +45,11 @@ test(
       tokens.linkInline.withEmphasis,
       'with emphasis'
     );
+    t.deepEqual(
+      tokenizer(text.linkInline.invalid),
+      tokens.linkInline.invalid,
+      'invalid'
+    );
   }
 );
 

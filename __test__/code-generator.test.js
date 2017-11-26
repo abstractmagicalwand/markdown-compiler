@@ -45,6 +45,11 @@ test(
       html.linkInline.withEmphasis,
       'with emphasis'
     );
+    t.is(
+      codeGenerator(ast.linkInline.invalid),
+      html.linkInline.invalid,
+      'invalid'
+    );
   }
 );
 
