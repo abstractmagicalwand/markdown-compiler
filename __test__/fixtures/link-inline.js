@@ -342,23 +342,19 @@ ast.withTitle = {
         },
         {
           type: 'LinkInline',
-          operator: ['(', ')'],
-          href: 'http://example.com/',
+          operators: ['[', ']'],
+          href: {
+            operators: ['(', ')'],
+            value: 'http://example.com/',
+          },
           title: {
             operator: '"',
             value: 'Title',
           },
           body: [
             {
-              type: 'LinkInlineChildren',
-              operator: ['[', ']'],
-              body: [
-                {
-                  type: 'Chars',
-                  value: 'an example',
-                },
-              ],
-              isClosed: true,
+              type: 'Chars',
+              value: 'an example',
             },
           ],
           isClosed: true,
@@ -387,8 +383,6 @@ ast.withTitle.body[1].body[2].parent = ast.withTitle.body[1];
 
 ast.withTitle.body[1].body[1].body[0].parent = ast.withTitle.body[1].body[1];
 
-ast.withTitle.body[1].body[1].body[0].body[0].parent = ast.withTitle.body[1].body[1].body[0];
-
 ast.withoutTitle = {
   type: 'Program',
   body: [
@@ -400,20 +394,16 @@ ast.withoutTitle = {
       body: [
         {
           type: 'LinkInline',
-          operator: ['(', ')'],
-          href: 'http://example.net/',
+          operators: ['[', ']'],
+          href: {
+            operators: ['(', ')'],
+            value: 'http://example.net/',
+          },
           title: null,
           body: [
             {
-              type: 'LinkInlineChildren',
-              operator: ['[', ']'],
-              body: [
-                {
-                  type: 'Chars',
-                  value: 'This link',
-                },
-              ],
-              isClosed: true,
+              type: 'Chars',
+              value: 'This link',
             },
           ],
           isClosed: true,
@@ -441,8 +431,6 @@ ast.withoutTitle.body[1].body[1].parent = ast.withoutTitle.body[1];
 
 ast.withoutTitle.body[1].body[0].body[0].parent = ast.withoutTitle.body[1].body[0];
 
-ast.withoutTitle.body[1].body[0].body[0].body[0].parent = ast.withoutTitle.body[1].body[0].body[0];
-
 ast.relativePath = {
   type: 'Program',
   body: [
@@ -458,20 +446,16 @@ ast.relativePath = {
         },
         {
           type: 'LinkInline',
-          operator: ['(', ')'],
-          href: '/about/',
+          operators: ['[', ']'],
+          href: {
+            operators: ['(', ')'],
+            value: '/about/',
+          },
           title: null,
           body: [
             {
-              type: 'LinkInlineChildren',
-              operator: ['[', ']'],
-              body: [
-                {
-                  type: 'Chars',
-                  value: 'About',
-                },
-              ],
-              isClosed: true,
+              type: 'Chars',
+              value: 'About',
             },
           ],
           isClosed: true,
@@ -500,8 +484,6 @@ ast.relativePath.body[1].body[2].parent = ast.relativePath.body[1];
 
 ast.relativePath.body[1].body[1].body[0].parent = ast.relativePath.body[1].body[1];
 
-ast.relativePath.body[1].body[1].body[0].body[0].parent = ast.relativePath.body[1].body[1].body[0];
-
 ast.withEmphasis = {
   type: 'Program',
   body: [
@@ -513,39 +495,35 @@ ast.withEmphasis = {
       body: [
         {
           type: 'LinkInline',
-          operator: ['(', ')'],
-          href: 'http://example.net/',
+          operators: ['[', ']'],
+          href: {
+            operators: ['(', ')'],
+            value: 'http://example.net/',
+          },
           title: null,
           body: [
             {
-              type: 'LinkInlineChildren',
-              operator: ['[', ']'],
+              type: 'Italic',
+              operator: '_',
               body: [
                 {
-                  type: 'Italic',
-                  operator: '_',
-                  body: [
-                    {
-                      type: 'Chars',
-                      value: 'This',
-                    },
-                  ],
-                  isClosed: true,
+                  type: 'Chars',
+                  value: 'This',
                 },
+              ],
+              isClosed: true,
+            },
+            {
+              type: 'Chars',
+              value: ' ',
+            },
+            {
+              type: 'Bold',
+              operator: '**',
+              body: [
                 {
                   type: 'Chars',
-                  value: ' ',
-                },
-                {
-                  type: 'Bold',
-                  operator: '**',
-                  body: [
-                    {
-                      type: 'Chars',
-                      value: 'link',
-                    },
-                  ],
-                  isClosed: true,
+                  value: 'link',
                 },
               ],
               isClosed: true,
@@ -575,13 +553,11 @@ ast.withEmphasis.body[1].body[0].parent = ast.withEmphasis.body[1];
 ast.withEmphasis.body[1].body[1].parent = ast.withEmphasis.body[1];
 
 ast.withEmphasis.body[1].body[0].body[0].parent = ast.withEmphasis.body[1].body[0];
+ast.withEmphasis.body[1].body[0].body[1].parent = ast.withEmphasis.body[1].body[0];
+ast.withEmphasis.body[1].body[0].body[2].parent = ast.withEmphasis.body[1].body[0];
 
 ast.withEmphasis.body[1].body[0].body[0].body[0].parent = ast.withEmphasis.body[1].body[0].body[0];
-ast.withEmphasis.body[1].body[0].body[0].body[1].parent = ast.withEmphasis.body[1].body[0].body[0];
-ast.withEmphasis.body[1].body[0].body[0].body[2].parent = ast.withEmphasis.body[1].body[0].body[0];
-
-ast.withEmphasis.body[1].body[0].body[0].body[0].body[0].parent = ast.withEmphasis.body[1].body[0].body[0].body[0];
-ast.withEmphasis.body[1].body[0].body[0].body[2].body[0].parent = ast.withEmphasis.body[1].body[0].body[0].body[2];
+ast.withEmphasis.body[1].body[0].body[2].body[0].parent= ast.withEmphasis.body[1].body[0].body[2];
 
 ast.invalid = {
   type: 'Program',
@@ -593,8 +569,17 @@ ast.invalid = {
       type: 'Paragraph',
       body: [
         {
-          type: 'Chars',
-          value: '[amor] vincit (http://example.net/) omnia',
+          type: 'LinkInline',
+          operators: ['['],
+          href: null,
+          title: null,
+          body: [
+            {
+              type: 'Chars',
+              value: 'amor] vincit (http://example.net/) omnia',
+            },
+          ],
+          isClosed: false,
         },
       ],
       isClosed: true,
@@ -611,6 +596,8 @@ ast.invalid.body[1].parent = ast.invalid;
 ast.invalid.body[2].parent = ast.invalid;
 
 ast.invalid.body[1].body[0].parent = ast.invalid.body[1];
+
+ast.invalid.body[1].body[0].body[0].parent = ast.invalid.body[1].body[0];
 
 module.exports = {
   text,

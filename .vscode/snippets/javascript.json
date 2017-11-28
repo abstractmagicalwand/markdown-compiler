@@ -302,28 +302,17 @@
       "},$4"
     ]
   },
-  "LinkInlineChildren": {
-    "prefix": "nlc",
-    "body": [
-      "{",
-      "  type: 'LinkInlineChildren',",
-      "  operator: ['[', ']'],",
-      "  body: [$1],",
-      "  isClosed: $2,",
-      "},$3"
-    ]
-  },
   "LinkInline": {
     "prefix": "nl",
     "body": [
       "{",
       "  type: 'LinkInline',",
-      "  operator: ['(', ')'],",
-      "  href: '',",
-      "  title: $1,",
-      "  body: [$2],",
-      "  isClosed: $3,",
-      "},$4"
+      "  operators: ['[', ']'],",
+      "  href: $1,",
+      "  title: $2,",
+      "  body: [$3],",
+      "  isClosed: $4,",
+      "},$5"
     ]
   },
   "EOF": {
