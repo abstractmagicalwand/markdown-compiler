@@ -10,7 +10,7 @@ function parser(tokens) { // eslint-disable-line
   let node = ast;
 
   if (!Array.isArray(tokens)) {
-    throw new TypeError('Tokens aren\'t array.');
+    throw new TypeError('Tokens are not array.');
   }
 
   while (current < tokens.length) {
@@ -41,19 +41,12 @@ function parser(tokens) { // eslint-disable-line
 
     //bof
     if (tokens[current].type === 'BOF') {
-      /* const paragraph = {
-        type: 'Paragraph',
-        body: [],
-        isClosed: false,
-        parent: node,
-      }; */
       const bof = {
         type: 'BOF',
         parent: ast,
       };
 
-      node.body.push(bof/* , paragraph */);
-      /* node = paragraph; */
+      node.body.push(bof);
       current++;
       continue;
     }
@@ -471,7 +464,7 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
-    // link inline children
+
     if (tokens[current].type === 'LeftSquareBracket') {
       const linkInlineChildren = {
         type: 'LinkInlineChildren',
@@ -514,7 +507,9 @@ function parser(tokens) { // eslint-disable-line
       }
     }
 
-    throw new Error('Token\'s incorrect');
+    throw new Error(
+      `Token is incorrect.\n${JSON.stringify(tokens[current], null, 4)}`
+    );
   }
 
   return ast;
