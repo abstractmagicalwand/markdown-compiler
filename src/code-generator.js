@@ -46,8 +46,6 @@ function codeGenerator(ast) {
         case 'LinkInline':
           html += '</a>';
           break;
-        case 'LinkInlineChildren':
-          break;
         default:
           break;
         }
@@ -89,12 +87,14 @@ function codeGenerator(ast) {
           html += '<code>';
           break;
         case 'LinkInline':
-          html += `<a href="${node.href}"${node.title && node.title.value ? ` title="${node.title.value}"` : ''}>`;
-          break;
-        case 'LinkInlineChildren':
+          html += `<a href="${node.href.value}"${node.title && node.title.value ? ` title="${node.title.value}"` : ''}>`;
           break;
         default:
           break;
+        }
+      } else if (node.type === 'LinkInline') {
+        for (let i = 0; i < node.operators.length; i++) {
+          html += node.operators;
         }
       } else if (node.type === 'Chars') {
         html += node.value;

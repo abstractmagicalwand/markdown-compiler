@@ -305,19 +305,6 @@ function parser(tokens) { // eslint-disable-line
       node = paragraph;
     }
 
-    // chars
-    if (tokens[current].type === 'Chars') {
-      const chars = {
-        type: 'Chars',
-        value: tokens[current].value,
-        parent: node,
-      };
-
-      node.body.push(chars);
-      current++;
-      continue;
-    }
-
     // bold
     if ((tokens[current].type === 'Asterisk'
       || tokens[current].type === 'Underscore')
@@ -391,120 +378,100 @@ function parser(tokens) { // eslint-disable-line
     }
 
     // link inline
-    if (tokens[current].type === 'LeftParenthesis') {
-      const siblings = node.body;
-
-      let operator = [tokens[current].value];
-      let href = '';
-      let title = null;
-      let isClosed = false;
-      let body = [];
-
-      let indexLinkInlineChildren = null;
-      let deleteCount = null;
-      if (siblings[siblings.length - 1]
-        && siblings[siblings.length - 1].type === 'LinkInlineChildren') {
-        indexLinkInlineChildren = siblings.length - 1;
-        deleteCount = 1;
-      } else if (siblings[siblings.length - 1]
-        && siblings[siblings.length - 1].type === 'Chars'
-        && /\s+/.test(siblings[siblings.length - 1].value)
-        && node.body[node.body.length - 2]
-        && node.body[node.body.length - 2].type === 'LinkInlineChildren') {
-        indexLinkInlineChildren = siblings.length - 2;
-        deleteCount = 2;
-      } else {
-        if (siblings[siblings.length - 1].type === 'Chars') {
-          siblings[siblings.length - 1].value += tokens[current].value;
-        } else {
-          node.body.push({
-            type: 'Chars',
-            value: tokens[current].value,
-            parent: node,
-          });
-        }
-
-        current++;
-        continue;
-      }
-
-      body.push(siblings[indexLinkInlineChildren]);
-      siblings.splice(indexLinkInlineChildren, deleteCount);
-
-      current++;
-      if (tokens[current].type === 'Chars') {
-        const value = tokens[current].value.split(' ');
-
-        href = value[0];
-        title = value[1] ? {
-          operator: value[1].slice(0, 1),
-          value: value[1].slice(1, -1),
-        } : title;
-      }
-
-      current++;
-      if (tokens[current].type === 'RightParenthesis') {
-        operator.push(tokens[current].value);
-        isClosed = true;
-      }
-
+    if (tokens[current].type === 'LeftSquareBracket') {
       const linkInline = {
         type: 'LinkInline',
-        operator,
-        href,
-        title,
-        isClosed,
-        body,
-        parent: node,
-      };
-      linkInline.body[0].parent = linkInline;
-
-      node.body.push(linkInline);
-      current++;
-      continue;
-    }
-
-
-    if (tokens[current].type === 'LeftSquareBracket') {
-      const linkInlineChildren = {
-        type: 'LinkInlineChildren',
-        operator: ['['],
+        operators: ['['],
+        href: null,
+        title: null,
         body: [],
         isClosed: false,
         parent: node,
       };
 
-      linkInlineChildren.parent = node;
-      node.body.push(linkInlineChildren);
-      node = linkInlineChildren;
-
+      node.body.push(linkInline);
+      node = linkInline;
       current++;
       continue;
     }
 
     if (tokens[current].type === 'RightSquareBracket') {
+      const closedOperator = tokens[current].value;
       let n = node;
-      while (n.type !== 'Paragraph' && n.type !== 'LinkInlineChildren') {
+
+      while (!n || n.type !== 'LinkInline') {
         n = n.parent;
       }
 
-      if (n.type === 'Paragraph') {
-        node.body.push({
+      if (n.type === 'LinkInline') {
+        let j = current + 1;
+
+        if (tokens[j].type === 'Chars'
+           && !tokens[j].value.trim().length) {
+          j++;
+        }
+
+        if (tokens[j].type === 'LeftParenthesis') {
+          const href = {
+            operators: [tokens[j].value],
+          };
+          let title = null;
+          j++;
+
+          if (tokens[j].type === 'Chars') {
+            let value = tokens[j].value.split(' ');
+
+            if (value[0]) {
+              href.value = value[0].trim();
+            }
+
+            if (value[1]) {
+              title = {
+                operator: value[1].trim().slice(0, 1),
+                value: value[1].trim().slice(1, -1),
+              };
+            }
+
+            j++;
+          }
+
+          if (tokens[j].type === 'RightParenthesis') {
+            n.isClosed = true;
+            n.operators.push(closedOperator);
+            n.href = href;
+            n.href.operators.push(tokens[j].value);
+            n.title = title;
+            node = node.parent;
+
+            current += j - current + 1;
+            continue;
+          }
+        }
+      }
+    }
+
+    if (tokens[current].type === 'Chars'
+      || tokens[current].type === 'RightSquareBracket'
+      || tokens[current].type === 'LeftParenthesis'
+      || tokens[current].type === 'LeftSquareBracket'
+      || tokens[current].type === 'RightParenthesis') {
+
+      const siblings = node.body;
+      if (siblings[siblings.length - 1]
+        && siblings[siblings.length - 1].type === 'Chars') {
+        siblings[siblings.length - 1].value += tokens[current].value;
+      } else {
+        const chars = {
           type: 'Chars',
           value: tokens[current].value,
           parent: node,
-        });
+        };
 
-        current++;
-        continue;
-      } else if (n.type === 'LinkInlineChildren') {
-        n.isClosed = true;
-        n.operator.push(tokens[current].value);
-
-        node = n.parent;
-        current++;
-        continue;
+        node.body.push(chars);
       }
+
+      current++;
+      continue;
     }
 
     throw new Error(
