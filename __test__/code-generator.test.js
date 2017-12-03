@@ -54,6 +54,42 @@ test(
 );
 
 test(
+  'link reference: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.linkReference.linkDefinitions),
+      html.linkReference.linkDefinitions,
+      'link definitions'
+    );
+    t.is(
+      codeGenerator(ast.linkReference.titleOnNextLine),
+      html.linkReference.titleOnNextLine,
+      'title on the next line'
+    );
+    t.is(
+      codeGenerator(ast.linkReference.notCaseSensitive),
+      html.linkReference.notCaseSensitive,
+      'not case sensitive'
+    );
+    t.is(
+      codeGenerator(ast.linkReference.implicitLinkName),
+      html.linkReference.implicitLinkName,
+      'implicit link name'
+    );
+    t.is(
+      codeGenerator(ast.linkReference.idents),
+      html.linkReference.idents,
+      'idents'
+    );
+    t.is(
+      codeGenerator(ast.linkReference.invalid),
+      html.linkReference.invalid,
+      'invalid'
+    );
+  }
+);
+
+test(
   'paragraph: code should generate to html',
   t => {
     t.is(codeGenerator(ast.paragraph), html.paragraph);

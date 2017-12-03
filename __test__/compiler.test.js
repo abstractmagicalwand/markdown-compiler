@@ -55,6 +55,42 @@ test(
 );
 
 test(
+  'link reference: markdown should compile to html',
+  t => {
+    t.is(
+      compiler(text.linkReference.linkDefinitions),
+      html.linkReference.linkDefinitions,
+      'link definitions'
+    );
+    t.is(
+      compiler(text.linkReference.titleOnNextLine),
+      html.linkReference.titleOnNextLine,
+      'title on the next line'
+    );
+    t.is(
+      compiler(text.linkReference.notCaseSensitive),
+      html.linkReference.notCaseSensitive,
+      'not case sensitive'
+    );
+    t.is(
+      compiler(text.linkReference.implicitLinkName),
+      html.linkReference.implicitLinkName,
+      'implicit link name'
+    );
+    t.is(
+      compiler(text.linkReference.idents),
+      html.linkReference.idents,
+      'idents'
+    );
+    t.is(
+      compiler(text.linkReference.invalid),
+      html.linkReference.invalid,
+      'invalid'
+    );
+  }
+);
+
+test(
   'paragraph: markdown should compile to html',
   t => {
     t.is(compiler(text.paragraph), html.paragraph);

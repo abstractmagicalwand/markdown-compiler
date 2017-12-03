@@ -341,14 +341,15 @@ ast.withTitle = {
           value: 'This is ',
         },
         {
-          type: 'LinkInline',
-          operators: ['[', ']'],
+          type: 'Link',
+          operators: ['[', ']', '(', ')'],
+          label: null,
           href: {
-            operators: ['(', ')'],
+            operators: null,
             value: 'http://example.com/',
           },
           title: {
-            operator: '"',
+            operators: ['"'],
             value: 'Title',
           },
           body: [
@@ -393,10 +394,11 @@ ast.withoutTitle = {
       type: 'Paragraph',
       body: [
         {
-          type: 'LinkInline',
-          operators: ['[', ']'],
+          type: 'Link',
+          operators: ['[', ']', '(', ')'],
+          label: null,
           href: {
-            operators: ['(', ')'],
+            operators: null,
             value: 'http://example.net/',
           },
           title: null,
@@ -445,10 +447,11 @@ ast.relativePath = {
           value: 'See my ',
         },
         {
-          type: 'LinkInline',
-          operators: ['[', ']'],
+          type: 'Link',
+          operators: ['[', ']', '(', ')'],
+          label: null,
           href: {
-            operators: ['(', ')'],
+            operators: null,
             value: '/about/',
           },
           title: null,
@@ -494,10 +497,11 @@ ast.withEmphasis = {
       type: 'Paragraph',
       body: [
         {
-          type: 'LinkInline',
-          operators: ['[', ']'],
+          type: 'Link',
+          operators: ['[', ']', '(', ')'],
+          label: null,
           href: {
-            operators: ['(', ')'],
+            operators: null,
             value: 'http://example.net/',
           },
           title: null,
@@ -569,8 +573,9 @@ ast.invalid = {
       type: 'Paragraph',
       body: [
         {
-          type: 'LinkInline',
+          type: 'Link',
           operators: ['['],
+          label: null,
           href: null,
           title: null,
           body: [

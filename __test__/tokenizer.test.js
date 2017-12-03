@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import tokenizer from '../src/tokenizer';
-import {text, tokens} from './fixtures'; // eslint-disable-line
+import {text, tokens, variables} from './fixtures'; // eslint-disable-line
 
 test(
   'emphasis: text should transform to tokens',
@@ -48,6 +48,59 @@ test(
     t.deepEqual(
       tokenizer(text.linkInline.invalid),
       tokens.linkInline.invalid,
+      'invalid'
+    );
+  }
+);
+
+test(
+  'link reference: text should transform to tokens',
+  t => {
+    t.deepEqual(
+      tokenizer(text.linkReference.linkDefinitions),
+      {
+        tokens: tokens.linkReference.linkDefinitions,
+        variables: variables.linkReference.linkDefinitions,
+      },
+      'link definitions'
+    );
+    t.deepEqual(
+      tokenizer(text.linkReference.titleOnNextLine),
+      {
+        tokens: tokens.linkReference.titleOnNextLine,
+        variables: variables.linkReference.titleOnNextLine,
+      },
+      'title on the next line'
+    );
+    t.deepEqual(
+      tokenizer(text.linkReference.notCaseSensitive),
+      {
+        tokens: tokens.linkReference.notCaseSensitive,
+        variables: variables.linkReference.notCaseSensitive,
+      },
+      'not case sensitive'
+    );
+    t.deepEqual(
+      tokenizer(text.linkReference.implicitLinkName),
+      {
+        tokens: tokens.linkReference.implicitLinkName,
+        variables: variables.linkReference.implicitLinkName,
+      },
+      'implicit link name'
+    );
+    t.deepEqual(
+      tokenizer(text.linkReference.idents),
+      {
+        tokens: tokens.linkReference.idents,
+        variables: variables.linkReference.idents,
+      },
+      'idents'
+    );
+    t.deepEqual(
+      tokenizer(text.linkReference.invalid),
+      {
+        tokens: tokens.linkReference.invalid,
+      },
       'invalid'
     );
   }

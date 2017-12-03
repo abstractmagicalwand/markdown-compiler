@@ -4,7 +4,7 @@ import test from 'ava';
 import isMatched from '../__test__/helpers/is-match';
 
 import parser from '../src/parser';
-import {tokens, ast} from './fixtures';
+import {tokens, variables, ast } from './fixtures';
 
 test(
   'emphasis: tokens should parse to abstract syntax tree',
@@ -70,6 +70,72 @@ test(
     t.deepEqual(
       parser(tokens.linkInline.invalid),
       ast.linkInline.invalid,
+      'invalid'
+    );
+  }
+);
+
+test(
+  'link reference: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser(
+        {
+          tokens: tokens.linkReference.linkDefinitions,
+          variables: variables.linkReference.linkDefinitions,
+        }
+      ),
+      ast.linkReference.linkDefinitions,
+      'link definitions'
+    );
+    t.deepEqual(
+      parser(
+        {
+          tokens: tokens.linkReference.titleOnNextLine,
+          variables: variables.linkReference.titleOnNextLine,
+        }
+      ),
+      ast.linkReference.titleOnNextLine,
+      'title on the next line'
+    );
+    t.deepEqual(
+      parser(
+        {
+          tokens: tokens.linkReference.notCaseSensitive,
+          variables: variables.linkReference.notCaseSensitive,
+        }
+      ),
+      ast.linkReference.notCaseSensitive,
+      'not case sensitive'
+    );
+    t.deepEqual(
+      parser(
+        {
+          tokens: tokens.linkReference.implicitLinkName,
+          variables: variables.linkReference.implicitLinkName,
+        }
+      ),
+      ast.linkReference.implicitLinkName,
+      'implicit link name'
+    );
+    t.deepEqual(
+      parser(
+        {
+          tokens: tokens.linkReference.idents,
+          variables: variables.linkReference.idents,
+        }
+      ),
+      ast.linkReference.idents,
+      'idents'
+    );
+    t.deepEqual(
+      parser(
+        {
+          tokens: tokens.linkReference.invalid,
+          variables: variables.linkReference.invalid,
+        }
+      ),
+      ast.linkReference.invalid,
       'invalid'
     );
   }
@@ -150,14 +216,28 @@ test.skip(
 test(
   'parser should throw exceptions',
   t => {
-    t.throws(() => parser([{type: 'function'}]), Error, 'token isn\'t valide');
-    t.throws(() => parser({}), TypeError, 'tokens aren\'t valide');
+    t.throws(
+      () => parser({tokens: [{type: 'function'}]}),
+      Error,
+      'token is not valide'
+    );
+    t.throws(() => parser({}), TypeError, 'tokens are not valide');
+    t.throws(() => parser({tokens: {}}), TypeError, 'tokens are not array');
+    t.throws(
+      () => parser({tokens: [], variables: []}),
+      TypeError,
+      'variables are not object'
+    );
   }
 );
 
 test(
   'parser shouldn\'t throw exceptions',
   t => {
-    t.notThrows(() => parser([]), 'tokens are empty');
+    t.notThrows(() => parser({tokens: []}), 'tokens are empty');
+    t.notThrows(
+      () => parser({tokens: [], variables: {}}),
+      'tokens and variables are empty'
+    );
   }
 );

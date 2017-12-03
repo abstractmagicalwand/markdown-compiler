@@ -10,6 +10,7 @@ const HorizontalRule = require('./horizontal-rule');
 const codeBlock = require('./code-blocks');
 const code = require('./code');
 const linkInline = require('./link-inline');
+const linkReference = require('./link-reference');
 
 module.exports = {
   text: {
@@ -24,6 +25,7 @@ module.exports = {
     codeBlock: codeBlock.text,
     code: code.text,
     linkInline: linkInline.text,
+    linkReference: linkReference.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -37,6 +39,10 @@ module.exports = {
     codeBlock: codeBlock.tokens,
     code: code.tokens,
     linkInline: linkInline.tokens,
+    linkReference: linkReference.tokens,
+  },
+  variables: {
+    linkReference: linkReference.variables,
   },
   ast: {
     blockquote: blockquote.ast,
@@ -50,6 +56,7 @@ module.exports = {
     codeBlock: codeBlock.ast,
     code: code.ast,
     linkInline: linkInline.ast,
+    linkReference: linkReference.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -63,6 +70,7 @@ module.exports = {
     codeBlock: codeBlock.html,
     code: code.html,
     linkInline: linkInline.html,
+    linkReference: linkReference.html,
   },
   traverser,
 };

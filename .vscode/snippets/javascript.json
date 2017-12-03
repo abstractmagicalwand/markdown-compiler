@@ -302,16 +302,17 @@
       "},$4"
     ]
   },
-  "LinkInline": {
-    "prefix": "nl",
+  "Link": {
+    "prefix": "nlr",
     "body": [
       "{",
-      "  type: 'LinkInline',",
-      "  operators: ['[', ']'],",
-      "  href: $1,",
-      "  title: $2,",
-      "  body: [$3],",
-      "  isClosed: $4,",
+      "  type: 'Link',",
+      "  operators: ['[', ']', '[', ']'],",
+      "  label: $1,",
+      "  href: $2,",
+      "  title: $3,",
+      "  body: [$4],",
+      "  isClosed: $5,",
       "},$5"
     ]
   },
