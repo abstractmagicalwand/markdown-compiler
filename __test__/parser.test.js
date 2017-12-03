@@ -9,7 +9,7 @@ import {tokens, variables, ast } from './fixtures';
 test(
   'emphasis: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.emphasis), [ast.emphasis], (a, b) => {
+    isMatched(parser({tokens: tokens.emphasis}), [ast.emphasis], (a, b) => {
       t.is(a, b, `emphasis: ${a} isn't equal ${b}`);
     });
   }
@@ -18,27 +18,27 @@ test(
 test(
   'code: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.code.$1), [ast.code.$1], (a, b) => {
+    isMatched(parser({tokens: tokens.code.$1}), [ast.code.$1], (a, b) => {
       t.is(a, b, `code($1): ${a} isn't equal ${b}`);
     });
 
-    isMatched(parser(tokens.code.$2), [ast.code.$2], (a, b) => {
+    isMatched(parser({tokens: tokens.code.$2}), [ast.code.$2], (a, b) => {
       t.is(a, b, `code($2): ${a} isn't equal ${b}`);
     });
 
-    isMatched(parser(tokens.code.$3), [ast.code.$3], (a, b) => {
+    isMatched(parser({tokens: tokens.code.$3}), [ast.code.$3], (a, b) => {
       t.is(a, b, `code($3): ${a} isn't equal ${b}`);
     });
 
-    isMatched(parser(tokens.code.$4), [ast.code.$4], (a, b) => {
+    isMatched(parser({tokens: tokens.code.$4}), [ast.code.$4], (a, b) => {
       t.is(a, b, `code($4): ${a} isn't equal ${b}`);
     });
 
-    isMatched(parser(tokens.code.$5), [ast.code.$5], (a, b) => {
+    isMatched(parser({tokens: tokens.code.$5}), [ast.code.$5], (a, b) => {
       t.is(a, b, `code($5): ${a} isn't equal ${b}`);
     });
 
-    isMatched(parser(tokens.code.$6), [ast.code.$6], (a, b) => {
+    isMatched(parser({tokens: tokens.code.$6}), [ast.code.$6], (a, b) => {
       t.is(a, b, `code($6): ${a} isn't equal ${b}`);
     });
   }
@@ -48,27 +48,27 @@ test(
   'link inline: tokens should parse to abstract syntax tree',
   t => {
     t.deepEqual(
-      parser(tokens.linkInline.withTitle),
+      parser({tokens: tokens.linkInline.withTitle}),
       ast.linkInline.withTitle,
       'with title'
     );
     t.deepEqual(
-      parser(tokens.linkInline.withoutTitle),
+      parser({tokens: tokens.linkInline.withoutTitle}),
       ast.linkInline.withoutTitle,
       'without title'
     );
     t.deepEqual(
-      parser(tokens.linkInline.relativePath),
+      parser({tokens: tokens.linkInline.relativePath}),
       ast.linkInline.relativePath,
       'relative path'
     );
     t.deepEqual(
-      parser(tokens.linkInline.withEmphasis),
+      parser({tokens: tokens.linkInline.withEmphasis}),
       ast.linkInline.withEmphasis,
       'with emphasis'
     );
     t.deepEqual(
-      parser(tokens.linkInline.invalid),
+      parser({tokens: tokens.linkInline.invalid}),
       ast.linkInline.invalid,
       'invalid'
     );
@@ -144,7 +144,7 @@ test(
 test(
   'paragraph: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.paragraph), [ast.paragraph], (a, b) => {
+    isMatched(parser({tokens: tokens.paragraph}), [ast.paragraph], (a, b) => {
       t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
     });
   }
@@ -153,16 +153,21 @@ test(
 test(
   'unorder list: tokens should parse to abstract syntax tree',
   t =>{
-    isMatched(parser(tokens.unorderList), [ast.unorderList], (a, b) => {
-      t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
-    });
+    isMatched(
+      parser(
+        {tokens: tokens.unorderList}),
+      [ast.unorderList],
+      (a, b) => {
+        t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
+      }
+    );
   }
 );
 
 test(
   'order list: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.orderList), [ast.orderList], (a, b) => {
+    isMatched(parser({tokens: tokens.orderList}), [ast.orderList], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
@@ -171,7 +176,7 @@ test(
 test(
   'atx header: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.atxHeader), [ast.atxHeader], (a, b) => {
+    isMatched(parser({tokens: tokens.atxHeader}), [ast.atxHeader], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
@@ -180,25 +185,33 @@ test(
 test(
   'setext header: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.setextHeader), [ast.setextHeader], (a, b) => {
-      t.is(a, b, `order list: ${a} isn't equal ${b}`);
-    });
+    isMatched(
+      parser({tokens: tokens.setextHeader}),
+      [ast.setextHeader],
+      (a, b) => {
+        t.is(a, b, `order list: ${a} isn't equal ${b}`);
+      }
+    );
   }
 );
 
 test(
   'horizontal rules: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.HorizontalRule), [ast.HorizontalRule], (a, b) => {
-      t.is(a, b, `order list: ${a} isn't equal ${b}`);
-    });
+    isMatched(
+      parser({tokens: tokens.HorizontalRule}),
+      [ast.HorizontalRule],
+      (a, b) => {
+        t.is(a, b, `order list: ${a} isn't equal ${b}`);
+      }
+    );
   }
 );
 
 test(
   'code block: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.codeBlock), [ast.codeBlock], (a, b) => {
+    isMatched(parser({tokens: tokens.codeBlock}), [ast.codeBlock], (a, b) => {
       t.is(a, b, `code block: ${a} isn't equal ${b}`);
     });
   }
@@ -207,9 +220,13 @@ test(
 test.skip(
   'blockquote: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser(tokens.blockquote), [ast.blockquote], (a, b) => {
-      t.is(a, b, `blockquote: ${a} isn't equal ${b}`);
-    });
+    isMatched(
+      parser(
+        {tokens: tokens.blockquote}), [ast.blockquote],
+      (a, b) => {
+        t.is(a, b, `blockquote: ${a} isn't equal ${b}`);
+      }
+    );
   }
 );
 

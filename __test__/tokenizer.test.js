@@ -6,19 +6,19 @@ import {text, tokens, variables} from './fixtures'; // eslint-disable-line
 test(
   'emphasis: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.emphasis), tokens.emphasis);
+    t.deepEqual(tokenizer(text.emphasis), {tokens: tokens.emphasis});
   }
 );
 
 test(
   'code: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.code.$1), tokens.code.$1, '$1');
-    t.deepEqual(tokenizer(text.code.$2), tokens.code.$2, '$2');
-    t.deepEqual(tokenizer(text.code.$3), tokens.code.$3, '$3');
-    t.deepEqual(tokenizer(text.code.$4), tokens.code.$4, '$4');
-    t.deepEqual(tokenizer(text.code.$5), tokens.code.$5, '$5');
-    t.deepEqual(tokenizer(text.code.$6), tokens.code.$6, '$6');
+    t.deepEqual(tokenizer(text.code.$1), {tokens: tokens.code.$1}, '$1');
+    t.deepEqual(tokenizer(text.code.$2), {tokens: tokens.code.$2}, '$2');
+    t.deepEqual(tokenizer(text.code.$3), {tokens: tokens.code.$3}, '$3');
+    t.deepEqual(tokenizer(text.code.$4), {tokens: tokens.code.$4}, '$4');
+    t.deepEqual(tokenizer(text.code.$5), {tokens: tokens.code.$5}, '$5');
+    t.deepEqual(tokenizer(text.code.$6), {tokens: tokens.code.$6}, '$6');
   }
 );
 
@@ -27,27 +27,27 @@ test(
   t => {
     t.deepEqual(
       tokenizer(text.linkInline.withTitle),
-      tokens.linkInline.withTitle,
+      {tokens: tokens.linkInline.withTitle},
       'with title'
     );
     t.deepEqual(
       tokenizer(text.linkInline.withoutTitle),
-      tokens.linkInline.withoutTitle,
+      {tokens: tokens.linkInline.withoutTitle},
       'without title'
     );
     t.deepEqual(
       tokenizer(text.linkInline.relativePath),
-      tokens.linkInline.relativePath,
+      {tokens: tokens.linkInline.relativePath},
       'relative path'
     );
     t.deepEqual(
       tokenizer(text.linkInline.withEmphasis),
-      tokens.linkInline.withEmphasis,
+      {tokens: tokens.linkInline.withEmphasis},
       'with emphasis'
     );
     t.deepEqual(
       tokenizer(text.linkInline.invalid),
-      tokens.linkInline.invalid,
+      {tokens: tokens.linkInline.invalid},
       'invalid'
     );
   }
@@ -109,55 +109,58 @@ test(
 test(
   'paragraph: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.paragraph), tokens.paragraph);
+    t.deepEqual(tokenizer(text.paragraph), {tokens: tokens.paragraph});
   }
 );
 
 test(
   'unorder list: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.unorderList), tokens.unorderList);
+    t.deepEqual(tokenizer(text.unorderList), {tokens: tokens.unorderList});
   }
 );
 
 test(
   'order list: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.orderList), tokens.orderList);
+    t.deepEqual(tokenizer(text.orderList), {tokens: tokens.orderList});
   }
 );
 
 test(
   'atx header: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.atxHeader), tokens.atxHeader);
+    t.deepEqual(tokenizer(text.atxHeader), {tokens: tokens.atxHeader});
   }
 );
 
 test(
   'setext header: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.setextHeader), tokens.setextHeader);
+    t.deepEqual(tokenizer(text.setextHeader), {tokens: tokens.setextHeader});
   }
 );
 
 test(
   'horizontal rules: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.HorizontalRule), tokens.HorizontalRule);
+    t.deepEqual(
+      tokenizer(text.HorizontalRule),
+      {tokens: tokens.HorizontalRule}
+    );
   }
 );
 
 test(
   'code block: text should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.codeBlock), tokens.codeBlock);
+    t.deepEqual(tokenizer(text.codeBlock), {tokens: tokens.codeBlock});
   }
 );
 
 test(
   'blockquote: text should transform to tokens',
   t => {
-    t.skip.deepEqual(tokenizer(text.blockquote), tokens.blockquote);
+    t.skip.deepEqual(tokenizer(text.blockquote), {tokens: tokens.blockquote});
   }
 );
