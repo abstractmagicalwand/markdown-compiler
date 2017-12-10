@@ -43,7 +43,7 @@ function codeGenerator(ast) {
         case 'Code':
           html += '</code>';
           break;
-        case 'LinkInline':
+        case 'Link':
           html += '</a>';
           break;
         default:
@@ -86,13 +86,13 @@ function codeGenerator(ast) {
         case 'Code':
           html += '<code>';
           break;
-        case 'LinkInline':
+        case 'Link':
           html += `<a href="${node.href.value}"${node.title && node.title.value ? ` title="${node.title.value}"` : ''}>`;
           break;
         default:
           break;
         }
-      } else if (node.type === 'LinkInline') {
+      } else if (node.type === 'Link') {
         for (let i = 0; i < node.operators.length; i++) {
           html += node.operators;
         }

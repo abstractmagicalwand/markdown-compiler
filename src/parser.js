@@ -1,5 +1,15 @@
+const {tokens, variables} = require('../__test__/fixtures/index');
+
 /* eslint complexity: 0 */
-function parser(tokens) { // eslint-disable-line
+function parser({tokens, variables}) { // eslint-disable-line
+  if (!Array.isArray(tokens)) {
+    throw new TypeError('tokens is not array');
+  }
+
+  if (variables && variables.__proto__.constructor !== Object) {
+    throw new TypeError('variables is not object');
+  }
+
   const ast = {
     type: 'Program',
     body: [],
@@ -8,11 +18,6 @@ function parser(tokens) { // eslint-disable-line
 
   let current = 0;
   let node = ast;
-
-  if (!Array.isArray(tokens)) {
-    throw new TypeError('Tokens are not array.');
-  }
-
   while (current < tokens.length) {
     if (tokens[current].type === 'NewLine') {
       let parent = node;
@@ -377,11 +382,12 @@ function parser(tokens) { // eslint-disable-line
       continue;
     }
 
-    // link inline
+    // link
     if (tokens[current].type === 'LeftSquareBracket') {
-      const linkInline = {
-        type: 'LinkInline',
+      const link = {
+        type: 'Link',
         operators: ['['],
+        label: null,
         href: null,
         title: null,
         body: [],
@@ -389,8 +395,8 @@ function parser(tokens) { // eslint-disable-line
         parent: node,
       };
 
-      node.body.push(linkInline);
-      node = linkInline;
+      node.body.push(link);
+      node = link;
       current++;
       continue;
     }
@@ -399,37 +405,58 @@ function parser(tokens) { // eslint-disable-line
       const closedOperator = tokens[current].value;
       let n = node;
 
-      while (!n || n.type !== 'LinkInline') {
+      while (!n || n.type !== 'Link') {
         n = n.parent;
       }
 
-      if (n.type === 'LinkInline') {
+      if (n.type === 'Link') {
         let j = current + 1;
 
-        if (tokens[j].type === 'Chars'
-           && !tokens[j].value.trim().length) {
+        if (tokens[j].type === 'Chars' && !tokens[j].value.trim().length) {
           j++;
         }
 
+        // link inline
         if (tokens[j].type === 'LeftParenthesis') {
-          const href = {
-            operators: [tokens[j].value],
-          };
+          const closedOperator2 = tokens[j].value;
           let title = null;
           j++;
 
           if (tokens[j].type === 'Chars') {
             let value = tokens[j].value.split(' ');
 
-            if (value[0]) {
-              href.value = value[0].trim();
+            const hrefOperator = value[0][0];
+            if (hrefOperator === '<') {
+              n.href = {
+                operators: [hrefOperator, value[0].trim().slice(-1)],
+                value: value[0].trim().slice(1, -1),
+              };
+            } else {
+              n.href = {
+                operators: null,
+                value: value[0].trim(),
+              };
             }
 
             if (value[1]) {
-              title = {
-                operator: value[1].trim().slice(0, 1),
-                value: value[1].trim().slice(1, -1),
+              const titleOperator = value[1][0];
+              n.title = {
+                operators: [],
+                value: value[1].slice(1, -1),
               };
+
+              if (titleOperator === '\'') {
+                n.title.operators.push(titleOperator);
+              } else if (titleOperator === '"') {
+                n.title.operators.push(titleOperator);
+              } else if (titleOperator === '(') {
+                n.title.operators.push(
+                  titleOperator,
+                  value[1].slice(-1)
+                );
+              } else {
+                delete n.title;
+              }
             }
 
             j++;
@@ -437,12 +464,64 @@ function parser(tokens) { // eslint-disable-line
 
           if (tokens[j].type === 'RightParenthesis') {
             n.isClosed = true;
-            n.operators.push(closedOperator);
-            n.href = href;
-            n.href.operators.push(tokens[j].value);
-            n.title = title;
+            n.operators.push(closedOperator, closedOperator2, tokens[j].value);
             node = node.parent;
 
+            current += j - current + 1;
+            continue;
+          }
+        }
+
+        // link reference
+        if (variables && tokens[j].type === 'LeftSquareBracket') {
+          const closedOperator2 = tokens[j].value;
+          j++;
+
+          let label = '';
+          if (tokens[j].type === 'Chars') {
+            label = tokens[j].value.toLowerCase().trim();
+            j++;
+          } else if (n.body[n.body.length - 1].type === 'Chars') {
+            label = n.body[n.body.length - 1].value.toLowerCase().trim();
+          }
+
+          if (variables[label] && tokens[j].type === 'RightSquareBracket') {
+            n.isClosed = true;
+            n.label = label;
+            n.operators.push(closedOperator, closedOperator2, tokens[j].value);
+
+            const hrefOperator = variables[label][0][0];
+            if (hrefOperator === '<') {
+              n.href = {
+                operators: [hrefOperator, variables[label][0].slice(-1)],
+                value: variables[label][0].slice(1, -1),
+              };
+            } else {
+              n.href = {
+                operators: null,
+                value: variables[label][0],
+              };
+            }
+
+            n.title = {
+              operators: [],
+              value: variables[label][1].slice(1, -1),
+            };
+            const titleOperator = variables[label][1][0];
+            if (titleOperator === '\'') {
+              n.title.operators.push(titleOperator);
+            } else if (titleOperator === '"') {
+              n.title.operators.push(titleOperator);
+            } else if (titleOperator === '(') {
+              n.title.operators.push(
+                titleOperator,
+                variables[label][1].slice(-1)
+              );
+            } else {
+              delete n.title;
+            }
+
+            node = node.parent;
             current += j - current + 1;
             continue;
           }
@@ -481,5 +560,10 @@ function parser(tokens) { // eslint-disable-line
 
   return ast;
 }
+
+parser({
+  tokens: tokens.linkReference.idents,
+  variables: variables.linkReference.idents,
+});
 
 module.exports = parser;
