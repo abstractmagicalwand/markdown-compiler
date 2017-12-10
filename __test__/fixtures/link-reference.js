@@ -633,27 +633,27 @@ tokens.invalid = [
 const variables = {};
 
 variables.linkDefinitions = {
-  'double quotation mark': ['http://example.com/', '"Optional Title Here"'],
-  'single quotation mark': ['http://example.com/', '\'Optional Title Here\''],
-  'angle brackets and parenthesis': ['<http://example.com/>', '(Optional Title Here)'],
+  'double quotation mark': 'http://example.com/  "Optional Title Here"',
+  'single quotation mark': 'http://example.com/  \'Optional Title Here\'',
+  'angle brackets and parenthesis': '<http://example.com/>  (Optional Title Here)',
 };
 
 variables.titleOnNextLine = {
-  id: ['http://example.com/longish/path/to/resource/here', '"Optional Title Here"'],
+  id: 'http://example.com/longish/path/to/resource/here\n  "Optional Title Here"',
 };
 
 variables.notCaseSensitive = {
-  id: ['http://example.com/', '"Optional Title Here"'],
+  id: 'http://example.com/  "Optional Title Here"',
 };
 
 variables.implicitLinkName = {
-  google: ['http://google.com/', '"Google"'],
-  yahoo:  ['http://search.yahoo.com/', '"Yahoo Search"'],
-  msn: ['http://search.msn.com/', '"MSN Search"'],
+  google: 'http://google.com/        "Google"',
+  yahoo: ' http://search.yahoo.com/  "Yahoo Search"',
+  msn: '   http://search.msn.com/    "MSN Search"',
 };
 
 variables.idents = {
-  id: ['http://example.com/', '"Optional Title Here"'],
+  id: 'http://example.com/ "Optional Title Here"',
 };
 
 const ast = {};

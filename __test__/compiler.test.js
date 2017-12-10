@@ -54,6 +54,8 @@ test(
   }
 );
 
+test.todo('link without text');
+
 test(
   'link reference: markdown should compile to html',
   t => {
@@ -87,6 +89,19 @@ test(
       html.linkReference.invalid,
       'invalid'
     );
+  }
+);
+
+test(
+  'image: markdown should compile to html',
+  t => {
+    t.is(compiler(text.image.inline), html.image.inline, 'inline');
+    t.is(
+      compiler(text.image.optionalTitle),
+      html.image.optionalTitle,
+      'optional title'
+    );
+    t.is(compiler(text.image.reference), html.image.reference, 'reference');
   }
 );
 

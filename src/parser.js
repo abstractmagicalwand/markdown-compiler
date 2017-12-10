@@ -423,7 +423,7 @@ function parser({tokens, variables}) { // eslint-disable-line
           j++;
 
           if (tokens[j].type === 'Chars') {
-            let value = tokens[j].value.split(' ');
+            let value = tokens[j].value.split(' '); //@TODO moves to tokenizer
 
             const hrefOperator = value[0][0];
             if (hrefOperator === '<') {
@@ -491,7 +491,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             n.operators.push(closedOperator, closedOperator2, tokens[j].value);
 
             const hrefOperator = variables[label][0][0];
-            if (hrefOperator === '<') {
+            if (hrefOperator === '<') { //@TODO moves to tokenizer
               n.href = {
                 operators: [hrefOperator, variables[label][0].slice(-1)],
                 value: variables[label][0].slice(1, -1),

@@ -11,6 +11,7 @@ const codeBlock = require('./code-blocks');
 const code = require('./code');
 const linkInline = require('./link-inline');
 const linkReference = require('./link-reference');
+const image = require('./image');
 
 module.exports = {
   text: {
@@ -26,6 +27,7 @@ module.exports = {
     code: code.text,
     linkInline: linkInline.text,
     linkReference: linkReference.text,
+    image: image.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -40,9 +42,11 @@ module.exports = {
     code: code.tokens,
     linkInline: linkInline.tokens,
     linkReference: linkReference.tokens,
+    image: image.tokens,
   },
   variables: {
     linkReference: linkReference.variables,
+    image: image.variables,
   },
   ast: {
     blockquote: blockquote.ast,
@@ -57,6 +61,7 @@ module.exports = {
     code: code.ast,
     linkInline: linkInline.ast,
     linkReference: linkReference.ast,
+    image: image.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -71,6 +76,7 @@ module.exports = {
     code: code.html,
     linkInline: linkInline.html,
     linkReference: linkReference.html,
+    image: image.html,
   },
   traverser,
 };

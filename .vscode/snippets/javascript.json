@@ -175,6 +175,17 @@
       "},$3"
     ]
   },
+  "OpenedImageBracket": {
+    "prefix": "toi",
+    "body": [
+      "{",
+      "  type: 'OpenedImageBracket',",
+      "  value: '![',",
+      "  start: $1,",
+      "  end: $2,",
+      "},$2"
+    ]
+  },
   "Program": {
     "prefix": "ast",
     "body": [
@@ -303,17 +314,30 @@
     ]
   },
   "Link": {
-    "prefix": "nlr",
+    "prefix": "nl",
     "body": [
       "{",
       "  type: 'Link',",
-      "  operators: ['[', ']', '[', ']'],",
-      "  label: $1,",
-      "  href: $2,",
-      "  title: $3,",
-      "  body: [$4],",
-      "  isClosed: $5,",
-      "},$5"
+      "  operators: ['[', ']', $1],",
+      "  label: $2,",
+      "  href: $3,",
+      "  title: $4,",
+      "  body: [$5],",
+      "  isClosed: $6,",
+      "},$7"
+    ]
+  },
+  "Image": {
+    "prefix": "nim",
+    "body": [
+      "{",
+      "  type: 'Image',",
+      "  operators: ['![', ']', $1],",
+      "  label: $2,",
+      "  src: $3,",
+      "  title: $4,",
+      "  alt: $5,",
+      "},$7"
     ]
   },
   "EOF": {

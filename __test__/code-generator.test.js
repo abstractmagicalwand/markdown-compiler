@@ -53,6 +53,8 @@ test(
   }
 );
 
+test.todo('link without text');
+
 test(
   'link reference: code should generate to html',
   t => {
@@ -85,6 +87,27 @@ test(
       codeGenerator(ast.linkReference.invalid),
       html.linkReference.invalid,
       'invalid'
+    );
+  }
+);
+
+test(
+  'image: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.image.inline),
+      html.image.inline,
+      'inline'
+    );
+    t.is(
+      codeGenerator(ast.image.optionalTitle),
+      html.image.optionalTitle,
+      'optional title'
+    );
+    t.is(
+      codeGenerator(ast.image.reference),
+      html.image.reference,
+      'reference'
     );
   }
 );

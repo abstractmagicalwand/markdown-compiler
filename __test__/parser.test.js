@@ -75,6 +75,8 @@ test(
   }
 );
 
+test.todo('link without text');
+
 test(
   'link reference: tokens should parse to abstract syntax tree',
   t => {
@@ -137,6 +139,30 @@ test(
       ),
       ast.linkReference.invalid,
       'invalid'
+    );
+  }
+);
+
+test(
+  'image: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser({tokens: tokens.image.inline}),
+      ast.image.inline,
+      'inline'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.image.optionalTitle}),
+      ast.image.optionalTitle,
+      'optional title'
+    );
+    t.deepEqual(
+      parser({
+        tokens: tokens.image.reference,
+        variables: variables.image.reference,
+      }),
+      ast.image.reference,
+      'reference'
     );
   }
 );

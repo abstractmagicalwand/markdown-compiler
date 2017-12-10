@@ -53,6 +53,8 @@ test(
   }
 );
 
+test.todo('link without text');
+
 test(
   'link reference: text should transform to tokens',
   t => {
@@ -105,6 +107,31 @@ test(
     );
   }
 );
+
+test('image: text should transform to tokens', t => {
+  t.deepEqual(
+    tokenizer(text.image.inline),
+    {
+      tokens: tokens.image.inline,
+    },
+    'inline'
+  );
+  t.deepEqual(
+    tokenizer(text.image.optionalTitle),
+    {
+      tokens: tokens.image.optionalTitle,
+    },
+    'optional title'
+  );
+  t.deepEqual(
+    tokenizer(text.image.reference),
+    {
+      tokens: tokens.image.reference,
+      variables: variables.image.reference,
+    },
+    'reference'
+  );
+});
 
 test(
   'paragraph: text should transform to tokens',
