@@ -54,7 +54,7 @@ test(
   }
 );
 
-test.todo('link without text');
+test.todo('link inline: link without text');
 
 test(
   'link reference: markdown should compile to html',

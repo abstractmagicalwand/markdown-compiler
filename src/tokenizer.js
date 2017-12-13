@@ -438,6 +438,19 @@ function tokenizer(rawText) {
       continue;
     }
 
+    // opened image bracket
+    if (text[i] === '!' && text[i + 1] === '[') {
+      tokens.push({
+        type: 'OpenedImageBracket',
+        value: '![',
+        start: i,
+        end: i + 2,
+      });
+
+      i += 1;
+      continue;
+    }
+
     // chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
@@ -473,46 +486,20 @@ function extractVariables(rawText) {
   const textByNewLine = rawText.split(/\n/g);
   for (let i = 0; i < textByNewLine.length; i++) {
     if (/^ {0,3}\[.+\]:/.test(textByNewLine[i])) {
-      let rawValue = textByNewLine[i].split(/:\s+/);
+      let rawValue = textByNewLine[i].split(/:\s/);
 
       const id = rawValue[0].trim().slice(1, -1);
-      variables[id] = [];
 
       if (!rawValue[1]) {
         continue;
       }
 
-      let value = rawValue[1].trim();
-      let url = '';
-      let tooltip = '';
-      for (let i = 0; i < value.length; i++) {
-        if (/['"(]/.test(value[i])) {
-          tooltip = value.slice(i);
-          break;
-        } else if (/\s/.test(value[i])) {
-          continue;
-        }
-
-        url += value[i];
-      }
-
-      if (url) {
-        variables[id].push(url);
-      }
-
-      if (tooltip) {
-        variables[id].push(tooltip);
-      }
-
+      variables[id] = rawValue[1];
       textByNewLine.splice(i, 1);
 
-      if (textByNewLine[i]) {
-        rawValue = textByNewLine[i].trim();
-
-        if (/^['"(]/.test(rawValue)) {
-          variables[id].push(rawValue);
-          textByNewLine.splice(i, 1);
-        }
+      if (textByNewLine[i] && /^\s+['"(]/.test(textByNewLine[i])) {
+        variables[id] += `\n${textByNewLine[i]}`;
+        textByNewLine.splice(i, 1);
       }
 
       i--;

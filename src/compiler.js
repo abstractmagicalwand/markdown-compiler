@@ -1,5 +1,5 @@
 const tokenizer = require('./tokenizer');
-const parser = require('./parser');
+const {parser} = require('./parser');
 const codeGenerator = require('./code-generator');
 const transformer = require('./transformer');
 

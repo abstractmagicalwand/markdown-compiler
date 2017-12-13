@@ -3,7 +3,7 @@
 import test from 'ava';
 import isMatched from '../__test__/helpers/is-match';
 
-import parser from '../src/parser';
+import {parser} from '../src/parser';
 import {tokens, variables, ast } from './fixtures';
 
 test(
@@ -75,7 +75,7 @@ test(
   }
 );
 
-test.todo('link without text');
+test.todo('link inline: link without text');
 
 test(
   'link reference: tokens should parse to abstract syntax tree',
@@ -142,6 +142,8 @@ test(
     );
   }
 );
+
+test.todo('link reference: link without text');
 
 test(
   'image: tokens should parse to abstract syntax tree',

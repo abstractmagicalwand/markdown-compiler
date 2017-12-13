@@ -405,11 +405,11 @@ function parser({tokens, variables}) { // eslint-disable-line
       const closedOperator = tokens[current].value;
       let n = node;
 
-      while (!n || n.type !== 'Link') {
+      while (n && n.type !== 'Link') {
         n = n.parent;
       }
 
-      if (n.type === 'Link') {
+      if (n && n.type === 'Link') {
         let j = current + 1;
 
         if (tokens[j].type === 'Chars' && !tokens[j].value.trim().length) {
@@ -419,45 +419,12 @@ function parser({tokens, variables}) { // eslint-disable-line
         // link inline
         if (tokens[j].type === 'LeftParenthesis') {
           const closedOperator2 = tokens[j].value;
-          let title = null;
           j++;
 
           if (tokens[j].type === 'Chars') {
-            let value = tokens[j].value.split(' '); //@TODO moves to tokenizer
-
-            const hrefOperator = value[0][0];
-            if (hrefOperator === '<') {
-              n.href = {
-                operators: [hrefOperator, value[0].trim().slice(-1)],
-                value: value[0].trim().slice(1, -1),
-              };
-            } else {
-              n.href = {
-                operators: null,
-                value: value[0].trim(),
-              };
-            }
-
-            if (value[1]) {
-              const titleOperator = value[1][0];
-              n.title = {
-                operators: [],
-                value: value[1].slice(1, -1),
-              };
-
-              if (titleOperator === '\'') {
-                n.title.operators.push(titleOperator);
-              } else if (titleOperator === '"') {
-                n.title.operators.push(titleOperator);
-              } else if (titleOperator === '(') {
-                n.title.operators.push(
-                  titleOperator,
-                  value[1].slice(-1)
-                );
-              } else {
-                delete n.title;
-              }
-            }
+            const {title, url} = extractTitleAndUrl(tokens[j].value);
+            n.title = title;
+            n.href = url;
 
             j++;
           }
@@ -470,10 +437,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             current += j - current + 1;
             continue;
           }
-        }
-
-        // link reference
-        if (variables && tokens[j].type === 'LeftSquareBracket') {
+        } else if (variables && tokens[j].type === 'LeftSquareBracket') { // link reference
           const closedOperator2 = tokens[j].value;
           j++;
 
@@ -490,38 +454,85 @@ function parser({tokens, variables}) { // eslint-disable-line
             n.label = label;
             n.operators.push(closedOperator, closedOperator2, tokens[j].value);
 
-            const hrefOperator = variables[label][0][0];
-            if (hrefOperator === '<') { //@TODO moves to tokenizer
-              n.href = {
-                operators: [hrefOperator, variables[label][0].slice(-1)],
-                value: variables[label][0].slice(1, -1),
-              };
-            } else {
-              n.href = {
-                operators: null,
-                value: variables[label][0],
-              };
-            }
-
-            n.title = {
-              operators: [],
-              value: variables[label][1].slice(1, -1),
-            };
-            const titleOperator = variables[label][1][0];
-            if (titleOperator === '\'') {
-              n.title.operators.push(titleOperator);
-            } else if (titleOperator === '"') {
-              n.title.operators.push(titleOperator);
-            } else if (titleOperator === '(') {
-              n.title.operators.push(
-                titleOperator,
-                variables[label][1].slice(-1)
-              );
-            } else {
-              delete n.title;
-            }
+            const {title, url} = extractTitleAndUrl(variables[label]);
+            n.title = title;
+            n.href = url;
 
             node = node.parent;
+            current += j - current + 1;
+            continue;
+          }
+        }
+      }
+    }
+
+    if (tokens[current].type === 'OpenedImageBracket') {
+      let j = current;
+      const image = {
+        type: 'Image',
+        operators: ['!['],
+        label: null,
+        src: null,
+        title: null,
+        alt: null,
+        parent: node,
+      };
+      j++;
+
+      if (tokens[j].type === 'Chars') {
+        image.alt = tokens[j].value;
+        j++;
+      }
+
+      if (tokens[j].type === 'RightSquareBracket') {
+        image.operators.push(tokens[j].value);
+        j++;
+
+        if (tokens[j].type === 'Chars' && !tokens[j].value.trim().length) {
+          j++;
+        }
+
+        if (tokens[j].type === 'LeftParenthesis') {
+          image.operators.push(tokens[j].value);
+          j++;
+
+          if (tokens[j].type === 'Chars') {
+            const {title, url} = extractTitleAndUrl(tokens[j].value);
+            image.src = url;
+            image.title = title;
+
+            j++;
+          }
+
+          if (tokens[j].type === 'RightParenthesis') {
+            image.operators.push(tokens[j].value);
+            node.body.push(image);
+
+            current += j - current + 1;
+            continue;
+          }
+        } else if (variables && tokens[j].type === 'LeftSquareBracket') { // image reference
+          image.operators.push(tokens[j].value);
+          j++;
+
+
+          if (tokens[j].type === 'Chars') {
+            image.label = tokens[j].value.toLowerCase().trim();
+            j++;
+          } else if (image.alt) {
+            image.label = image.alt.toLowerCase().trim();
+          }
+
+          if (image.label
+            && variables[image.label]
+            && tokens[j].type === 'RightSquareBracket') {
+            image.operators.push(tokens[j].value);
+
+            const {title, url} = extractTitleAndUrl(variables[image.label]);
+            image.src = url;
+            image.title = title;
+
+            node.body.push(image);
             current += j - current + 1;
             continue;
           }
@@ -533,7 +544,8 @@ function parser({tokens, variables}) { // eslint-disable-line
       || tokens[current].type === 'RightSquareBracket'
       || tokens[current].type === 'LeftParenthesis'
       || tokens[current].type === 'LeftSquareBracket'
-      || tokens[current].type === 'RightParenthesis') {
+      || tokens[current].type === 'RightParenthesis'
+      || tokens[current].type === 'OpenedImageBracket') {
 
       const siblings = node.body;
       if (siblings[siblings.length - 1]
@@ -561,9 +573,65 @@ function parser({tokens, variables}) { // eslint-disable-line
   return ast;
 }
 
+function extractTitleAndUrl(rawText) {
+  const text = rawText.trim();
+  const rawBorder = text.match(/\s+/i);
+  const border = rawBorder && rawBorder.index ? rawBorder.index : -1;
+
+  let rawUrl = null;
+  let rawTitle = null;
+  if (border === -1) {
+    rawUrl = text;
+  } else if (border > -1) {
+    rawUrl = text.slice(0, border);
+    rawTitle = text.slice(border).trim();
+  }
+
+  let url = null;
+  if (rawUrl) {
+    const urlOperator = rawUrl[0];
+    url = urlOperator === '<' ? {
+      operators: [urlOperator, rawUrl[rawUrl.length - 1]],
+      value: rawUrl.slice(1, -1),
+    } : {
+      operators: null,
+      value: rawUrl,
+    };
+  }
+
+  let title = null;
+  if (rawTitle) {
+    title = {
+      operators: [],
+      value: rawTitle.slice(1, -1),
+    };
+
+    const titleOperator = rawTitle[0];
+    if (titleOperator === '\'') {
+      title.operators.push(titleOperator);
+    } else if (titleOperator === '"') {
+      title.operators.push(titleOperator);
+    } else if (titleOperator === '(') {
+      title.operators.push(
+        titleOperator,
+        rawTitle[rawTitle.length - 1]
+      );
+    }
+
+    if (!title.operators.length) {
+      title = null;
+    }
+  }
+
+  return {title, url};
+}
+
 parser({
-  tokens: tokens.linkReference.idents,
-  variables: variables.linkReference.idents,
+  tokens: tokens.image.optionalTitle,
+  variables: variables.image.optionalTitle,
 });
 
-module.exports = parser;
+module.exports = {
+  parser,
+  extractTitleAndUrl,
+};

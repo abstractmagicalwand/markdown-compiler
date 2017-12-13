@@ -10,6 +10,8 @@ test(
   }
 );
 
+test.todo('emphasis: unclosed markdown tag');
+
 test(
   'code: code should generate to html',
   t => {
@@ -21,6 +23,8 @@ test(
     t.is(codeGenerator(ast.code.$6), html.code.$6, '$6');
   }
 );
+
+test.todo('emphasis: unclosed markdown tag');
 
 test(
   'link inline: code should generate to html',
@@ -53,7 +57,9 @@ test(
   }
 );
 
-test.todo('link without text');
+test.todo('link inline: unclosed markdown tag');
+
+test.todo('link inline: without text');
 
 test(
   'link reference: code should generate to html',
@@ -91,6 +97,10 @@ test(
   }
 );
 
+test.todo('link reference: unclosed markdown tag');
+
+test.todo('link reference: without text');
+
 test(
   'image: code should generate to html',
   t => {
@@ -126,12 +136,16 @@ test(
   }
 );
 
+test.todo('unorder list: unclosed markdown tag');
+
 test(
   'order list: code should generate to html',
   t => {
     t.is(codeGenerator(ast.orderList), html.orderList);
   }
 );
+
+test.todo('order list: unclosed markdown tag');
 
 test(
   'atx header: code should generate to html',
@@ -140,12 +154,16 @@ test(
   }
 );
 
+test.todo('atx header: unclosed markdown tag');
+
 test(
-  'setext list: code should generate to html',
+  'setext header: code should generate to html',
   t => {
     t.is(codeGenerator(ast.setextHeader), html.setextHeader);
   }
 );
+
+test.todo('setext header: unclosed markdown tag');
 
 test(
   'code block: code should generate to html',
@@ -154,9 +172,13 @@ test(
   }
 );
 
+test.todo('code block: unclosed markdown tag');
+
 test.skip(
   'blockquote: code should generate to html',
   t => {
     t.is(codeGenerator(ast.blockquote), html.blockquote);
   }
 );
+
+test.todo('blockquote: unclosed markdown tag');

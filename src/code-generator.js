@@ -10,44 +10,33 @@ function codeGenerator(ast) {
 
   while (stack.length) {
     const item = stack[stack.length - 1];
+    const {node} = item;
+    const {type, body, isClosed} = node;
 
-    if (!item.node.body || item.node.body.length === item.i) {
-      if (item.node.isClosed) {
-        switch (item.node.type) {
-        case 'Paragraph':
+    if (!body || body.length === item.i) {
+      if (isClosed) {
+        if (type === 'Paragraph') {
           html += '</p>\n';
-          break;
-        case 'Header':
-          html += `</h${item.node.amount}>\n`;
-          break;
-        case 'ListItem':
+        } else if (type === 'Header') {
+          const amount = node.amount;
+
+          html += `</h${amount}>\n`;
+        } else if (type === 'ListItem') {
           html += '</li>';
-          break;
-        case 'UnorderList':
+        } else if (type === 'UnorderList') {
           html += '</ul>';
-          break;
-        case 'OrderList':
+        } else if (type === 'OrderList') {
           html += '</ol>';
-          break;
-        case 'CodeBlock':
+        } else if (type === 'CodeBlock') {
           html += '\n</code></pre>\n';
-          break;
-        case 'Chars':
-          break;
-        case 'Bold':
+        } else if (type === 'Bold') {
           html += '</strong>';
-          break;
-        case 'Italic':
+        } else if (type === 'Italic') {
           html += '</em>';
-          break;
-        case 'Code':
+        } else if (type === 'Code') {
           html += '</code>';
-          break;
-        case 'Link':
+        } else if (type === 'Link') {
           html += '</a>';
-          break;
-        default:
-          break;
         }
       }
 
@@ -56,66 +45,72 @@ function codeGenerator(ast) {
 
     while (item.node.body.length > item.i) {
       const node = item.node.body[item.i];
+      const {type, isClosed} = node;
 
-      if (node.isClosed) {
-        switch (node.type) {
-        case 'Paragraph':
+      if (isClosed) {
+        if (type === 'Paragraph') {
           html += '<p>';
-          break;
-        case 'Header':
-          html += `<h${node.amount}>`;
-          break;
-        case 'ListItem':
+        } else if (type === 'Header') {
+          const {amount} = node;
+
+          html += `<h${amount}>`;
+        } else if (type === 'ListItem') {
           html += '<li>';
-          break;
-        case 'UnorderList':
+        } else if (type === 'UnorderList') {
           html += '<ul>';
-          break;
-        case 'OrderList':
-          html += `<ol start="${node.start}">`;
-          break;
-        case 'CodeBlock':
+        } else if (type === 'OrderList') {
+          const start = ` start="${node.start}"`;
+
+          html += `<ol${start}>`;
+        } else if (type === 'CodeBlock') {
           html += '<pre><code>\n';
-          break;
-        case 'Bold':
+        } else if (type === 'Bold') {
           html += '<strong>';
-          break;
-        case 'Italic':
+        } else if (type === 'Italic') {
           html += '<em>';
-          break;
-        case 'Code':
+        } else if (type === 'Code') {
           html += '<code>';
-          break;
-        case 'Link':
-          html += `<a href="${node.href.value}"${node.title && node.title.value ? ` title="${node.title.value}"` : ''}>`;
-          break;
-        default:
-          break;
+        } else if (type === 'Link') {
+          const href = node.href ? ` href="${node.href.value}"` : '';
+          const title = node.title ? ` title="${node.title.value}"` : '';
+
+          html += `<a${href}${title}>`;
         }
-      } else if (node.type === 'Link') {
-        for (let i = 0; i < node.operators.length; i++) {
-          html += node.operators;
-        }
-      } else if (node.type === 'Chars') {
-        html += node.value;
-
-        item.i++;
-        continue;
-      } else if (node.type === 'HorizontalRule') {
-        html += '<hr>\n';
-
-        item.i++;
-        continue;
-      } else if (node.type === 'BOF') {
-        item.i++;
-        continue;
-      } else if (node.type === 'EOF') {
-        html = html.trim();
-
-        item.i++;
-        continue;
       } else {
-        html += node.operator;
+        if (type === 'Header') {
+          const {amount} = node;
+
+          html += node.operator.repeat(amount);
+        } else if (type === 'Link') {
+          for (let i = 0; i < node.operators.length; i++) {
+            html += node.operators;
+          }
+        } else if (node.type === 'Image') {
+          const src = node.src ? ` src="${node.src.value}"` : '';
+          const alt = node.alt ? ` alt="${node.alt}"` : '';
+          const title = node.title ? ` title="${node.title.value}"` : '';
+
+          html += `<img${src}${alt}${title}>`;
+          item.i++;
+          continue;
+        } else if (type === 'Chars') {
+          html += node.value;
+          item.i++;
+          continue;
+        } else if (type === 'HorizontalRule') {
+          html += '<hr>\n';
+          item.i++;
+          continue;
+        } else if (type === 'BOF') {
+          item.i++;
+          continue;
+        } else if (type === 'EOF') {
+          html = html.trim();
+          item.i++;
+          continue;
+        } else {
+          html += node.operator;
+        }
       }
 
       stack.push({

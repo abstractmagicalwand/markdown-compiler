@@ -53,7 +53,7 @@ test(
   }
 );
 
-test.todo('link without text');
+test.todo('link inline: link without text');
 
 test(
   'link reference: text should transform to tokens',
@@ -107,6 +107,8 @@ test(
     );
   }
 );
+
+test.todo('link reference: link without text');
 
 test('image: text should transform to tokens', t => {
   t.deepEqual(
