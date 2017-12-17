@@ -32,13 +32,6 @@ module.exports = {
       amount: 20,
       value: '=',
       start: 20,
-      end: 41,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 41,
       end: 42,
     },
     {
@@ -52,13 +45,6 @@ module.exports = {
       amount: 21,
       value: '-',
       start: 97,
-      end: 119,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 119,
       end: 120,
     },
     {

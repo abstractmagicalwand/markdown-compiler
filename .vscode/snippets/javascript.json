@@ -1,23 +1,36 @@
 /* need extension https://marketplace.visualstudio.com/items?itemName=rebornix.project-snippets */
 {
-  "Backtick": {
-    "prefix": "tcb",
+  "CodeInline": {
+    "prefix": "tci",
     "body": [
       "{",
-      "  type: 'CodeBlock',",
-      "  value: '$1',",
-      "  isClosed: $2,",
+      "  type: 'Code',",
+      "  value: '$2',",
+      "  isClosed: $1,",
       "  start: $3,",
       "  end: $4,",
       "},$5"
     ]
   },
-  "Chars": {
-    "prefix": "tc",
+  "Backtick": {
+    "prefix": "tcb",
     "body": [
       "{",
-      "  type: 'Chars',",
-      "  value: '$1',",
+      "  type: 'CodeBlock',",
+      "  value: '$2',",
+      "  isClosed: $1,",
+      "  start: $3,",
+      "  end: $4,",
+      "},$5"
+    ]
+  },
+  "Greater": {
+    "prefix": "tg",
+    "body": [
+      "{",
+      "  type: 'Greater',",
+      "  depth: $1,",
+      "  value: '>',",
       "  start: $2,",
       "  end: $3,",
       "},$4"
@@ -119,18 +132,6 @@
       "},$4"
     ]
   },
-  "CodeInline": {
-    "prefix": "tci",
-    "body": [
-      "{",
-      "  type: 'Code',",
-      "  value: '$1',",
-      "  isClosed: $2,",
-      "  start: $3,",
-      "  end: $4,",
-      "},$5"
-    ]
-  },
   "LeftSquareBracket": {
     "prefix": "tlsb",
     "body": [
@@ -186,6 +187,17 @@
       "},$2"
     ]
   },
+  "Chars": {
+    "prefix": "tc",
+    "body": [
+      "{",
+      "  type: 'Chars',",
+      "  value: '$1',",
+      "  start: $2,",
+      "  end: $3,",
+      "},$4"
+    ]
+  },
   "Program": {
     "prefix": "ast",
     "body": [
@@ -201,8 +213,8 @@
     "body": [
       "{",
       "  type: 'Paragraph',",
-      "  body: [$1],",
-      "  isClosed: $2,",
+      "  body: [$2],",
+      "  isClosed: $1,",
       "}$3"
     ]
   },
@@ -211,9 +223,9 @@
     "body": [
       "{",
       "  type: 'UnorderList',",
-      "  depth: $1,",
-      "  body: [$2],",
-      "  isClosed: $3,",
+      "  depth: $2,",
+      "  body: [$3],",
+      "  isClosed: $1,",
       "},$4"
     ]
   },
@@ -226,8 +238,8 @@
       "  styleType: '1',",
       "  depth: $2,",
       "  body: [$3],",
-      "  isClosed: $4,",
-      "},$5"
+      "  isClosed: $1,",
+      "},$4"
     ]
   },
   "ListItem": {
@@ -236,9 +248,10 @@
       "{",
       "  type: 'ListItem',",
       "  value: '$1',",
-      "  body: [$2],",
-      "  isClosed: $3,",
-      "},$4"
+      "  depth: $2,",
+      "  body: [$3],",
+      "  isClosed: $4,",
+      "},$5"
     ]
   },
   "Header": {
@@ -247,9 +260,9 @@
       "{",
       "  type: 'Header',",
       "  styleType: '1',",
-      "  value: '$1',",
-      "  body: [$2],",
-      "  isClosed: $3,",
+      "  value: '$2',",
+      "  body: [$3],",
+      "  isClosed: $1,",
       "},$4"
     ]
   },
@@ -262,13 +275,25 @@
       "},$2"
     ]
   },
+  "Blockquote": {
+    "prefix": "nbq",
+    "body": [
+      "{",
+      "  type: 'Blockquote',",
+      "  operator: '>',",
+      "  depth: $2",
+      "  body: [$3],",
+      "  isClosed: $1,",
+      "},$4"
+    ]
+  },
   "CodeBlock": {
     "prefix": "ncb",
     "body": [
       "{",
       "  type: 'CodeBlock',",
-      "  body: [$1],",
-      "  isClosed: $2,",
+      "  body: [$2],",
+      "  isClosed: $1,",
       "},$3"
     ]
   },
@@ -277,8 +302,8 @@
     "body": [
       "{",
       "  type: 'Code',",
-      "  body: [$1],",
-      "  isClosed: $2,",
+      "  body: [$2],",
+      "  isClosed: $1,",
       "},$3"
     ]
   },
@@ -296,9 +321,9 @@
     "body": [
       "{",
       "  type: 'Italic',",
-      "  operator: '$1',",
-      "  body: [$2],",
-      "  isClosed: $3,",
+      "  operator: '$2',",
+      "  body: [$3],",
+      "  isClosed: $1,",
       "},$4"
     ]
   },
@@ -307,9 +332,9 @@
     "body": [
       "{",
       "  type: 'Bold',",
-      "  operator: '$1',",
-      "  body: [$2],",
-      "  isClosed: $3,",
+      "  operator: '$2',",
+      "  body: [$3],",
+      "  isClosed: $1,",
       "},$4"
     ]
   },
@@ -318,12 +343,12 @@
     "body": [
       "{",
       "  type: 'Link',",
-      "  operators: ['[', ']', $1],",
+      "  operators: ['[', ']', $6],",
       "  label: $2,",
       "  href: $3,",
       "  title: $4,",
       "  body: [$5],",
-      "  isClosed: $6,",
+      "  isClosed: $1,",
       "},$7"
     ]
   },

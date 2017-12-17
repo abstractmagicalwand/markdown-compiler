@@ -227,8 +227,8 @@ test(
   'horizontal rules: tokens should parse to abstract syntax tree',
   t => {
     isMatched(
-      parser({tokens: tokens.HorizontalRule}),
-      [ast.HorizontalRule],
+      parser({tokens: tokens.horizontalRule}),
+      [ast.horizontalRule],
       (a, b) => {
         t.is(a, b, `order list: ${a} isn't equal ${b}`);
       }
@@ -245,18 +245,33 @@ test(
   }
 );
 
-test.skip(
+test(
   'blockquote: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(
-      parser(
-        {tokens: tokens.blockquote}), [ast.blockquote],
-      (a, b) => {
-        t.is(a, b, `blockquote: ${a} isn't equal ${b}`);
-      }
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.everyLine}),
+      ast.blockquote.everyLine,
+      'every line'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.firstLine}),
+      ast.blockquote.firstLine,
+      'first line'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.nestedBlockquote}),
+      ast.blockquote.nestedBlockquote,
+      'nested blockquote'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.containedOtherElements}),
+      ast.blockquote.containedOtherElements,
+      'contained other elements'
     );
   }
 );
+
+test.todo('blockquote: should exit from blockquote');
 
 test(
   'parser should throw exceptions',

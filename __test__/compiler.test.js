@@ -143,13 +143,32 @@ test(
 test(
   'horizontal rules: markdown should compile to html',
   t => {
-    t.is(compiler(text.HorizontalRule), html.HorizontalRule, '');
+    t.is(compiler(text.horizontalRule), html.horizontalRule, '');
   }
 );
 
 test(
   'blockquote: markdown should compile to html',
   t => {
-    t.skip.is(compiler(text.blockquote), html.blockquote, '');
+    t.is(
+      compiler(text.blockquote.everyLine),
+      html.blockquote.everyLine,
+      'every line'
+    );
+    t.is(
+      compiler(text.blockquote.firstLine),
+      html.blockquote.firstLine,
+      'first line'
+    );
+    t.is(
+      compiler(text.blockquote.nestedBlockquote),
+      html.blockquote.nestedBlockquote,
+      'nested blockquote'
+    );
+    t.is(
+      compiler(text.blockquote.containedOtherElements),
+      html.blockquote.containedOtherElements,
+      'contained other elements'
+    );
   }
 );

@@ -6,7 +6,7 @@ const orderList = require('./order-list');
 const traverser = require('./traverser');
 const setextHeader = require('./setext-header');
 const atxHeader = require('./atx-header');
-const HorizontalRule = require('./horizontal-rule');
+const horizontalRule = require('./horizontal-rule');
 const codeBlock = require('./code-blocks');
 const code = require('./code');
 const linkInline = require('./link-inline');
@@ -22,7 +22,7 @@ module.exports = {
     orderList: orderList.text,
     setextHeader: setextHeader.text,
     atxHeader: atxHeader.text,
-    HorizontalRule: HorizontalRule.text,
+    horizontalRule: horizontalRule.text,
     codeBlock: codeBlock.text,
     code: code.text,
     linkInline: linkInline.text,
@@ -37,7 +37,7 @@ module.exports = {
     orderList: orderList.tokens,
     setextHeader: setextHeader.tokens,
     atxHeader: atxHeader.tokens,
-    HorizontalRule: HorizontalRule.tokens,
+    horizontalRule: horizontalRule.tokens,
     codeBlock: codeBlock.tokens,
     code: code.tokens,
     linkInline: linkInline.tokens,
@@ -56,7 +56,7 @@ module.exports = {
     orderList: orderList.ast,
     setextHeader: setextHeader.ast,
     atxHeader: atxHeader.ast,
-    HorizontalRule: HorizontalRule.ast,
+    horizontalRule: horizontalRule.ast,
     codeBlock: codeBlock.ast,
     code: code.ast,
     linkInline: linkInline.ast,
@@ -71,7 +71,7 @@ module.exports = {
     orderList: orderList.html,
     setextHeader: setextHeader.html,
     atxHeader: atxHeader.html,
-    HorizontalRule: HorizontalRule.html,
+    horizontalRule: horizontalRule.html,
     codeBlock: codeBlock.html,
     code: code.html,
     linkInline: linkInline.html,

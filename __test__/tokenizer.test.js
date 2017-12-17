@@ -174,8 +174,8 @@ test(
   'horizontal rules: text should transform to tokens',
   t => {
     t.deepEqual(
-      tokenizer(text.HorizontalRule),
-      {tokens: tokens.HorizontalRule}
+      tokenizer(text.horizontalRule),
+      {tokens: tokens.horizontalRule}
     );
   }
 );
@@ -190,6 +190,25 @@ test(
 test(
   'blockquote: text should transform to tokens',
   t => {
-    t.skip.deepEqual(tokenizer(text.blockquote), {tokens: tokens.blockquote});
+    t.deepEqual(
+      tokenizer(text.blockquote.everyLine),
+      {tokens: tokens.blockquote.everyLine},
+      'every line'
+    );
+    t.deepEqual(
+      tokenizer(text.blockquote.firstLine),
+      {tokens: tokens.blockquote.firstLine},
+      'first line'
+    );
+    t.deepEqual(
+      tokenizer(text.blockquote.nestedBlockquote),
+      {tokens: tokens.blockquote.nestedBlockquote},
+      'nested blockquote'
+    );
+    t.deepEqual(
+      tokenizer(text.blockquote.containedOtherElements),
+      {tokens: tokens.blockquote.containedOtherElements},
+      'contained other elements'
+    );
   }
 );

@@ -1,303 +1,648 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
-    > **This** is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+const text = {
+  everyLine: strip(`
+    > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
     > consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
     > Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
     >
     > Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
     > id sem consectetuer libero luctus adipiscing.
+  `),
+  firstLine: strip(`
+    > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
+    consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
+    Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.
 
+    > Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse
+    id sem consectetuer libero luctus adipiscing.
+  `),
+  nestedBlockquote: strip(`
     > This is the first level of quoting.
     >
     > > This is nested blockquote.
     >
     > Back to the first level.
-  `);
+  `),
+  containedOtherElements: strip(`
+    > ## This is a header.
+    >
+    > 1.   This is the first list item.
+    > 2.   This is the second list item.
+    >
+    > Here's some *example code*:
+    > \`\`\`
+    >     return shell_exec("echo $input | $markdown_script");
+    > \`\`\`
+  `),
+};
 
-//  const text2 = strip(`
-//      > ## This is an H2 in a blockquote
-//    `);
+const html = {
+  everyLine: strip(`
+      <blockquote><p>This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p>
+      <p>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p>
+      </blockquote>
+    `),
+  nestedBlockquote: strip(`
+      <blockquote><p>This is the first level of quoting.</p>
+      <blockquote><p>This is nested blockquote.</p>
+      </blockquote><p>Back to the first level.</p>
+      </blockquote>
+    `),
+  containedOtherElements: strip(`
+    <blockquote><h2>This is a header.</h2>
+    <ol start="1"><li>This is the first list item.</li><li>This is the second list item.</li></ol><p>Here's some <em>example code</em>:</p>
+    <pre><code>
+        return shell_exec("echo $input | $markdown_script");
+    </code></pre>
+    </blockquote>
+    `),
+};
 
-const html = strip(`
-    <blockquote><p><b>This</b>is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.</p><p> Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</p></blockquote>
-    <blockquote><p>This is the first level of quoting.</p><blockquote><p>This is nested blockquote.</p></blockquote><p>Back to the first level</p></blockquote>
-  `);
+html.firstLine = html.everyLine;
 
-
-module.exports = {
-  text,
-  tokens: [
+const tokens = {
+  everyLine: [
     {
       type: 'BOF',
     },
     {
       type: 'Greater',
+      depth: 0,
       value: '>',
       start: 0,
-      end: 1,
-    },
-    {
-      type: 'Chars',
-      value: ' ',
-      start: 1,
       end: 2,
     },
     {
-      type: 'Asterisk',
-      amount: 2,
-      value: '*',
+      type: 'Chars',
+      value: 'This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,',
       start: 2,
-      end: 4,
-    },
-    {
-      type: 'Chars',
-      value: 'This',
-      start: 4,
-      end: 8,
-    },
-    {
-      type: 'Asterisk',
-      amount: 2,
-      value: '*',
-      start: 8,
-      end: 10,
-    },
-    {
-      type: 'Chars',
-      value: ' is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,',
-      start: 10,
-      end: 75,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 75,
-      end: 76,
+      end: 71,
     },
     {
       type: 'Greater',
+      depth: 0,
       value: '>',
-      start: 76,
-      end: 77,
+      start: 71,
+      end: 74,
     },
     {
       type: 'Chars',
-      value: ' consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.',
-      start: 77,
-      end: 144,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 144,
-      end: 145,
+      value: 'consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.',
+      start: 74,
+      end: 140,
     },
     {
       type: 'Greater',
+      depth: 0,
       value: '>',
-      start: 146,
-      end: 147,
+      start: 140,
+      end: 143,
     },
     {
       type: 'Chars',
-      value: ' Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.',
-      start: 147,
+      value: 'Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.',
+      start: 143,
+      end: 213,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 213,
+      end: 215,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 215,
       end: 218,
     },
     {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
+      type: 'Chars',
+      value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse',
       start: 218,
-      end: 219,
+      end: 287,
     },
     {
       type: 'Greater',
+      depth: 0,
       value: '>',
-      start: 219,
-      end: 220,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 220,
-      end: 221,
-    },
-    {
-      type: 'Greater',
-      value: '>',
-      start: 221,
-      end: 222,
+      start: 287,
+      end: 290,
     },
     {
       type: 'Chars',
-      value: ' Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse',
-      start: 222,
-      end: 292,
-    },
-    {
-      type: 'NewLine',
-      amount: 2,
-      value: '\n',
-      start: 292,
-      end: 293,
-    },
-    {
-      type: 'NewLine',
-      amount: 2,
-      value: '\n',
-      start: 293,
-      end: 294,
-    },
-    {
-      type: 'Greater',
-      value: '>',
-      start: 294,
-      end: 295,
-    },
-    {
-      type: 'Chars',
-      value: ' This is the first level of quoting.',
-      start: 295,
-      end: 296,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 296,
-      end: 297,
-    },
-    {
-      type: 'Greater',
-      value: '>',
-      start: 297,
-      end: 298,
-    },
-    {
-      type: 'Chars',
-      value: ' ',
-      start: 298,
-      end: 299,
-    },
-    {
-      type: 'Greater',
-      value: '>',
-      start: 299,
-      end: 300,
-    },
-    {
-      type: 'Chars',
-      value: ' This is nested blockquote.',
-      start: 300,
-      end: 327,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 327,
-      end: 328,
-    },
-    {
-      type: 'Greater',
-      value: '>',
-      start: 328,
-      end: 329,
-    },
-    {
-      type: 'NewLine',
-      amount: 1,
-      value: '\n',
-      start: 329,
-      end: 330,
-    },
-    {
-      type: 'Greater',
-      value: '>',
-      start: 330,
-      end: 331,
-    },
-    {
-      type: 'Chars',
-      value: ' Back to the first level.',
-      start: 331,
-      end: 332,
+      value: 'id sem consectetuer libero luctus adipiscing.',
+      start: 290,
+      end: 335,
     },
     {
       type: 'EOF',
     },
   ],
-  ast: {
-    type: 'Program',
-    body: [
-      {
-        type: 'BOF',
-      },
-      {
-        type: 'Blockquotes',
-        depth: 1,
-        operator: '>',
-        body: [
-          {
-            type: 'Chars',
-            value: ' ',
-          },
-          {
-            type: 'Bold',
-            value: '**',
-            body: [
-              {
-                type: 'Chars',
-                value: 'This',
-              },
-            ],
-            isClosed: true,
-          },
-          {
-            type: 'Chars',
-            value: 'is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.',
-          },
-          {
-            type: 'Chars',
-            value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse',
-          },
-        ],
-      },
-      {
-        type: 'Blockquotes',
-        operator: '>',
-        depth: 1,
-        body: [
-          {
-            type: 'Chars',
-            value: 'This is the first level of quoting.',
-          },
-          {
-            type: 'Blockquotes',
-            operator: '>',
-            depth: 2,
-            body: [
-              {
-                type: 'Chars',
-                value: 'This is nested blockquote.',
-              },
-            ],
-          },
-          {
-            type: 'Chars',
-            value: 'Back to the first level.',
-          },
-        ],
-      },
-      {
-        type: 'EOF',
-      },
-    ],
-  },
+  firstLine: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 0,
+      end: 2,
+    },
+    {
+      type: 'Chars',
+      value: 'This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.',
+      start: 2,
+      end: 209,
+    },
+    {
+      type: 'NewLine',
+      amount: 2,
+      value: '\n',
+      start: 209,
+      end: 211,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 211,
+      end: 213,
+    },
+    {
+      type: 'Chars',
+      value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.',
+      start: 213,
+      end: 328,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  nestedBlockquote: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 0,
+      end: 2,
+    },
+    {
+      type: 'Chars',
+      value: 'This is the first level of quoting.',
+      start: 2,
+      end: 37,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 37,
+      end: 39,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 39,
+      end: 42,
+    },
+    {
+      type: 'Greater',
+      depth: 1,
+      value: '>',
+      start: 42,
+      end: 44,
+    },
+    {
+      type: 'Chars',
+      value: 'This is nested blockquote.',
+      start: 44,
+      end: 70,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 70,
+      end: 72,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 72,
+      end: 75,
+    },
+    {
+      type: 'Chars',
+      value: 'Back to the first level.',
+      start: 75,
+      end: 99,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  containedOtherElements: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 0,
+      end: 2,
+    },
+    {
+      type: 'Hashes',
+      amount: 2,
+      value: '#',
+      start: 2,
+      end: 5,
+    },
+    {
+      type: 'Chars',
+      value: 'This is a header.',
+      start: 5,
+      end: 22,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 22,
+      end: 24,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 24,
+      end: 27,
+    },
+    {
+      type: 'Item',
+      depth: 0,
+      value: '1',
+      start: 27,
+      end: 32,
+    },
+    {
+      type: 'Chars',
+      value: 'This is the first list item.',
+      start: 32,
+      end: 60,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 60,
+      end: 63,
+    },
+    {
+      type: 'Item',
+      depth: 0,
+      value: '2',
+      start: 63,
+      end: 68,
+    },
+    {
+      type: 'Chars',
+      value: 'This is the second list item.',
+      start: 68,
+      end: 97,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 97,
+      end: 99,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 99,
+      end: 102,
+    },
+    {
+      type: 'Chars',
+      value: 'Here\'s some ',
+      start: 102,
+      end: 114,
+    },
+    {
+      type: 'Asterisk',
+      amount: 1,
+      value: '*',
+      start: 114,
+      end: 115,
+    },
+    {
+      type: 'Chars',
+      value: 'example code',
+      start: 115,
+      end: 127,
+    },
+    {
+      type: 'Asterisk',
+      amount: 1,
+      value: '*',
+      start: 127,
+      end: 128,
+    },
+    {
+      type: 'Chars',
+      value: ':',
+      start: 128,
+      end: 129,
+    },
+    {
+      type: 'Greater',
+      depth: 0,
+      value: '>',
+      start: 129,
+      end: 132,
+    },
+    {
+      type: 'CodeBlock',
+      value: '    return shell_exec("echo $input | $markdown_script");',
+      isClosed: true,
+      start: 132,
+      end: 201,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+};
+
+const ast = {};
+
+ast.everyLine = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Blockquote',
+      operator: '>',
+      depth: 0,
+      body: [
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus. Vestibulum enim wisi, viverra nec, fringilla in, laoreet vitae, risus.',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.everyLine.body[0].parent = ast.everyLine;
+ast.everyLine.body[1].parent = ast.everyLine;
+ast.everyLine.body[2].parent = ast.everyLine;
+
+ast.everyLine.body[1].body[0].parent = ast.everyLine.body[1];
+ast.everyLine.body[1].body[1].parent = ast.everyLine.body[1];
+
+ast.everyLine.body[1].body[0].body[0].parent = ast.everyLine.body[1].body[0];
+ast.everyLine.body[1].body[1].body[0].parent = ast.everyLine.body[1].body[1];
+
+ast.firstLine = ast.everyLine;
+
+ast.nestedBlockquote = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Blockquote',
+      operator: '>',
+      depth: 0,
+      body: [
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'This is the first level of quoting.',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Blockquote',
+          operator: '>',
+          depth: 1,
+          body: [
+            {
+              type: 'Paragraph',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'This is nested blockquote.',
+                },
+              ],
+              isClosed: true,
+            },
+          ],
+        },
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'Back to the first level.',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.nestedBlockquote.body[0].parent = ast.nestedBlockquote;
+ast.nestedBlockquote.body[1].parent = ast.nestedBlockquote;
+ast.nestedBlockquote.body[2].parent = ast.nestedBlockquote;
+
+ast.nestedBlockquote.body[1].body[0].parent = ast.nestedBlockquote.body[1];
+ast.nestedBlockquote.body[1].body[1].parent = ast.nestedBlockquote.body[1];
+ast.nestedBlockquote.body[1].body[2].parent = ast.nestedBlockquote.body[1];
+
+ast.nestedBlockquote.body[1].body[0].body[0].parent = ast.nestedBlockquote.body[1].body[0];
+
+ast.nestedBlockquote.body[1].body[1].body[0].parent = ast.nestedBlockquote.body[1].body[1];
+
+ast.nestedBlockquote.body[1].body[1].body[0].body[0].parent = ast.nestedBlockquote.body[1].body[1].body[0];
+
+ast.nestedBlockquote.body[1].body[2].body[0].parent = ast.nestedBlockquote.body[1].body[2];
+
+ast.containedOtherElements = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Blockquote',
+      operator: '>',
+      depth: 0,
+      body: [
+        {
+          type: 'Header',
+          value: '#', // @TODO switch on operator
+          amount: 2,
+          body: [
+            {
+              type: 'Chars',
+              value: 'This is a header.',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'OrderList',
+          start: '1',
+          styleType: '1',
+          depth: 0,
+          body: [
+            {
+              type: 'ListItem',
+              value: '1',
+              depth: 0,
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'This is the first list item.',
+                },
+              ],
+              isClosed: true,
+            },
+            {
+              type: 'ListItem',
+              value: '2',
+              depth: 0,
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'This is the second list item.',
+                },
+              ],
+              isClosed: true,
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Paragraph',
+          body: [
+            {
+              type: 'Chars',
+              value: 'Here\'s some ',
+            },
+            {
+              type: 'Italic',
+              operator: '*',
+              body: [
+                {
+                  type: 'Chars',
+                  value: 'example code',
+                },
+              ],
+              isClosed: true,
+            },
+            {
+              type: 'Chars',
+              value: ':',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'CodeBlock',
+          body: [
+            {
+              type: 'Chars',
+              value: '    return shell_exec("echo $input | $markdown_script");',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.containedOtherElements.body[0].parent = ast.containedOtherElements;
+ast.containedOtherElements.body[1].parent = ast.containedOtherElements;
+ast.containedOtherElements.body[2].parent = ast.containedOtherElements;
+
+ast.containedOtherElements.body[1].body[0].parent = ast.containedOtherElements.body[1];
+ast.containedOtherElements.body[1].body[1].parent = ast.containedOtherElements.body[1];
+ast.containedOtherElements.body[1].body[2].parent = ast.containedOtherElements.body[1];
+ast.containedOtherElements.body[1].body[3].parent = ast.containedOtherElements.body[1];
+
+ast.containedOtherElements.body[1].body[0].body[0].parent = ast.containedOtherElements.body[1].body[0];
+
+ast.containedOtherElements.body[1].body[1].body[0].parent = ast.containedOtherElements.body[1].body[1];
+ast.containedOtherElements.body[1].body[1].body[1].parent = ast.containedOtherElements.body[1].body[1];
+
+ast.containedOtherElements.body[1].body[1].body[0].body[0].parent = ast.containedOtherElements.body[1].body[1].body[0];
+ast.containedOtherElements.body[1].body[1].body[1].body[0].parent = ast.containedOtherElements.body[1].body[1].body[1];
+
+ast.containedOtherElements.body[1].body[2].body[0].parent = ast.containedOtherElements.body[1].body[2];
+ast.containedOtherElements.body[1].body[2].body[1].parent = ast.containedOtherElements.body[1].body[2];
+ast.containedOtherElements.body[1].body[2].body[2].parent = ast.containedOtherElements.body[1].body[2];
+
+ast.containedOtherElements.body[1].body[2].body[1].body[0].parent = ast.containedOtherElements.body[1].body[2].body[1];
+
+ast.containedOtherElements.body[1].body[3].body[0].parent = ast.containedOtherElements.body[1].body[3];
+
+module.exports = {
+  text,
+  tokens,
+  ast,
   html,
 };

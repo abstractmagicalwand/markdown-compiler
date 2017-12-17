@@ -166,6 +166,13 @@ test(
 test.todo('setext header: unclosed markdown tag');
 
 test(
+  'horizontal rule: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.horizontalRule), html.horizontalRule);
+  }
+);
+
+test(
   'code block: code should generate to html',
   t => {
     t.is(codeGenerator(ast.codeBlock), html.codeBlock);
@@ -174,11 +181,34 @@ test(
 
 test.todo('code block: unclosed markdown tag');
 
-test.skip(
+test(
   'blockquote: code should generate to html',
   t => {
-    t.is(codeGenerator(ast.blockquote), html.blockquote);
+    t.is(
+      codeGenerator(ast.blockquote.everyLine),
+      html.blockquote.everyLine,
+      'every line'
+    );
+
+    t.is(
+      codeGenerator(ast.blockquote.firstLine),
+      html.blockquote.firstLine,
+      'first line'
+    );
+
+    t.is(
+      codeGenerator(ast.blockquote.nestedBlockquote),
+      html.blockquote.nestedBlockquote,
+      'nested blockquote'
+    );
+
+    t.is(
+      codeGenerator(ast.blockquote.containedOtherElements),
+      html.blockquote.containedOtherElements,
+      'contained other elements'
+    );
   }
+
 );
 
 test.todo('blockquote: unclosed markdown tag');
