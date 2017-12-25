@@ -8,37 +8,84 @@ function tokenizer(rawText) {
     type: 'BOF',
   });
 
-  for (let i = 0; i < text.length; i++) {
+  let i = 0;
+  while (i < text.length) {
     let lastToken = tokens[tokens.length - 1];
-    let char = text[i];
 
-    let patternBullets = /(\*|\+|-)/;
-    let patternItems = /\d/;
-    if (lastToken.type === 'BOF' || char === '\n'
-      || patternBullets.test(char) && lastToken.type === 'Bullet'
-      || patternItems.test(char) && lastToken.type === 'Item') {
-      // code block
-      let patternCodeBlock = lastToken.type === 'BOF'
-        ? /```\n/g
-        : /\n\n?```\n/g;
-      patternCodeBlock.lastIndex = i;
-      const codeBlock = patternCodeBlock.exec(text);
-      if (codeBlock && codeBlock.index === i) {
-        const start = i;
+    if (text[i] === '\n' || i === 0) {
+      const value = text[i];
+      let start = i;
 
-        for (; i < text.length; i++) {
-          if (text[i] === '\n' || text[i] === '`') {
-            continue;
-          }
+      let amountOfNewLines = 0;
+      for (; text[i] === '\n'; i++) {
+        amountOfNewLines++;
+      }
 
-          break;
+      let amountOfSpaces = 0;
+      for (; text[i] === ' '; i++) {
+        amountOfSpaces++;
+      }
+
+      // hashes
+      if (text[i] === '#') {
+        let amountOfNewLines = 1;
+
+        let j = i + 1;
+        for (; text[j] === '#'; j++) {
+          amountOfNewLines++;
         }
 
+        if (amountOfNewLines <= 6) {
+          i = j;
+
+          while (text[i] === ' ') {
+            i++;
+          }
+
+          tokens.push({
+            type: 'Hashes',
+            value: '#',
+            amount: amountOfNewLines,
+            start,
+            end: i,
+          });
+          continue;
+        }
+      }
+
+      // signs and hyphens
+      if (lastToken.type === 'Chars' && (text[i] === '=' || text[i] === '-')) {
+        const value = text[i];
+        let amount = 0;
+
+        let j = i;
+        for (; text[j] === value; j++) {
+          amount++;
+        }
+
+        if (text[j] === '\n') {
+          i = j + 1;
+
+          tokens.push({
+            type: value === '-' ? 'Hyphens' : 'Signs',
+            amount,
+            value,
+            start,
+            end: i,
+          });
+          continue;
+        }
+      }
+
+      //code block
+      if (text[i] === '`' && text[i + 1] === '`' && text[i + 2] === '`') {
+        i += 3;
+
         let value = '';
-        let backtickCounter = 0;
-        for (; i < text.length && backtickCounter < 3; i++) {
+        let amountOfClosedBackticks = 0;
+        for (; i < text.length && amountOfClosedBackticks < 3; i++) {
           if (text[i] === '`') {
-            backtickCounter++;
+            amountOfClosedBackticks++;
           } else if (text[i] === '&') {
             value += '&amp;';
           } else if (text[i] === '<') {
@@ -53,379 +100,257 @@ function tokenizer(rawText) {
         tokens.push({
           type: 'CodeBlock',
           value: value.trim(),
-          isClosed: backtickCounter === 3,
-          start: start,
-          end: i + 1,
+          isClosed: amountOfClosedBackticks === 3,
+          start,
+          end: ++i,
         });
         continue;
       }
 
       // horizontal rule
-      if (lastToken.type !== 'Chars' && lastToken.type !== 'CodeBlock') {
-        const start = i;
+      if (lastToken.type !== 'Chars' && (text[i] === '-' || text[i] === '*')) {
+        const value = text[i];
 
-        let isRule = true;
-        let k = i + 1;
-        for (; k < text.length; k++) {
-          if (/\S/.test(text[k])) {
-            break;
-          }
+        let j = i;
+        while (text[j] === value || text[j] === ' ') {
+          j++;
         }
 
-        const value = text[k];
-        let j = k;
-        for (; j < text.length; j++) {
-          if (text[j] === '\n') {
-            if (j - start <= 1) {
-              isRule = false;
-            }
+        if (text[j] === '\n' || j === text.length) {
+          i = j;
 
-            break;
-          }
-
-          if (text[j] !== value && text[j] !== ' ') {
-            isRule = false;
-            break;
-          }
-        }
-
-        if (isRule) {
-          i = j - 1;
           tokens.push({
             type: 'HorizontalRule',
             value,
             start,
-            end: i + 1,
+            end: i,
           });
-
           continue;
         }
       }
 
       // bullet
-      let patternBullet = /\s{0,}(\*|\+|-)\s+/g;
-      patternBullet.lastIndex = i;
-      const bullet = patternBullet.exec(text);
-      if (bullet && bullet.index === i) {
-        let depth = 0;
+      if (text[i] === '*' || text[i] === '+' || text[i] === '-') {
+        let depth = Math.floor(amountOfSpaces * 0.5);
 
-        for (let i = 0; i < bullet[0].length; i++) {
-          const char = bullet[0][i];
+        while (text[i] === '*' || text[i] === '+' || text[i] === '-') {
+          const value = text[i];
 
-          if (char === ' ') {
-            depth += 0.5;
+          let j = i + 1;
+          while (text[j] === ' ') {
+            j++;
+          }
+
+          if (text[j - 1] === ' ') {
+            i = j;
+
+            tokens.push({
+              type: 'Bullet',
+              depth,
+              value,
+              start,
+              end: i,
+            });
+
+            start = i;
+            amountOfSpaces = 0;
+            amountOfNewLines = 0;
+            depth += 1;
             continue;
           }
 
-          if (char !== '\n') {
-            break;
-          }
+          break;
         }
-
-        if (patternBullets.test(char) && lastToken.type !== 'BOF') {
-          for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
-            if (tokens[j].type === 'Bullet' || tokens[j].type === 'Item') {
-              depth = tokens[j].depth + 1;
-              break;
-            }
-          }
-        } else {
-          depth = Math.floor(depth);
-        }
-
-        tokens.push({
-          type: 'Bullet',
-          depth,
-          value: bullet[0].trim(),
-          start: i,
-          end: i + bullet[0].length,
-        });
-
-        i += bullet[0].length - 1;
-        continue;
       }
 
       // item
-      let patternItem = /\s{0,}\d+\.\s+/g;
-      patternItem.lastIndex = i;
-      const item = patternItem.exec(text);
-      if (item && item.index === i) {
-        let depth = 0;
+      if (/\d/.test(text[i])) {
+        let depth = Math.floor(amountOfSpaces * 0.5);
 
-        for (let i = 0; i < item[0].length; i++) {
-          const char = item[0][i];
-
-          if (char === ' ') {
-            depth += 0.5;
-            continue;
+        while (/\d/.test(text[i])) {
+          let value = '';
+          let j = i;
+          while (/\d/.test(text[j])) {
+            value += text[j];
+            j++;
           }
 
-          if (char !== '\n') {
-            break;
-          }
-        }
+          if (text[j] === '.') {
+            do {
+              j++;
+            } while (text[j] === ' ');
 
-        if (patternItems.test(char)
-          && tokens[tokens.length - 1].type !== 'BOF') {
-          for (let j = tokens.length - 1; j > 0; j--) { // eslint-disable-line
-            if (tokens[j].type === 'Bullet' || tokens[j].type === 'Item') {
-              depth = tokens[j].depth + 1;
-              break;
+            if (text[j - 1] === ' ') {
+              i = j;
+
+              tokens.push({
+                type: 'Item',
+                depth,
+                value,
+                start,
+                end: i,
+              });
+
+              start = i;
+              amountOfSpaces = 0;
+              amountOfNewLines = 0;
+              depth += 1;
+              continue;
             }
           }
+
+          break;
+        }
+      }
+
+      // new line and chars
+      if (value === '\n') {
+        if (amountOfNewLines > 1 && value === '\n') {
+          tokens.push({
+            type: 'NewLine',
+            amount: amountOfNewLines,
+            value,
+            start,
+            end: i,
+          });
+        } else if (tokens[tokens.length - 1]
+          && tokens[tokens.length - 1].type === 'Chars') {
+          amountOfSpaces += amountOfNewLines;
+
+          tokens[tokens.length - 1].end += amountOfSpaces;
+          tokens[tokens.length - 1].value += ' '.repeat(amountOfSpaces);
         } else {
-          depth = Math.floor(depth);
+          amountOfSpaces += amountOfNewLines;
+
+          tokens.push({
+            type: 'Chars',
+            value: ' '.repeat(amountOfSpaces),
+            start,
+            end: i + amountOfSpaces,
+          });
         }
 
-        tokens.push({
-          type: 'Item',
-          depth,
-          value: `${parseInt(item[0], 10)}`,
-          start: i,
-          end: i + item[0].length,
-        });
-
-        i += item[0].length - 1;
         continue;
       }
-
-      // hashes
-      let patternHashes = /\n#{1,6} |^#/g ;
-      patternHashes.lastIndex = i;
-      const hashes = patternHashes.exec(text);
-      if (hashes && hashes.index === i) {
-        let hashes = {
-          type: 'Hashes',
-          value: '#',
-          amount: 0,
-          start: i,
-        };
-
-        while (text[i] !== ' ') {
-          if (text[i] === '#') {
-            hashes.amount++;
-          }
-          i++;
-        }
-
-        hashes.end = i + 1;
-        tokens.push(hashes);
-        continue;
-      }
-
-      // signs and hyphens
-      let patternSignsOrHyphens = /\n+(=|-)+\n+/g; // \n+ is the good solution
-      patternSignsOrHyphens.lastIndex = i;
-      const SignsOrHyphens = patternSignsOrHyphens.exec(text);
-      if (SignsOrHyphens && SignsOrHyphens.index === i) {
-        const char = SignsOrHyphens[0][1];
-        let signsOrHyphens = {
-          type: char === '-' ? 'Hyphens' : 'Signs',
-          amount: 0,
-          value: char,
-          start: i,
-          end: i + 1,
-        };
-
-        for (let j = 0; j < SignsOrHyphens[0].length; j++) {
-          if (SignsOrHyphens[0][j] === char) {
-            signsOrHyphens.amount++;
-          }
-        }
-
-        while (text[signsOrHyphens.end] === char) {
-          signsOrHyphens.end++;
-          i++;
-        }
-
-        tokens.push(signsOrHyphens);
-        continue;
-      }
-    }
-
-    // new line
-    if (char === '\n') {
-      const start = i;
-      let amount = 1;
-
-      i++;
-      for (; text[i] === '\n'; i++) {
-        amount++;
-      }
-
-      if (amount > 1
-        || lastToken.type === 'Signs'
-        || lastToken.type === 'Hyphens') {
-        tokens.push({
-          type: 'NewLine',
-          amount,
-          value: char,
-          start,
-          end: i,
-        });
-      } else if (tokens[tokens.length - 1]
-        && tokens[tokens.length - 1].type === 'Chars') {
-        tokens[tokens.length - 1].end++;
-        tokens[tokens.length - 1].value += ' ';
-      } else {
-        tokens.push({
-          type: 'Chars',
-          value: ' ',
-          start,
-          end: i,
-        });
-      }
-
-      char = text[i];
     }
 
     // square bracket
-    if (char === '[') {
-      let token = {
+    if (text[i] === '[') {
+      tokens.push({
         type: 'LeftSquareBracket',
-        value: char,
+        value: text[i],
         start: i,
-        end: i + 1,
-      };
-
-      tokens.push(token);
+        end: ++i,
+      });
       continue;
     }
 
-    if (char === ']') {
-      let token = {
+    if (text[i] === ']') {
+      tokens.push({
         type: 'RightSquareBracket',
-        value: char,
+        value: text[i],
         start: i,
-        end: i + 1,
-      };
-
-      tokens.push(token);
+        end: ++i,
+      });
       continue;
     }
 
     // parenthesis
-    if (char === '(') {
-      let token = {
+    if (text[i] === '(') {
+      tokens.push({
         type: 'LeftParenthesis',
-        value: char,
+        value: text[i],
         start: i,
-        end: i + 1,
-      };
-
-      tokens.push(token);
+        end: ++i,
+      });
       continue;
     }
 
-    if (char === ')') {
-      let token = {
+    if (text[i] === ')') {
+      tokens.push({
         type: 'RightParenthesis',
-        value: char,
+        value: text[i],
         start: i,
-        end: i + 1,
-      };
-
-      tokens.push(token);
+        end: ++i,
+      });
       continue;
     }
 
     // asterisk
-    if (char === '*') {
-      let token = {
-        type: 'Asterisk',
-        amount: 1,
-        value: char,
-        start: i,
-        end: i + 1,
-      };
+    if (text[i] === '*') {
+      const start = i;
+      const value = text[i];
 
-      for (let j = i + 1; j < text.length; j++) {
-        if (text[j] === char) {
-          token.end++;
-          token.amount++;
-          continue;
-        }
-
-        i = j - 1;
-        break;
+      let amount = 0;
+      for (; text[i] === value; i++) {
+        amount++;
       }
 
-      tokens.push(token);
+      tokens.push( {
+        type: 'Asterisk',
+        amount,
+        value,
+        start,
+        end: i,
+      });
       continue;
     }
 
     // underscore
-    if (char === '_') {
-      let token = {
-        type: 'Underscore',
-        amount: 1,
-        value: char,
-        start: i,
-        end: i + 1,
-      };
+    if (text[i] === '_') {
+      const start = i;
+      const value = text[i];
 
-      for (let j = i + 1; j < text.length; j++) {
-        if (text[j] === char) {
-          token.end++;
-          token.amount++;
-          continue;
-        }
-
-        i = j - 1;
-        break;
+      let amount = 0;
+      for (; text[i] === value; i++) {
+        amount++;
       }
 
-      tokens.push(token);
+      tokens.push( {
+        type: 'Underscore',
+        amount,
+        value,
+        start,
+        end: i,
+      });
       continue;
     }
 
     // code
-    if (char === '`') {
-      let value = '';
+    if (text[i] === '`') {
       const start = i;
 
-      let amountOpenedBacktick = 1;
-      for (let j = i + 1; j < text.length; j++) {
-        if (text[j] === '`') {
-          amountOpenedBacktick++;
-          continue;
-        }
-
-        i = j - 1;
-        break;
+      let amountOfOpenedBackticks = 0;
+      for (; text[i] === '`'; i++) {
+        amountOfOpenedBackticks++;
       }
 
+      let value = '';
       let isClosed = false;
-      for (let j = i + 1; j < text.length; j++) {
-        if (text[j] === '`') {
-          let amountClosedBacktick = 1;
-          for (let k = j + 1; k < text.length
-            || amountClosedBacktick === amountOpenedBacktick; k++) {
-            if (text[k] === '`') {
-              amountClosedBacktick++;
-              continue;
-            }
-
-            j = k - 1;
-            break;
+      while (i < text.length) {
+        if (text[i] === '`') {
+          let amountOfClosedBackticks = 0;
+          for (; text[i] === '`'; i++) {
+            amountOfClosedBackticks++;
           }
 
-          if (amountClosedBacktick === amountOpenedBacktick) {
+          if (amountOfClosedBackticks === amountOfOpenedBackticks) {
             isClosed = true;
-            i = j;
             break;
-          } else {
-            value += char.repeat(amountClosedBacktick);
           }
-        } else if (text[j] === '&') {
+
+          value += '`'.repeat(amountOfClosedBackticks);
+          continue;
+        } else if (text[i] === '&') {
           value += '&amp;';
-        } else if (text[j] === '<') {
+        } else if (text[i] === '<') {
           value += '&lt;';
-        } else if (text[j] === '>') {
+        } else if (text[i] === '>') {
           value += '&gt;';
         } else {
-          value += text[j];
+          value += text[i];
         }
+        i++;
       }
 
       tokens.push({
@@ -433,21 +358,22 @@ function tokenizer(rawText) {
         value: value.trim(),
         isClosed,
         start,
-        end: i + 1,
+        end: i,
       });
       continue;
     }
 
     // opened image bracket
     if (text[i] === '!' && text[i + 1] === '[') {
+      const start = i;
+      i += 2;
+
       tokens.push({
         type: 'OpenedImageBracket',
         value: '![',
-        start: i,
-        end: i + 2,
+        start,
+        end: i,
       });
-
-      i += 1;
       continue;
     }
 
@@ -455,15 +381,17 @@ function tokenizer(rawText) {
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
       tokens[tokens.length - 1].end++;
-      tokens[tokens.length - 1].value += char;
+      tokens[tokens.length - 1].value += text[i];
     } else {
       tokens.push({
         type: 'Chars',
-        value: char,
+        value: text[i],
         start: i,
         end: i + 1,
       });
     }
+
+    i++;
   }
 
   // eof
@@ -483,7 +411,7 @@ function tokenizer(rawText) {
 function extractVariables(rawText) {
   const variables = {};
 
-  const textByNewLine = rawText.split(/\n/g);
+  const textByNewLine = rawText.split('\n');
   for (let i = 0; i < textByNewLine.length; i++) {
     if (/^ {0,3}\[.+\]:/.test(textByNewLine[i])) {
       let rawValue = textByNewLine[i].split(/:\s/);
