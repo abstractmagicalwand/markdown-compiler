@@ -109,7 +109,7 @@
     "no-shadow-restricted-names": 2,
     "array-bracket-newline": [2, { "multiline": true }],
     "array-bracket-spacing": [2, "never"],
-    "array-element-newline": [2, { "multiline": true }],
+    "array-element-newline": [0, { "multiline": true }],
     "block-spacing": 2,
     "brace-style": 2,
     "camelcase": 2,

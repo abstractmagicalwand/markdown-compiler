@@ -22,6 +22,80 @@ test(
   }
 );
 
+
+test(
+  'autolink: text should transform to tokens',
+  t => {
+    t.deepEqual(
+      tokenizer(text.autolink.url.valid[0]),
+      {tokens: tokens.autolink.url.valid[0]},
+      'valid url 1'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.url.valid[1]),
+      {tokens: tokens.autolink.url.valid[1]},
+      'valid url 2'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.url.valid[2]),
+      {tokens: tokens.autolink.url.valid[2]},
+      'valid url 3'
+    );
+    t.skip.deepEqual(
+      tokenizer(text.autolink.url.withBackslashEscapes),
+      {tokens: tokens.autolink.url.withBackslashEscapes},
+      'url with backslash escapes'
+    );
+
+    t.deepEqual(
+      tokenizer(text.autolink.email.valid[0]),
+      {tokens: tokens.autolink.email.valid[0]},
+      'valid email 1'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.email.valid[1]),
+      {tokens: tokens.autolink.email.valid[1]},
+      'valid email 2'
+    );
+    t.skip.deepEqual(
+      tokenizer(text.autolink.email.withBackslashEscapes),
+      {tokens: tokens.autolink.email.withBackslashEscapes},
+      'email with backslash escapes'
+    );
+
+    t.deepEqual(
+      tokenizer(text.autolink.areNotAutolinks[0]),
+      {tokens: tokens.autolink.areNotAutolinks[0]},
+      'should not be autolink - 1'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.areNotAutolinks[1]),
+      {tokens: tokens.autolink.areNotAutolinks[1]},
+      'should not be autolink - 2'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.areNotAutolinks[2]),
+      {tokens: tokens.autolink.areNotAutolinks[2]},
+      'should not be autolink - 3'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.areNotAutolinks[3]),
+      {tokens: tokens.autolink.areNotAutolinks[3]},
+      'should not be autolink - 4'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.areNotAutolinks[4]),
+      {tokens: tokens.autolink.areNotAutolinks[4]},
+      'should not be autolink - 5'
+    );
+    t.deepEqual(
+      tokenizer(text.autolink.areNotAutolinks[5]),
+      {tokens: tokens.autolink.areNotAutolinks[5]},
+      'should not be autolink - 6'
+    );
+  }
+);
+
 test(
   'link inline: text should transform to tokens',
   t => {

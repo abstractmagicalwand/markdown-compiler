@@ -12,6 +12,7 @@ const code = require('./code');
 const linkInline = require('./link-inline');
 const linkReference = require('./link-reference');
 const image = require('./image');
+const autolink = require('./link-auto');
 
 module.exports = {
   text: {
@@ -25,6 +26,7 @@ module.exports = {
     horizontalRule: horizontalRule.text,
     codeBlock: codeBlock.text,
     code: code.text,
+    autolink: autolink.text,
     linkInline: linkInline.text,
     linkReference: linkReference.text,
     image: image.text,
@@ -40,6 +42,7 @@ module.exports = {
     horizontalRule: horizontalRule.tokens,
     codeBlock: codeBlock.tokens,
     code: code.tokens,
+    autolink: autolink.tokens,
     linkInline: linkInline.tokens,
     linkReference: linkReference.tokens,
     image: image.tokens,
@@ -59,6 +62,7 @@ module.exports = {
     horizontalRule: horizontalRule.ast,
     codeBlock: codeBlock.ast,
     code: code.ast,
+    autolink: autolink.ast,
     linkInline: linkInline.ast,
     linkReference: linkReference.ast,
     image: image.ast,
@@ -74,6 +78,7 @@ module.exports = {
     horizontalRule: horizontalRule.html,
     codeBlock: codeBlock.html,
     code: code.html,
+    autolink: autolink.html,
     linkInline: linkInline.html,
     linkReference: linkReference.html,
     image: image.html,

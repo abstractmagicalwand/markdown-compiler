@@ -102,6 +102,79 @@ test.todo('link reference: unclosed markdown tag');
 test.todo('link reference: without text');
 
 test(
+  'autolink: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.autolink.url.valid[0]),
+      html.autolink.url.valid[0],
+      'valid url 1'
+    );
+    t.is(
+      codeGenerator(ast.autolink.url.valid[0]),
+      html.autolink.url.valid[0],
+      'valid url 2'
+    );
+    t.is(
+      codeGenerator(ast.autolink.url.valid[0]),
+      html.autolink.url.valid[0],
+      'valid url 3'
+    );
+    t.skip.is(
+      codeGenerator(ast.autolink.url.withBackslashEscapes),
+      html.autolink.url.withBackslashEscapes,
+      'url with backslash escapes'
+    );
+
+    t.is(
+      codeGenerator(ast.autolink.email.valid[0]),
+      html.autolink.email.valid[0],
+      'valid email 1'
+    );
+    t.is(
+      codeGenerator(ast.autolink.email.valid[0]),
+      html.autolink.email.valid[0],
+      'valid email 2'
+    );
+    t.skip.is(
+      codeGenerator(ast.autolink.email.withBackslashEscapes),
+      html.autolink.email.withBackslashEscapes,
+      'email with backslash escapes'
+    );
+
+    t.is(
+      codeGenerator(ast.autolink.areNotAutolinks[0]),
+      html.autolink.areNotAutolinks[0],
+      'should not be autolink 1'
+    );
+    t.is(
+      codeGenerator(ast.autolink.areNotAutolinks[1]),
+      html.autolink.areNotAutolinks[1],
+      'should not be autolink 2'
+    );
+    t.is(
+      codeGenerator(ast.autolink.areNotAutolinks[2]),
+      html.autolink.areNotAutolinks[2],
+      'should not be autolink 3'
+    );
+    t.is(
+      codeGenerator(ast.autolink.areNotAutolinks[3]),
+      html.autolink.areNotAutolinks[3],
+      'should not be autolink 4'
+    );
+    t.is(
+      codeGenerator(ast.autolink.areNotAutolinks[4]),
+      html.autolink.areNotAutolinks[4],
+      'should not be autolink 5'
+    );
+    t.is(
+      codeGenerator(ast.autolink.areNotAutolinks[5]),
+      html.autolink.areNotAutolinks[5],
+      'should not be autolink 6'
+    );
+  }
+);
+
+test(
   'image: code should generate to html',
   t => {
     t.is(

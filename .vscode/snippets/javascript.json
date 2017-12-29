@@ -12,6 +12,19 @@
       "},$5"
     ]
   },
+  "AutomaticLink": {
+    "prefix": "tal",
+    "body": [
+      "{",
+      "  type: 'Autolink',",
+      "  kind: '$1',",
+      "  operators: ['<', '>'],",
+      "  value: $2,",
+      "  start: $3,",
+      "  end: $4,",
+      "}"
+    ]
+  },
   "Backtick": {
     "prefix": "tcb",
     "body": [

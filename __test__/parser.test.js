@@ -146,6 +146,79 @@ test(
 test.todo('link reference: link without text');
 
 test(
+  'autolink: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser({tokens: tokens.autolink.url.valid[0]}),
+      ast.autolink.url.valid[0],
+      'valid url 1'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.url.valid[1]}),
+      ast.autolink.url.valid[1],
+      'valid url 2'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.url.valid[2]}),
+      ast.autolink.url.valid[2],
+      'valid url 3'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.autolink.url.withBackslashEscapes}),
+      ast.autolink.url.withBackslashEscapes,
+      'url with backslash escapes'
+    );
+
+    t.deepEqual(
+      parser({tokens: tokens.autolink.email.valid[0]}),
+      ast.autolink.email.valid[0],
+      'valid email 1'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.email.valid[1]}),
+      ast.autolink.email.valid[1],
+      'valid email 2'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.autolink.email.withBackslashEscapes}),
+      ast.autolink.email.withBackslashEscapes,
+      'email with backslash escapes'
+    );
+
+    t.deepEqual(
+      parser({tokens: tokens.autolink.areNotAutolinks[0]}),
+      ast.autolink.areNotAutolinks[0],
+      'are not autolinks 1'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.areNotAutolinks[1]}),
+      ast.autolink.areNotAutolinks[1],
+      'are not autolinks 2'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.areNotAutolinks[2]}),
+      ast.autolink.areNotAutolinks[2],
+      'are not autolinks 3'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.areNotAutolinks[3]}),
+      ast.autolink.areNotAutolinks[3],
+      'are not autolinks 4'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.areNotAutolinks[4]}),
+      ast.autolink.areNotAutolinks[4],
+      'are not autolinks 5'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.autolink.areNotAutolinks[5]}),
+      ast.autolink.areNotAutolinks[5],
+      'are not autolinks 6'
+    );
+  }
+);
+
+test(
   'image: tokens should parse to abstract syntax tree',
   t => {
     t.deepEqual(
