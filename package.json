@@ -1,8 +1,8 @@
 {
-  "name": "md-compiler",
+  "name": "markdown-compiler",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "git@github.com:abstractmagicalwand/md-compiler.git",
+  "repository": "git@github.com:abstractmagicalwand/markdown-compiler.git",
   "author": "abstractmagicalwand <abstractmagicalwand@gmail.com>",
   "license": "MIT",
   "devDependencies": {
