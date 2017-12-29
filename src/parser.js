@@ -1,5 +1,3 @@
-const {tokens, variables} = require('../__test__/fixtures/index');
-
 /* eslint complexity: 0 */
 function parser({tokens, variables}) { // eslint-disable-line
   if (!Array.isArray(tokens)) {
@@ -79,6 +77,54 @@ function parser({tokens, variables}) { // eslint-disable-line
       ast.body.push(eof);
       current++;
       continue;
+    }
+
+    // blockquote
+    if (tokens[current].type === 'Greater') {
+      let n = node;
+
+      while (tokens[current].type === 'Greater') {
+        while (n && n.type !== 'Blockquote') {
+          n = n.parent;
+
+          if (n && n.type === 'Blockquote' && n.depth > tokens[current].depth) {
+            n = n.parent;
+          }
+        }
+
+        if (tokens[current + 1].type === 'Greater'
+          && tokens[current].depth === tokens[current + 1].depth) {
+          while (node !== n) {
+            if (node.type === 'Paragraph'
+              || node.type === 'OrderList'
+              || node.type === 'UnorderList'
+              || node.type === 'ListItem'
+              || node.type === 'Header') {
+              node.isClosed = true;
+            }
+
+            node = node.parent;
+          }
+        }
+
+        if (n === null || n.depth < tokens[current].depth) {
+          const blockquote = {
+            type: 'Blockquote',
+            depth: tokens[current].depth,
+            operator: tokens[current].value,
+            body: [],
+            parent: node,
+          };
+
+          node.body.push(blockquote);
+          node = blockquote;
+        } else if (tokens[current - 1].type === 'Chars'
+          && tokens[current + 1].type === 'Chars') {
+          node.body[node.body.length - 1].value += ' ';
+        }
+
+        current++;
+      }
     }
 
     // unorder list
@@ -276,7 +322,7 @@ function parser({tokens, variables}) { // eslint-disable-line
         body: [],
       };
 
-      while (node.parent) {
+      while (node.parent && node.type !== 'Blockquote') {
         node.isClosed = true;
         node = node.parent;
       }
@@ -295,7 +341,8 @@ function parser({tokens, variables}) { // eslint-disable-line
     }
 
     // paragraph
-    if (node.type === 'Program'
+    if (node.type === 'Blockquote'
+      || node.type === 'Program'
       || tokens[current].type === 'NewLine'
       || tokens[current].type === 'Chars'
       && tokens[current - 1].type === 'BOF') {
@@ -625,11 +672,6 @@ function extractTitleAndUrl(rawText) {
 
   return {title, url};
 }
-
-parser({
-  tokens: tokens.image.optionalTitle,
-  variables: variables.image.optionalTitle,
-});
 
 module.exports = {
   parser,

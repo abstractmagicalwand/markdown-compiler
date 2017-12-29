@@ -38,6 +38,10 @@ function codeGenerator(ast) {
         } else if (type === 'Link') {
           html += '</a>';
         }
+      } else {
+        if (type === 'Blockquote') {
+          html += '</blockquote>';
+        }
       }
 
       stack.pop();
@@ -77,7 +81,9 @@ function codeGenerator(ast) {
           html += `<a${href}${title}>`;
         }
       } else {
-        if (type === 'Header') {
+        if (type === 'Blockquote') {
+          html += '<blockquote>';
+        } else if (type === 'Header') {
           const {amount} = node;
 
           html += node.operator.repeat(amount);

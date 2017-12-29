@@ -26,6 +26,55 @@ function tokenizer(rawText) {
         amountOfSpaces++;
       }
 
+      // greater
+      if (text[i] === '>') {
+        let depth = 0;
+
+        while (text[i] === '>') {
+          let j = i;
+
+          do {
+            j++;
+          } while (text[j] === ' ');
+
+          if (text[j - 1] === ' ' || text[j] === '\n') {
+            i = j;
+
+            if (amountOfNewLines >= 2) {
+              tokens.push({
+                type: 'NewLine',
+                amount: amountOfNewLines,
+                value,
+                start,
+                end: start + amountOfNewLines,
+              });
+
+              start = start + amountOfNewLines;
+            }
+
+            tokens.push({
+              type: 'Greater',
+              depth,
+              value: '>',
+              start,
+              end: i,
+            });
+
+            start = i;
+            depth += 1;
+            amountOfNewLines = 0;
+            amountOfSpaces = 0;
+            continue;
+          }
+
+          break;
+        }
+
+        if (text[i] === '\n') {
+          continue;
+        }
+      }
+
       // hashes
       if (text[i] === '#') {
         let amountOfNewLines = 1;
@@ -81,8 +130,13 @@ function tokenizer(rawText) {
       if (text[i] === '`' && text[i + 1] === '`' && text[i + 2] === '`') {
         i += 3;
 
+        const currDepth = tokens[tokens.length - 1].type === 'Greater'
+          ? tokens[tokens.length - 1].depth
+          : -1;
+
         let value = '';
         let amountOfClosedBackticks = 0;
+        let level = currDepth;
         for (; i < text.length && amountOfClosedBackticks < 3; i++) {
           if (text[i] === '`') {
             amountOfClosedBackticks++;
@@ -90,8 +144,14 @@ function tokenizer(rawText) {
             value += '&amp;';
           } else if (text[i] === '<') {
             value += '&lt;';
-          } else if (text[i] === '>') {
+          } else if (text[i] === '>' && level === -1) {
             value += '&gt;';
+          } else if (text[i] === '>' && text[i + 1] === ' ') {
+            level--;
+            i++;
+          } else if (text[i] === '\n') {
+            level = currDepth;
+            value += '\n';
           } else {
             value += text[i];
           }
@@ -99,7 +159,7 @@ function tokenizer(rawText) {
 
         tokens.push({
           type: 'CodeBlock',
-          value: value.trim(),
+          value: value.replace(/^[\n\uFEFF\xA0]+|[\n\uFEFF\xA0]+$/g, ''),
           isClosed: amountOfClosedBackticks === 3,
           start,
           end: ++i,
