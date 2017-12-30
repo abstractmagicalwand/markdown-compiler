@@ -1,3 +1,6 @@
+const patternUrl = /^\w{2,}:/;
+const patternEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+
 /* eslint complexity: 0 */
 function tokenizer(rawText) {
   const tokens = [];
@@ -140,7 +143,7 @@ function tokenizer(rawText) {
         for (; i < text.length && amountOfClosedBackticks < 3; i++) {
           if (text[i] === '`') {
             amountOfClosedBackticks++;
-          } else if (text[i] === '&') {
+          } else if (text[i] === '&') { // @TODO put out to encodeToHtmlEntities
             value += '&amp;';
           } else if (text[i] === '<') {
             value += '&lt;';
@@ -294,6 +297,51 @@ function tokenizer(rawText) {
       }
     }
 
+    // autolink
+    if (text[i] === '<') {
+      const start = i;
+      const operators = [text[i]];
+      let j = i + 1;
+
+      let value = '';
+      let isClosed = false;
+      for (; !/\s/.test(text[j]); j++) {
+        if (text[j] === '>') {
+          isClosed = true;
+          operators.push(text[j]);
+          break;
+        }
+
+        value += encodeToHtmlEntities(text[j]);
+      }
+
+      if (isClosed && patternUrl.test(value)) {
+        i = j + 1;
+
+        tokens.push({
+          type: 'Autolink',
+          kind: 'url',
+          operators,
+          value,
+          start,
+          end: i,
+        });
+        continue;
+      } else if (isClosed && patternEmail.test(value)) {
+        i = j + 1;
+
+        tokens.push({
+          type: 'Autolink',
+          kind: 'email',
+          operators,
+          value,
+          start,
+          end: i,
+        });
+        continue;
+      }
+    }
+
     // square bracket
     if (text[i] === '[') {
       tokens.push({
@@ -440,12 +488,12 @@ function tokenizer(rawText) {
     // chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
+      tokens[tokens.length - 1].value += encodeToHtmlEntities(text[i]);
       tokens[tokens.length - 1].end++;
-      tokens[tokens.length - 1].value += text[i];
     } else {
       tokens.push({
         type: 'Chars',
-        value: text[i],
+        value: encodeToHtmlEntities(text[i]),
         start: i,
         end: i + 1,
       });
@@ -498,6 +546,19 @@ function extractVariables(rawText) {
     text: textByNewLine.join('\n').trim(),
     variables,
   };
+}
+
+function encodeToHtmlEntities(value) {
+  switch (value) {
+  case '&':
+    return '&amp;';
+  case '>':
+    return '&gt;';
+  case '<':
+    return '&lt;';
+  default:
+    return value;
+  }
 }
 
 module.exports = tokenizer;

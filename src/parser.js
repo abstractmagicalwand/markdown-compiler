@@ -430,6 +430,31 @@ function parser({tokens, variables}) { // eslint-disable-line
     }
 
     // link
+    if (tokens[current].type === 'Autolink') {
+      const {operators, value, kind} = tokens[current];
+
+      node.body.push({
+        type: 'Link',
+        operators,
+        label: null,
+        href: {
+          operators: null,
+          value: kind === 'email' ? `mailto:${value}` : value,
+        },
+        title: null,
+        body: [
+          {
+            type: 'Chars',
+            value,
+          },
+        ],
+        isClosed: true,
+        parent: node,
+      });
+      current++;
+      continue;
+    }
+
     if (tokens[current].type === 'LeftSquareBracket') {
       const link = {
         type: 'Link',
