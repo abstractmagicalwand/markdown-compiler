@@ -4,6 +4,10 @@ const text = {
   relativePath: 'See my [About](/about/) page for details.',
   withEmphasis: '[_This_ **link**](http://example.net/) has no title attribute.',
   invalid: '[amor] vincit (http://example.net/) omnia',
+  withBackslashEscape: [
+    '<a href="/bar\\/)">',
+    '[foo](/bar\\* "ti\\*tle")',
+  ],
 };
 
 const html = {
@@ -12,6 +16,10 @@ const html = {
   relativePath: '<p>See my <a href="/about/">About</a> page for details.</p>',
   withEmphasis: '<p><a href="http://example.net/"><em>This</em> <strong>link</strong></a> has no title attribute.</p>',
   invalid: '<p>[amor] vincit (http://example.net/) omnia</p>',
+  withBackslashEscape: [
+    '<a href="/bar\\/)">',
+    '<p><a href="/bar*" title="ti*tle">foo</a></p>',
+  ],
 };
 
 const tokens = {
@@ -325,6 +333,54 @@ const tokens = {
   ],
 };
 
+tokens.withBackslashEscape = [
+  [],
+  [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'LeftSquareBracket',
+      value: '[',
+      start: 0,
+      end: 1,
+    },
+    {
+      type: 'Chars',
+      value: 'foo',
+      start: 1,
+      end: 4,
+    },
+    {
+      type: 'RightSquareBracket',
+      value: ']',
+      start: 4,
+      end: 5,
+    },
+    {
+      type: 'LeftParenthesis',
+      value: '(',
+      start: 5,
+      end: 6,
+    },
+    {
+      type: 'Chars',
+      value: '/bar* "ti*tle"',
+      start: 6,
+      end: 22,
+    },
+    {
+      type: 'RightParenthesis',
+      value: ')',
+      start: 22,
+      end: 23,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+];
+
 const ast = {};
 
 ast.withTitle = {
@@ -603,6 +659,56 @@ ast.invalid.body[2].parent = ast.invalid;
 ast.invalid.body[1].body[0].parent = ast.invalid.body[1];
 
 ast.invalid.body[1].body[0].body[0].parent = ast.invalid.body[1].body[0];
+
+ast.withBackslashEscape = [
+  {},
+  {
+    type: 'Program',
+    body: [
+      {
+        type: 'BOF',
+      },
+      {
+        type: 'Paragraph',
+        body: [
+          {
+            type: 'Link',
+            operators: ['[', ']', '(', ')'],
+            label: null,
+            href: {
+              operators: null,
+              value: '/bar*',
+            },
+            title: {
+              operators: ['"'],
+              value: 'ti*tle',
+            },
+            body: [
+              {
+                type: 'Chars',
+                value: 'foo',
+              },
+            ],
+            isClosed: true,
+          },
+        ],
+        isClosed: true,
+      },
+      {
+        type: 'EOF',
+      },
+    ],
+    parent: null,
+  },
+];
+
+ast.withBackslashEscape[1].body[0].parent = ast.withBackslashEscape[1];
+ast.withBackslashEscape[1].body[1].parent = ast.withBackslashEscape[1];
+ast.withBackslashEscape[1].body[2].parent = ast.withBackslashEscape[1];
+
+ast.withBackslashEscape[1].body[1].body[0].parent = ast.withBackslashEscape[1].body[1];
+
+ast.withBackslashEscape[1].body[1].body[0].body[0].parent = ast.withBackslashEscape[1].body[1].body[0];
 
 module.exports = {
   text,

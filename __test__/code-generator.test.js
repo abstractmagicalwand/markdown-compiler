@@ -21,6 +21,11 @@ test(
     t.is(codeGenerator(ast.code.$4), html.code.$4, '$4');
     t.is(codeGenerator(ast.code.$5), html.code.$5, '$5');
     t.is(codeGenerator(ast.code.$6), html.code.$6, '$6');
+    t.is(
+      codeGenerator(ast.code.withBackslashEscape),
+      html.code.withBackslashEscape,
+      'with backslash escape'
+    );
   }
 );
 
@@ -53,6 +58,16 @@ test(
       codeGenerator(ast.linkInline.invalid),
       html.linkInline.invalid,
       'invalid'
+    );
+    t.skip.is(
+      codeGenerator(ast.linkInline.withBackslashEscape[0]),
+      html.linkInline.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.is(
+      codeGenerator(ast.linkInline.withBackslashEscape[1]),
+      html.linkInline.withBackslashEscape[1],
+      'with backslash escape 2'
     );
   }
 );
@@ -94,6 +109,11 @@ test(
       html.linkReference.invalid,
       'invalid'
     );
+    t.is(
+      codeGenerator(ast.linkReference.withBackslashEscape),
+      html.linkReference.withBackslashEscape,
+      'with backslash escape'
+    );
   }
 );
 
@@ -120,9 +140,9 @@ test(
       'valid url 3'
     );
     t.skip.is(
-      codeGenerator(ast.autolink.url.withBackslashEscapes),
-      html.autolink.url.withBackslashEscapes,
-      'url with backslash escapes'
+      codeGenerator(ast.autolink.url.withBackslashEscape),
+      html.autolink.url.withBackslashEscape,
+      'url with backslash escape'
     );
 
     t.is(
@@ -136,9 +156,9 @@ test(
       'valid email 2'
     );
     t.skip.is(
-      codeGenerator(ast.autolink.email.withBackslashEscapes),
-      html.autolink.email.withBackslashEscapes,
-      'email with backslash escapes'
+      codeGenerator(ast.autolink.email.withBackslashEscape),
+      html.autolink.email.withBackslashEscape,
+      'email with backslash escape'
     );
 
     t.is(
@@ -248,7 +268,17 @@ test(
 test(
   'code block: code should generate to html',
   t => {
-    t.is(codeGenerator(ast.codeBlock), html.codeBlock);
+    t.is(codeGenerator(ast.codeBlock.main), html.codeBlock.main, 'main');
+    t.skip.is(
+      codeGenerator(ast.codeBlock.withBackslashEscape[0]),
+      html.codeBlock.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.skip.is(
+      codeGenerator(ast.codeBlock.withBackslashEscape[1]),
+      html.codeBlock.withBackslashEscape[1],
+      'with backslash escape 2'
+    );
   }
 );
 
@@ -281,7 +311,37 @@ test(
       'contained other elements'
     );
   }
+);
 
+test(
+  'backslash escapes: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.backslashEscapes.punctuation),
+      html.backslashEscapes.punctuation,
+      'punctuation'
+    );
+    t.is(
+      codeGenerator(ast.backslashEscapes.likeLiteral),
+      html.backslashEscapes.likeLiteral,
+      'like literal'
+    );
+    t.is(
+      codeGenerator(ast.backslashEscapes.regularChars),
+      html.backslashEscapes.regularChars,
+      'regular chars'
+    );
+    t.is(
+      codeGenerator(ast.backslashEscapes.selfEscaped),
+      html.backslashEscapes.selfEscaped,
+      'self escaped'
+    );
+    t.skip.is(
+      codeGenerator(ast.backslashEscapes.hardLineBreak),
+      html.backslashEscapes.hardLineBreak,
+      'hard line break'
+    );
+  }
 );
 
 test.todo('blockquote: unclosed markdown tag');

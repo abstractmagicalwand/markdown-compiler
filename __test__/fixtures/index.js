@@ -13,6 +13,7 @@ const linkInline = require('./link-inline');
 const linkReference = require('./link-reference');
 const image = require('./image');
 const autolink = require('./link-auto');
+const backslashEscapes = require('./backslash-escapes');
 
 module.exports = {
   text: {
@@ -30,6 +31,7 @@ module.exports = {
     linkInline: linkInline.text,
     linkReference: linkReference.text,
     image: image.text,
+    backslashEscapes: backslashEscapes.text,
   },
   tokens: {
     blockquote: blockquote.tokens,
@@ -46,6 +48,7 @@ module.exports = {
     linkInline: linkInline.tokens,
     linkReference: linkReference.tokens,
     image: image.tokens,
+    backslashEscapes: backslashEscapes.tokens,
   },
   variables: {
     linkReference: linkReference.variables,
@@ -66,6 +69,7 @@ module.exports = {
     linkInline: linkInline.ast,
     linkReference: linkReference.ast,
     image: image.ast,
+    backslashEscapes: backslashEscapes.ast,
   },
   html: {
     blockquote: blockquote.html,
@@ -82,6 +86,7 @@ module.exports = {
     linkInline: linkInline.html,
     linkReference: linkReference.html,
     image: image.html,
+    backslashEscapes: backslashEscapes.html,
   },
   traverser,
 };

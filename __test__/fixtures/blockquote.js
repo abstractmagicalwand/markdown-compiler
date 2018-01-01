@@ -51,9 +51,9 @@ const html = {
     `),
   containedOtherElements: strip(`
     <blockquote><h2>This is a header.</h2>
-    <ol start="1"><li>This is the first list item.</li><li>This is the second list item.</li></ol><p>Here's some <em>example code</em>:</p>
+    <ol start="1"><li>This is the first list item.</li><li>This is the second list item.</li></ol><p>Here&apos;s some <em>example code</em>:</p>
     <pre><code>
-        return shell_exec("echo $input | $markdown_script");
+        return shell_exec(&quot;echo $input | $markdown_script&quot;);
     </code></pre>
     </blockquote>
     `),
@@ -576,7 +576,7 @@ ast.containedOtherElements = {
           body: [
             {
               type: 'Chars',
-              value: 'Here\'s some ',
+              value: 'Here&apos;s some ',
             },
             {
               type: 'Italic',
@@ -601,7 +601,7 @@ ast.containedOtherElements = {
           body: [
             {
               type: 'Chars',
-              value: '    return shell_exec("echo $input | $markdown_script");',
+              value: '    return shell_exec(&quot;echo $input | $markdown_script&quot;);',
             },
           ],
           isClosed: true,

@@ -1,17 +1,17 @@
 import test from 'ava';
 
 import tokenizer from '../src/tokenizer';
-import {text, tokens, variables} from './fixtures'; // eslint-disable-line
+import {text, tokens, variables} from './fixtures';
 
 test(
-  'emphasis: text should transform to tokens',
+  'emphasis: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.emphasis), {tokens: tokens.emphasis});
   }
 );
 
 test(
-  'code: text should transform to tokens',
+  'code: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.code.$1), {tokens: tokens.code.$1}, '$1');
     t.deepEqual(tokenizer(text.code.$2), {tokens: tokens.code.$2}, '$2');
@@ -19,12 +19,16 @@ test(
     t.deepEqual(tokenizer(text.code.$4), {tokens: tokens.code.$4}, '$4');
     t.deepEqual(tokenizer(text.code.$5), {tokens: tokens.code.$5}, '$5');
     t.deepEqual(tokenizer(text.code.$6), {tokens: tokens.code.$6}, '$6');
+    t.deepEqual(
+      tokenizer(text.code.withBackslashEscape),
+      {tokens: tokens.code.withBackslashEscape},
+      'with backslash escape'
+    );
   }
 );
 
-
 test(
-  'autolink: text should transform to tokens',
+  'autolink: markdown should transform to tokens',
   t => {
     t.deepEqual(
       tokenizer(text.autolink.url.valid[0]),
@@ -42,9 +46,9 @@ test(
       'valid url 3'
     );
     t.skip.deepEqual(
-      tokenizer(text.autolink.url.withBackslashEscapes),
-      {tokens: tokens.autolink.url.withBackslashEscapes},
-      'url with backslash escapes'
+      tokenizer(text.autolink.url.withBackslashEscape),
+      {tokens: tokens.autolink.url.withBackslashEscape},
+      'url with backslash escape'
     );
 
     t.deepEqual(
@@ -58,11 +62,10 @@ test(
       'valid email 2'
     );
     t.skip.deepEqual(
-      tokenizer(text.autolink.email.withBackslashEscapes),
-      {tokens: tokens.autolink.email.withBackslashEscapes},
-      'email with backslash escapes'
+      tokenizer(text.autolink.email.withBackslashEscape),
+      {tokens: tokens.autolink.email.withBackslashEscape},
+      'email with backslash escape'
     );
-
     t.deepEqual(
       tokenizer(text.autolink.areNotAutolinks[0]),
       {tokens: tokens.autolink.areNotAutolinks[0]},
@@ -97,7 +100,7 @@ test(
 );
 
 test(
-  'link inline: text should transform to tokens',
+  'link inline: markdown should transform to tokens',
   t => {
     t.deepEqual(
       tokenizer(text.linkInline.withTitle),
@@ -124,13 +127,23 @@ test(
       {tokens: tokens.linkInline.invalid},
       'invalid'
     );
+    t.skip.deepEqual(
+      tokenizer(text.linkInline.withBackslashEscape[0]),
+      {tokens: tokens.linkInline.withBackslashEscape[0]},
+      'with backslash escape 1'
+    );
+    t.deepEqual(
+      tokenizer(text.linkInline.withBackslashEscape[1]),
+      {tokens: tokens.linkInline.withBackslashEscape[1]},
+      'with backslash escape 2'
+    );
   }
 );
 
 test.todo('link inline: link without text');
 
 test(
-  'link reference: text should transform to tokens',
+  'link reference: markdown should transform to tokens',
   t => {
     t.deepEqual(
       tokenizer(text.linkReference.linkDefinitions),
@@ -179,12 +192,20 @@ test(
       },
       'invalid'
     );
+    t.deepEqual(
+      tokenizer(text.linkReference.withBackslashEscape),
+      {
+        tokens: tokens.linkReference.withBackslashEscape,
+        variables: variables.linkReference.withBackslashEscape,
+      },
+      'with backslash escape'
+    );
   }
 );
 
 test.todo('link reference: link without text');
 
-test('image: text should transform to tokens', t => {
+test('image: markdown should transform to tokens', t => {
   t.deepEqual(
     tokenizer(text.image.inline),
     {
@@ -210,42 +231,42 @@ test('image: text should transform to tokens', t => {
 });
 
 test(
-  'paragraph: text should transform to tokens',
+  'paragraph: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.paragraph), {tokens: tokens.paragraph});
   }
 );
 
 test(
-  'unorder list: text should transform to tokens',
+  'unorder list: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.unorderList), {tokens: tokens.unorderList});
   }
 );
 
 test(
-  'order list: text should transform to tokens',
+  'order list: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.orderList), {tokens: tokens.orderList});
   }
 );
 
 test(
-  'atx header: text should transform to tokens',
+  'atx header: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.atxHeader), {tokens: tokens.atxHeader});
   }
 );
 
 test(
-  'setext header: text should transform to tokens',
+  'setext header: markdown should transform to tokens',
   t => {
     t.deepEqual(tokenizer(text.setextHeader), {tokens: tokens.setextHeader});
   }
 );
 
 test(
-  'horizontal rules: text should transform to tokens',
+  'horizontal rules: markdown should transform to tokens',
   t => {
     t.deepEqual(
       tokenizer(text.horizontalRule),
@@ -255,14 +276,28 @@ test(
 );
 
 test(
-  'code block: text should transform to tokens',
+  'code block: markdown should transform to tokens',
   t => {
-    t.deepEqual(tokenizer(text.codeBlock), {tokens: tokens.codeBlock});
+    t.deepEqual(
+      tokenizer(text.codeBlock.main),
+      {tokens: tokens.codeBlock.main},
+      'main'
+    );
+    t.skip.deepEqual(
+      tokenizer(text.codeBlock.withBackslashEscape[0]),
+      {tokens: tokens.codeBlock.withBackslashEscape[0]},
+      'with backslash escape 1'
+    );
+    t.skip.deepEqual(
+      tokenizer(text.codeBlock.withBackslashEscape[1]),
+      {tokens: tokens.codeBlock.withBackslashEscape[1]},
+      'with backslash escape 2'
+    );
   }
 );
 
 test(
-  'blockquote: text should transform to tokens',
+  'blockquote: markdown should transform to tokens',
   t => {
     t.deepEqual(
       tokenizer(text.blockquote.everyLine),
@@ -283,6 +318,37 @@ test(
       tokenizer(text.blockquote.containedOtherElements),
       {tokens: tokens.blockquote.containedOtherElements},
       'contained other elements'
+    );
+  }
+);
+
+test(
+  'backslash escapes: markdown should transform to tokens',
+  t => {
+    t.deepEqual(
+      tokenizer(text.backslashEscapes.punctuation),
+      {tokens: tokens.backslashEscapes.punctuation},
+      'punctuation'
+    );
+    t.deepEqual(
+      tokenizer(text.backslashEscapes.likeLiteral),
+      {tokens: tokens.backslashEscapes.likeLiteral},
+      'like literal'
+    );
+    t.deepEqual(
+      tokenizer(text.backslashEscapes.regularChars),
+      {tokens: tokens.backslashEscapes.regularChars},
+      'regular chars'
+    );
+    t.deepEqual(
+      tokenizer(text.backslashEscapes.selfEscaped),
+      {tokens: tokens.backslashEscapes.selfEscaped},
+      'self escaped'
+    );
+    t.skip.deepEqual(
+      tokenizer(text.backslashEscapes.hardLineBreak),
+      {tokens: tokens.backslashEscapes.hardLineBreak},
+      'hard line break'
     );
   }
 );

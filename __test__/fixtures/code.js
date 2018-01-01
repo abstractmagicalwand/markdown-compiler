@@ -5,16 +5,273 @@ const text = {
   $4: 'A backtick-delimited string in a code span: `` `foo` ``',
   $5: 'Please don\'t use any `<blink>` tags.',
   $6: '`&#8212;` is the decimal-encoded equivalent of `&mdash;`.',
+  withBackslashEscape: '`` \\[\\` ``',
 };
 
 const html = {
   $1: '<p>Use the <code>printf()</code> function.</p>',
-  $2: '<p><code>There is a literal backtick (`) here.</code></p>',
-  $3: '<p>A single backtick in a code span: <code>`</code></p>',
-  $4: '<p>A backtick-delimited string in a code span: <code>`foo`</code></p>',
-  $5: '<p>Please don\'t use any <code>&lt;blink&gt;</code> tags.</p>',
+  $2: '<p><code>There is a literal backtick (&grave;) here.</code></p>',
+  $3: '<p>A single backtick in a code span: <code>&grave;</code></p>',
+  $4: '<p>A backtick-delimited string in a code span: <code>&grave;foo&grave;</code></p>',
+  $5: '<p>Please don&apos;t use any <code>&lt;blink&gt;</code> tags.</p>',
   $6: '<p><code>&amp;#8212;</code> is the decimal-encoded equivalent of <code>&amp;mdash;</code>.</p>',
+  withBackslashEscape: '<p><code>\\[\\&grave;</code></p>',
 };
+
+const ast = {};
+
+ast.$1 = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Chars',
+          value: 'Use the ',
+        },
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: 'printf()',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Chars',
+          value: ' function.',
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.$2 = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: 'There is a literal backtick (&grave;) here.',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.$3 = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Chars',
+          value: 'A single backtick in a code span: ',
+        },
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: '&grave;',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.$4 = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Chars',
+          value: 'A backtick-delimited string in a code span: ',
+        },
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: '&grave;foo&grave;',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.$5 = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Chars',
+          value: 'Please don&apos;t use any ',
+        },
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: '&lt;blink&gt;',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Chars',
+          value: ' tags.',
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.$6 = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: '&amp;#8212;',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Chars',
+          value: ' is the decimal-encoded equivalent of ',
+        },
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: '&amp;mdash;',
+            },
+          ],
+          isClosed: true,
+        },
+        {
+          type: 'Chars',
+          value: '.',
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.withBackslashEscape = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Code',
+          body: [
+            {
+              type: 'Chars',
+              value: '\\[\\&grave;',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.withBackslashEscape.body[0].parent = ast.withBackslashEscape;
+ast.withBackslashEscape.body[1].parent = ast.withBackslashEscape;
+ast.withBackslashEscape.body[2].parent = ast.withBackslashEscape;
+
+ast.withBackslashEscape.body[1].body[0].parent = ast.withBackslashEscape.body[1];
+
+ast.withBackslashEscape.body[1].body[0].body[0].parent = ast.withBackslashEscape.body[1].body[0];
 
 module.exports = {
   text,
@@ -115,7 +372,7 @@ module.exports = {
       },
       {
         type: 'Code',
-        value: '&lt;blink&gt;',
+        value: '<blink>',
         isClosed: true,
         start: 21,
         end: 30,
@@ -136,7 +393,7 @@ module.exports = {
       },
       {
         type: 'Code',
-        value: '&amp;#8212;',
+        value: '&#8212;',
         isClosed: true,
         start: 0,
         end: 9,
@@ -149,7 +406,7 @@ module.exports = {
       },
       {
         type: 'Code',
-        value: '&amp;mdash;',
+        value: '&mdash;',
         isClosed: true,
         start: 47,
         end: 56,
@@ -164,218 +421,22 @@ module.exports = {
         type: 'EOF',
       },
     ],
+    withBackslashEscape: [
+      {
+        type: 'BOF',
+      },
+      {
+        type: 'Code',
+        value: '\\[\\`',
+        isClosed: true,
+        start: 0,
+        end: 10,
+      },
+      {
+        type: 'EOF',
+      },
+    ],
   },
-  ast: {
-    $1: {
-      type: 'Program',
-      body: [
-        {
-          type: 'BOF',
-        },
-        {
-          type: 'Paragraph',
-          body: [
-            {
-              type: 'Chars',
-              value: 'Use the ',
-            },
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: 'printf()',
-                },
-              ],
-              isClosed: true,
-            },
-            {
-              type: 'Chars',
-              value: ' function.',
-            },
-          ],
-          isClosed: true,
-        },
-        {
-          type: 'EOF',
-        },
-      ],
-      parent: null,
-    },
-    $2: {
-      type: 'Program',
-      body: [
-        {
-          type: 'BOF',
-        },
-        {
-          type: 'Paragraph',
-          body: [
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: 'There is a literal backtick (`) here.',
-                },
-              ],
-              isClosed: true,
-            },
-          ],
-          isClosed: true,
-        },
-        {
-          type: 'EOF',
-        },
-      ],
-      parent: null,
-    },
-    $3: {
-      type: 'Program',
-      body: [
-        {
-          type: 'BOF',
-        },
-        {
-          type: 'Paragraph',
-          body: [
-            {
-              type: 'Chars',
-              value: 'A single backtick in a code span: ',
-            },
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: '`',
-                },
-              ],
-              isClosed: true,
-            },
-          ],
-          isClosed: true,
-        },
-        {
-          type: 'EOF',
-        },
-      ],
-      parent: null,
-    },
-    $4: {
-      type: 'Program',
-      body: [
-        {
-          type: 'BOF',
-        },
-        {
-          type: 'Paragraph',
-          body: [
-            {
-              type: 'Chars',
-              value: 'A backtick-delimited string in a code span: ',
-            },
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: '`foo`',
-                },
-              ],
-              isClosed: true,
-            },
-          ],
-          isClosed: true,
-        },
-        {
-          type: 'EOF',
-        },
-      ],
-      parent: null,
-    },
-    $5: {
-      type: 'Program',
-      body: [
-        {
-          type: 'BOF',
-        },
-        {
-          type: 'Paragraph',
-          body: [
-            {
-              type: 'Chars',
-              value: 'Please don\'t use any ',
-            },
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: '&lt;blink&gt;',
-                },
-              ],
-              isClosed: true,
-            },
-            {
-              type: 'Chars',
-              value: ' tags.',
-            },
-          ],
-          isClosed: true,
-        },
-        {
-          type: 'EOF',
-        },
-      ],
-      parent: null,
-    },
-    $6: {
-      type: 'Program',
-      body: [
-        {
-          type: 'BOF',
-        },
-        {
-          type: 'Paragraph',
-          body: [
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: '&amp;#8212;',
-                },
-              ],
-              isClosed: true,
-            },
-            {
-              type: 'Chars',
-              value: ' is the decimal-encoded equivalent of ',
-            },
-            {
-              type: 'Code',
-              body: [
-                {
-                  type: 'Chars',
-                  value: '&amp;mdash;',
-                },
-              ],
-              isClosed: true,
-            },
-            {
-              type: 'Chars',
-              value: '.',
-            },
-          ],
-          isClosed: true,
-        },
-        {
-          type: 'EOF',
-        },
-      ],
-      parent: null,
-    },
-  },
+  ast,
   html,
 };

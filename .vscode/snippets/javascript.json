@@ -1,5 +1,16 @@
 /* need extension https://marketplace.visualstudio.com/items?itemName=rebornix.project-snippets */
 {
+  "HardLineBreak": {
+    "prefix": "thlb",
+    "body": [
+      "{",
+      "  type: 'HardLineBreak',",
+      "  operator: '/\n',",
+      "  start: $1,",
+      "  end: $2,",
+      "}"
+    ]
+  },
   "CodeInline": {
     "prefix": "tci",
     "body": [

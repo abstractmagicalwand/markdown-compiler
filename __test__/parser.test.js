@@ -1,5 +1,4 @@
 /* eslint comma-dangle: 0 */
-
 import test from 'ava';
 import isMatched from '../__test__/helpers/is-match';
 
@@ -21,26 +20,26 @@ test(
     isMatched(parser({tokens: tokens.code.$1}), [ast.code.$1], (a, b) => {
       t.is(a, b, `code($1): ${a} isn't equal ${b}`);
     });
-
     isMatched(parser({tokens: tokens.code.$2}), [ast.code.$2], (a, b) => {
       t.is(a, b, `code($2): ${a} isn't equal ${b}`);
     });
-
     isMatched(parser({tokens: tokens.code.$3}), [ast.code.$3], (a, b) => {
       t.is(a, b, `code($3): ${a} isn't equal ${b}`);
     });
-
     isMatched(parser({tokens: tokens.code.$4}), [ast.code.$4], (a, b) => {
       t.is(a, b, `code($4): ${a} isn't equal ${b}`);
     });
-
     isMatched(parser({tokens: tokens.code.$5}), [ast.code.$5], (a, b) => {
       t.is(a, b, `code($5): ${a} isn't equal ${b}`);
     });
-
     isMatched(parser({tokens: tokens.code.$6}), [ast.code.$6], (a, b) => {
       t.is(a, b, `code($6): ${a} isn't equal ${b}`);
     });
+    t.deepEqual(
+      parser({tokens: tokens.code.withBackslashEscape}),
+      ast.code.withBackslashEscape,
+      'with backslash escape'
+    );
   }
 );
 
@@ -71,6 +70,16 @@ test(
       parser({tokens: tokens.linkInline.invalid}),
       ast.linkInline.invalid,
       'invalid'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.linkInline.withBackslashEscape[0]}),
+      ast.linkInline.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.linkInline.withBackslashEscape[1]}),
+      ast.linkInline.withBackslashEscape[1],
+      'with backslash escape 2'
     );
   }
 );
@@ -140,6 +149,11 @@ test(
       ast.linkReference.invalid,
       'invalid'
     );
+    t.deepEqual(
+      parser({tokens: tokens.linkReference.withBackslashEscape}),
+      ast.linkReference.withBackslashEscape,
+      'with backslash escape'
+    );
   }
 );
 
@@ -164,9 +178,9 @@ test(
       'valid url 3'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.autolink.url.withBackslashEscapes}),
-      ast.autolink.url.withBackslashEscapes,
-      'url with backslash escapes'
+      parser({tokens: tokens.autolink.url.withBackslashEscape}),
+      ast.autolink.url.withBackslashEscape,
+      'url with backslash escape'
     );
 
     t.deepEqual(
@@ -180,9 +194,9 @@ test(
       'valid email 2'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.autolink.email.withBackslashEscapes}),
-      ast.autolink.email.withBackslashEscapes,
-      'email with backslash escapes'
+      parser({tokens: tokens.autolink.email.withBackslashEscape}),
+      ast.autolink.email.withBackslashEscape,
+      'email with backslash escape'
     );
 
     t.deepEqual(
@@ -312,9 +326,22 @@ test(
 test(
   'code block: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser({tokens: tokens.codeBlock}), [ast.codeBlock], (a, b) => {
-      t.is(a, b, `code block: ${a} isn't equal ${b}`);
-    });
+    isMatched(
+      parser({tokens: tokens.codeBlock.main}),
+      [ast.codeBlock.main], (a, b) => {
+        t.is(a, b, `code block: ${a} isn't equal ${b}`);
+      }
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.codeBlock.withBackslashEscape[0]}),
+      ast.codeBlock.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.codeBlock.withBackslashEscape[1]}),
+      ast.codeBlock.withBackslashEscape[1],
+      'with backslash escape 2'
+    );
   }
 );
 
@@ -371,6 +398,37 @@ test(
     t.notThrows(
       () => parser({tokens: [], variables: {}}),
       'tokens and variables are empty'
+    );
+  }
+);
+
+test(
+  'backslash escapes: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.punctuation}),
+      ast.backslashEscapes.punctuation,
+      'punctuation'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.likeLiteral}),
+      ast.backslashEscapes.likeLiteral,
+      'like literal'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.regularChars}),
+      ast.backslashEscapes.regularChars,
+      'regular chars'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.selfEscaped}),
+      ast.backslashEscapes.selfEscaped,
+      'self escaped'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.backslashEscapes.hardLineBreak}),
+      ast.backslashEscapes.hardLineBreak,
+      'hard line break'
     );
   }
 );

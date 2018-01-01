@@ -5,11 +5,11 @@ const text = {
       '<http://foo.bar.baz/test?q=hello&id=22&boolean>',
       '<irc://foo.bar:2233/baz>',
     ],
-    withBackslashEscapes: '<http://example.com/\[\>',
+    withBackslashEscape: '<http://example.com/\[\>',
   },
   email: {
     valid: ['<foo@bar.example.com>', '<foo+special@Bar.baz-bar0.com>'],
-    withBackslashEscapes: '<foo\\+@bar.example.com>',
+    withBackslashEscape: '<foo\\+@bar.example.com>',
   },
   areNotAutolinks: [
     '<>',
@@ -28,14 +28,14 @@ const html = {
       '<p><a href="http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean">http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean</a></p>',
       '<p><a href="irc://foo.bar:2233/baz">irc://foo.bar:2233/baz</a></p>',
     ],
-    withBackslashEscapes: '<p><a href="http://example.com/%5C%5B%5C">http://example.com/\[\</a></p>',
+    withBackslashEscape: '<p><a href="http://example.com/%5C%5B%5C">http://example.com/\[\</a></p>',
   },
   email: {
     valid: [
       '<p><a href="mailto:foo@bar.example.com">foo@bar.example.com</a></p>',
       '<p><a href="mailto:foo+special@Bar.baz-bar0.com">foo+special@Bar.baz-bar0.com</a></p>',
     ],
-    withBackslashEscapes: '<p>&lt;foo+@bar.example.com&gt;</p>',
+    withBackslashEscape: '<p>&lt;foo+@bar.example.com&gt;</p>',
   },
   areNotAutolinks: [
     '<p>&lt;&gt;</p>',
@@ -52,7 +52,7 @@ const tokens = {
   email: {},
 };
 
-tokens.url.withBackslashEscapes =
+tokens.url.withBackslashEscape =
 
 tokens.url.valid = [
   [
@@ -79,7 +79,7 @@ tokens.url.valid = [
       type: 'Autolink',
       kind: 'url',
       operators: ['<', '>'],
-      value: 'http://foo.bar.baz/test?q=hello&amp;id=22&amp;boolean',
+      value: 'http://foo.bar.baz/test?q=hello&id=22&boolean',
       start: 0,
       end: 47,
     },
@@ -105,7 +105,7 @@ tokens.url.valid = [
   ],
 ];
 
-tokens.url.withBackslashEscapes = [
+tokens.url.withBackslashEscape = [
   {
     type: 'BOF',
   },
@@ -157,7 +157,7 @@ tokens.email.valid = [
   ],
 ];
 
-tokens.email.withBackslashEscapes = [
+tokens.email.withBackslashEscape = [
   {
     type: 'BOF',
   },
@@ -181,7 +181,7 @@ tokens.areNotAutolinks = [
     },
     {
       type: 'Chars',
-      value: '&lt;&gt;',
+      value: '<>',
       start: 0,
       end: 2,
     },
@@ -195,7 +195,7 @@ tokens.areNotAutolinks = [
     },
     {
       type: 'Chars',
-      value: '&lt; http://foo.bar &gt;',
+      value: '< http://foo.bar >',
       start: 0,
       end: 18,
     },
@@ -209,7 +209,7 @@ tokens.areNotAutolinks = [
     },
     {
       type: 'Chars',
-      value: '&lt;m:abc&gt;',
+      value: '<m:abc>',
       start: 0,
       end: 7,
     },
@@ -223,7 +223,7 @@ tokens.areNotAutolinks = [
     },
     {
       type: 'Chars',
-      value: '&lt;foo.bar.baz&gt;',
+      value: '<foo.bar.baz>',
       start: 0,
       end: 13,
     },
@@ -392,7 +392,7 @@ ast.url.valid[2].body[2].parent = ast.url.valid[2];
 
 ast.url.valid[2].body[1].body[0].parent = ast.url.valid[2].body[1];
 
-ast.url.withBackslashEscapes = {
+ast.url.withBackslashEscape = {
   type: 'Program',
   body: [
     {
@@ -428,11 +428,11 @@ ast.url.withBackslashEscapes = {
   parent: null,
 };
 
-ast.url.withBackslashEscapes.body[0].parent = ast.url.withBackslashEscapes;
-ast.url.withBackslashEscapes.body[1].parent = ast.url.withBackslashEscapes;
-ast.url.withBackslashEscapes.body[2].parent = ast.url.withBackslashEscapes;
+ast.url.withBackslashEscape.body[0].parent = ast.url.withBackslashEscape;
+ast.url.withBackslashEscape.body[1].parent = ast.url.withBackslashEscape;
+ast.url.withBackslashEscape.body[2].parent = ast.url.withBackslashEscape;
 
-ast.url.withBackslashEscapes.body[1].body[0].parent = ast.url.withBackslashEscapes.body[1];
+ast.url.withBackslashEscape.body[1].body[0].parent = ast.url.withBackslashEscape.body[1];
 
 ast.email.valid = [
   {
@@ -519,7 +519,7 @@ ast.email.valid[1].body[2].parent = ast.email.valid[1];
 
 ast.email.valid[1].body[1].body[0].parent = ast.email.valid[1].body[1];
 
-ast.email.withBackslashEscapes = {
+ast.email.withBackslashEscape = {
   type: 'Program',
   body: [
     {
@@ -542,11 +542,11 @@ ast.email.withBackslashEscapes = {
   parent: null,
 };
 
-ast.email.withBackslashEscapes.body[0].parent = ast.email.withBackslashEscapes;
-ast.email.withBackslashEscapes.body[1].parent = ast.email.withBackslashEscapes;
-ast.email.withBackslashEscapes.body[2].parent = ast.email.withBackslashEscapes;
+ast.email.withBackslashEscape.body[0].parent = ast.email.withBackslashEscape;
+ast.email.withBackslashEscape.body[1].parent = ast.email.withBackslashEscape;
+ast.email.withBackslashEscape.body[2].parent = ast.email.withBackslashEscape;
 
-ast.email.withBackslashEscapes.body[1].body[0].parent = ast.email.withBackslashEscapes.body[1];
+ast.email.withBackslashEscape.body[1].body[0].parent = ast.email.withBackslashEscape.body[1];
 
 ast.areNotAutolinks = [
   {

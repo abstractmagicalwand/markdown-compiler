@@ -34,6 +34,11 @@ let text = {
           [Google]: http://google.com/ "Optional Title Here"
     `),
   invalid: '[Google][]',
+  withBackslashEscape: strip(`
+    [foo]
+
+    [foo]: /bar\\* "ti\\*tle"
+  `),
 };
 
 const html = {
@@ -41,10 +46,10 @@ const html = {
   titleOnNextLine: '<p>This is <a href="http://example.com/longish/path/to/resource/here" title="Optional Title Here">an example</a> reference-style link.</p>',
   notCaseSensitive: '<p>This is <a href="http://example.com/" title="Optional Title Here">an example</a> reference-style link. This is <a href="http://example.com/" title="Optional Title Here">an example</a> reference-style link.</p>',
   implicitLinkName: '<p>I get 10 times more traffic from <a href="http://google.com/" title="Google">Google</a> than from <a href="http://search.yahoo.com/" title="Yahoo Search">Yahoo</a> or <a href="http://search.msn.com/" title="MSN Search">MSN</a>.</p>',
-  idents: '<p>This is <a href="http://example.com/" title="Optional Title Here">an example</a> reference-style link. [Open][Google].     [Google]: http://google.com/ "Optional Title Here"</p>',
+  idents: '<p>This is <a href="http://example.com/" title="Optional Title Here">an example</a> reference-style link. [Open][Google].     [Google]: http://google.com/ &quot;Optional Title Here&quot;</p>',
   invalid: '<p>[Google][]</p>',
+  withBackslashEscape: '<p><a href="/bar*" title="ti*tle">foo</a></p>',
 };
-
 
 const tokens = {};
 
@@ -630,6 +635,33 @@ tokens.invalid = [
   },
 ];
 
+tokens.withBackslashEscape = [
+  {
+    type: 'BOF',
+  },
+  {
+    type: 'LeftSquareBracket',
+    value: '[',
+    start: 0,
+    end: 1,
+  },
+  {
+    type: 'Chars',
+    value: 'foo',
+    start: 1,
+    end: 4,
+  },
+  {
+    type: 'RightSquareBracket',
+    value: ']',
+    start: 4,
+    end: 5,
+  },
+  {
+    type: 'EOF',
+  },
+];
+
 const variables = {};
 
 variables.linkDefinitions = {
@@ -654,6 +686,10 @@ variables.implicitLinkName = {
 
 variables.idents = {
   id: 'http://example.com/ "Optional Title Here"',
+};
+
+variables.withBackslashEscape = {
+  foo: '/bar\\* "ti\\*tle"',
 };
 
 const ast = {};
@@ -1089,7 +1125,7 @@ ast.idents = {
                   body: [
                     {
                       type: 'Chars',
-                      value: 'Google]: http://google.com/ "Optional Title Here"',
+                      value: 'Google]: http://google.com/ &quot;Optional Title Here&quot;',
                     },
                   ],
                   isClosed: false,
@@ -1187,6 +1223,53 @@ ast.invalid.body[1].body[0].body[0].parent = ast.invalid.body[1].body[0];
 ast.invalid.body[1].body[0].body[1].parent = ast.invalid.body[1].body[0];
 
 ast.invalid.body[1].body[0].body[1].body[0].parent = ast.invalid.body[1].body[0].body[1];
+
+ast.withBackslashEscape = {
+  type: 'Program',
+  body: [
+    {
+      type: 'BOF',
+    },
+    {
+      type: 'Paragraph',
+      body: [
+        {
+          type: 'Link',
+          operators: ['[', ']'],
+          label: 'foo',
+          href: {
+            operators: null,
+            value: '/bar*',
+          },
+          title: {
+            operator: ['"'],
+            value: 'ti*tle',
+          },
+          body: [
+            {
+              type: 'Chars',
+              value: 'foo',
+            },
+          ],
+          isClosed: true,
+        },
+      ],
+      isClosed: true,
+    },
+    {
+      type: 'EOF',
+    },
+  ],
+  parent: null,
+};
+
+ast.withBackslashEscape.body[0].parent = ast.withBackslashEscape;
+ast.withBackslashEscape.body[1].parent = ast.withBackslashEscape;
+ast.withBackslashEscape.body[2].parent = ast.withBackslashEscape;
+
+ast.withBackslashEscape.body[1].body[0].parent = ast.withBackslashEscape.body[1];
+
+ast.withBackslashEscape.body[1].body[0].body[0].parent = ast.withBackslashEscape.body[1].body[0];
 
 module.exports = {
   text,

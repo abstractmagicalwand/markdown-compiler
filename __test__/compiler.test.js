@@ -19,9 +19,30 @@ test(
     t.is(compiler(text.code.$4), html.code.$4, '$4');
     t.is(compiler(text.code.$5), html.code.$5, '$5');
     t.is(compiler(text.code.$6), html.code.$6, '$6');
+    t.is(
+      compiler(text.code.withBackslashEscape),
+      html.code.withBackslashEscape,
+      'with backslash escape'
+    );
   }
 );
 
+test(
+  'code block: markdown should compile to html',
+  t => {
+    t.is(compiler(text.codeBlock.main), html.codeBlock.main, 'main');
+    t.skip.is(
+      compiler(text.codeBlock.withBackslashEscape[0]),
+      html.codeBlock.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.skip.is(
+      compiler(text.codeBlock.withBackslashEscape[1]),
+      html.codeBlock.withBackslashEscape[1],
+      'with backslash escape 2'
+    );
+  }
+);
 
 test(
   'link inline: markdown should compile to html',
@@ -50,6 +71,16 @@ test(
       compiler(text.linkInline.invalid),
       html.linkInline.invalid,
       'invalid'
+    );
+    t.skip.is(
+      compiler(text.linkInline.withBackslashEscape[0]),
+      html.linkInline.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.is(
+      compiler(text.linkInline.withBackslashEscape[1]),
+      html.linkInline.withBackslashEscape[1],
+      'with backslash escape 2'
     );
   }
 );
@@ -89,6 +120,11 @@ test(
       html.linkReference.invalid,
       'invalid'
     );
+    t.is(
+      compiler(text.linkReference.withBackslashEscape),
+      html.linkReference.withBackslashEscape,
+      'with backslash escape'
+    );
   }
 );
 
@@ -111,9 +147,9 @@ test(
       'valid url 3'
     );
     t.skip.is(
-      compiler(text.autolink.url.withBackslashEscapes),
-      html.autolink.url.withBackslashEscapes,
-      'url with backslash escapes'
+      compiler(text.autolink.url.withBackslashEscape),
+      html.autolink.url.withBackslashEscape,
+      'url with backslash escape'
     );
 
     t.is(
@@ -127,9 +163,9 @@ test(
       'valid email 2'
     );
     t.skip.is(
-      compiler(text.autolink.email.withBackslashEscapes),
-      html.autolink.email.withBackslashEscapes,
-      'email with backslash escapes'
+      compiler(text.autolink.email.withBackslashEscape),
+      html.autolink.email.withBackslashEscape,
+      'email with backslash escape'
     );
 
     t.is(
@@ -242,6 +278,37 @@ test(
       compiler(text.blockquote.containedOtherElements),
       html.blockquote.containedOtherElements,
       'contained other elements'
+    );
+  }
+);
+
+test(
+  'backslash escapes: markdown should compile to html',
+  t => {
+    t.is(
+      compiler(text.backslashEscapes.punctuation),
+      html.backslashEscapes.punctuation,
+      'punctuation'
+    );
+    t.is(
+      compiler(text.backslashEscapes.likeLiteral),
+      html.backslashEscapes.likeLiteral,
+      'like literal'
+    );
+    t.is(
+      compiler(text.backslashEscapes.regularChars),
+      html.backslashEscapes.regularChars,
+      'regular chars'
+    );
+    t.is(
+      compiler(text.backslashEscapes.selfEscaped),
+      html.backslashEscapes.selfEscaped,
+      'self escaped'
+    );
+    t.skip.is(
+      compiler(text.backslashEscapes.hardLineBreak),
+      html.backslashEscapes.hardLineBreak,
+      'hard line break'
     );
   }
 );
