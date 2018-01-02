@@ -3,14 +3,142 @@ import test from 'ava';
 import codeGenerator from '../src/code-generator';
 import {ast, html} from './fixtures'; // eslint-disable-line
 
+// leaf blocks
+
 test(
-  'emphasis: code should generate to html',
+  'horizontal rule: code should generate to html',
   t => {
-    t.is(codeGenerator(ast.emphasis), html.emphasis);
+    t.is(codeGenerator(ast.horizontalRule), html.horizontalRule);
   }
 );
 
-test.todo('emphasis: unclosed markdown tag');
+test(
+  'atx header: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.atxHeader), html.atxHeader);
+  }
+);
+
+test.todo('atx header: unclosed markdown tag');
+
+test(
+  'setext header: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.setextHeader), html.setextHeader);
+  }
+);
+
+test.todo('setext header: unclosed markdown tag');
+
+test(
+  'code block: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.codeBlock.main), html.codeBlock.main, 'main');
+    t.skip.is(
+      codeGenerator(ast.codeBlock.withBackslashEscape[0]),
+      html.codeBlock.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.skip.is(
+      codeGenerator(ast.codeBlock.withBackslashEscape[1]),
+      html.codeBlock.withBackslashEscape[1],
+      'with backslash escape 2'
+    );
+  }
+);
+
+test.todo('code block: unclosed markdown tag');
+
+test(
+  'paragraph: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.paragraph), html.paragraph);
+  }
+);
+
+// container blocks
+
+test(
+  'blockquote: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.blockquote.everyLine),
+      html.blockquote.everyLine,
+      'every line'
+    );
+
+    t.is(
+      codeGenerator(ast.blockquote.firstLine),
+      html.blockquote.firstLine,
+      'first line'
+    );
+
+    t.is(
+      codeGenerator(ast.blockquote.nestedBlockquote),
+      html.blockquote.nestedBlockquote,
+      'nested blockquote'
+    );
+
+    t.is(
+      codeGenerator(ast.blockquote.containedOtherElements),
+      html.blockquote.containedOtherElements,
+      'contained other elements'
+    );
+  }
+);
+
+test.todo('blockquote: unclosed markdown tag');
+
+test(
+  'unorder list: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.unorderList), html.unorderList);
+  }
+);
+
+test.todo('unorder list: unclosed markdown tag');
+
+test(
+  'order list: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.orderList), html.orderList);
+  }
+);
+
+test.todo('order list: unclosed markdown tag');
+
+// inlines
+
+test(
+  'backslash escapes: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.backslashEscapes.punctuation),
+      html.backslashEscapes.punctuation,
+      'punctuation'
+    );
+    t.is(
+      codeGenerator(ast.backslashEscapes.likeLiteral),
+      html.backslashEscapes.likeLiteral,
+      'like literal'
+    );
+    t.is(
+      codeGenerator(ast.backslashEscapes.regularChars),
+      html.backslashEscapes.regularChars,
+      'regular chars'
+    );
+    t.is(
+      codeGenerator(ast.backslashEscapes.selfEscaped),
+      html.backslashEscapes.selfEscaped,
+      'self escaped'
+    );
+    t.skip.is(
+      codeGenerator(ast.backslashEscapes.hardLineBreak),
+      html.backslashEscapes.hardLineBreak,
+      'hard line break'
+    );
+  }
+);
 
 test(
   'code: code should generate to html',
@@ -26,6 +154,13 @@ test(
       html.code.withBackslashEscape,
       'with backslash escape'
     );
+  }
+);
+
+test(
+  'emphasis: code should generate to html',
+  t => {
+    t.is(codeGenerator(ast.emphasis), html.emphasis);
   }
 );
 
@@ -122,6 +257,27 @@ test.todo('link reference: unclosed markdown tag');
 test.todo('link reference: without text');
 
 test(
+  'image: code should generate to html',
+  t => {
+    t.is(
+      codeGenerator(ast.image.inline),
+      html.image.inline,
+      'inline'
+    );
+    t.is(
+      codeGenerator(ast.image.optionalTitle),
+      html.image.optionalTitle,
+      'optional title'
+    );
+    t.is(
+      codeGenerator(ast.image.reference),
+      html.image.reference,
+      'reference'
+    );
+  }
+);
+
+test(
   'autolink: code should generate to html',
   t => {
     t.is(
@@ -193,155 +349,3 @@ test(
     );
   }
 );
-
-test(
-  'image: code should generate to html',
-  t => {
-    t.is(
-      codeGenerator(ast.image.inline),
-      html.image.inline,
-      'inline'
-    );
-    t.is(
-      codeGenerator(ast.image.optionalTitle),
-      html.image.optionalTitle,
-      'optional title'
-    );
-    t.is(
-      codeGenerator(ast.image.reference),
-      html.image.reference,
-      'reference'
-    );
-  }
-);
-
-test(
-  'paragraph: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.paragraph), html.paragraph);
-  }
-);
-
-test(
-  'unorder list: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.unorderList), html.unorderList);
-  }
-);
-
-test.todo('unorder list: unclosed markdown tag');
-
-test(
-  'order list: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.orderList), html.orderList);
-  }
-);
-
-test.todo('order list: unclosed markdown tag');
-
-test(
-  'atx header: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.atxHeader), html.atxHeader);
-  }
-);
-
-test.todo('atx header: unclosed markdown tag');
-
-test(
-  'setext header: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.setextHeader), html.setextHeader);
-  }
-);
-
-test.todo('setext header: unclosed markdown tag');
-
-test(
-  'horizontal rule: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.horizontalRule), html.horizontalRule);
-  }
-);
-
-test(
-  'code block: code should generate to html',
-  t => {
-    t.is(codeGenerator(ast.codeBlock.main), html.codeBlock.main, 'main');
-    t.skip.is(
-      codeGenerator(ast.codeBlock.withBackslashEscape[0]),
-      html.codeBlock.withBackslashEscape[0],
-      'with backslash escape 1'
-    );
-    t.skip.is(
-      codeGenerator(ast.codeBlock.withBackslashEscape[1]),
-      html.codeBlock.withBackslashEscape[1],
-      'with backslash escape 2'
-    );
-  }
-);
-
-test.todo('code block: unclosed markdown tag');
-
-test(
-  'blockquote: code should generate to html',
-  t => {
-    t.is(
-      codeGenerator(ast.blockquote.everyLine),
-      html.blockquote.everyLine,
-      'every line'
-    );
-
-    t.is(
-      codeGenerator(ast.blockquote.firstLine),
-      html.blockquote.firstLine,
-      'first line'
-    );
-
-    t.is(
-      codeGenerator(ast.blockquote.nestedBlockquote),
-      html.blockquote.nestedBlockquote,
-      'nested blockquote'
-    );
-
-    t.is(
-      codeGenerator(ast.blockquote.containedOtherElements),
-      html.blockquote.containedOtherElements,
-      'contained other elements'
-    );
-  }
-);
-
-test(
-  'backslash escapes: code should generate to html',
-  t => {
-    t.is(
-      codeGenerator(ast.backslashEscapes.punctuation),
-      html.backslashEscapes.punctuation,
-      'punctuation'
-    );
-    t.is(
-      codeGenerator(ast.backslashEscapes.likeLiteral),
-      html.backslashEscapes.likeLiteral,
-      'like literal'
-    );
-    t.is(
-      codeGenerator(ast.backslashEscapes.regularChars),
-      html.backslashEscapes.regularChars,
-      'regular chars'
-    );
-    t.is(
-      codeGenerator(ast.backslashEscapes.selfEscaped),
-      html.backslashEscapes.selfEscaped,
-      'self escaped'
-    );
-    t.skip.is(
-      codeGenerator(ast.backslashEscapes.hardLineBreak),
-      html.backslashEscapes.hardLineBreak,
-      'hard line break'
-    );
-  }
-);
-
-test.todo('blockquote: unclosed markdown tag');

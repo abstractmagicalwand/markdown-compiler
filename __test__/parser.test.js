@@ -5,12 +5,157 @@ import isMatched from '../__test__/helpers/is-match';
 import {parser} from '../src/parser';
 import {tokens, variables, ast } from './fixtures';
 
+// leaf blocks
+
 test(
-  'emphasis: tokens should parse to abstract syntax tree',
+  'horizontal rules: tokens should parse to abstract syntax tree',
   t => {
-    isMatched(parser({tokens: tokens.emphasis}), [ast.emphasis], (a, b) => {
-      t.is(a, b, `emphasis: ${a} isn't equal ${b}`);
+    isMatched(
+      parser({tokens: tokens.horizontalRule}),
+      [ast.horizontalRule],
+      (a, b) => {
+        t.is(a, b, `order list: ${a} isn't equal ${b}`);
+      }
+    );
+  }
+);
+
+test(
+  'atx header: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(parser({tokens: tokens.atxHeader}), [ast.atxHeader], (a, b) => {
+      t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
+  }
+);
+
+test(
+  'setext header: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(
+      parser({tokens: tokens.setextHeader}),
+      [ast.setextHeader],
+      (a, b) => {
+        t.is(a, b, `order list: ${a} isn't equal ${b}`);
+      }
+    );
+  }
+);
+
+test(
+  'code block: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(
+      parser({tokens: tokens.codeBlock.main}),
+      [ast.codeBlock.main], (a, b) => {
+        t.is(a, b, `code block: ${a} isn't equal ${b}`);
+      }
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.codeBlock.withBackslashEscape[0]}),
+      ast.codeBlock.withBackslashEscape[0],
+      'with backslash escape 1'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.codeBlock.withBackslashEscape[1]}),
+      ast.codeBlock.withBackslashEscape[1],
+      'with backslash escape 2'
+    );
+  }
+);
+
+test(
+  'paragraph: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(parser({tokens: tokens.paragraph}), [ast.paragraph], (a, b) => {
+      t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
+    });
+  }
+);
+
+// container blocks
+
+test(
+  'blockquote: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.everyLine}),
+      ast.blockquote.everyLine,
+      'every line'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.firstLine}),
+      ast.blockquote.firstLine,
+      'first line'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.nestedBlockquote}),
+      ast.blockquote.nestedBlockquote,
+      'nested blockquote'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.blockquote.containedOtherElements}),
+      ast.blockquote.containedOtherElements,
+      'contained other elements'
+    );
+  }
+);
+
+test.todo('blockquote: should exit from blockquote');
+
+test(
+  'unorder list: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(
+      parser(
+        {tokens: tokens.unorderList}),
+      [ast.unorderList],
+      (a, b) => {
+        t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
+      }
+    );
+  }
+);
+
+test(
+  'order list: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(parser({tokens: tokens.orderList}), [ast.orderList], (a, b) => {
+      t.is(a, b, `order list: ${a} isn't equal ${b}`);
+    });
+  }
+);
+
+// inlines
+
+test(
+  'backslash escapes: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.punctuation}),
+      ast.backslashEscapes.punctuation,
+      'punctuation'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.likeLiteral}),
+      ast.backslashEscapes.likeLiteral,
+      'like literal'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.regularChars}),
+      ast.backslashEscapes.regularChars,
+      'regular chars'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.backslashEscapes.selfEscaped}),
+      ast.backslashEscapes.selfEscaped,
+      'self escaped'
+    );
+    t.skip.deepEqual(
+      parser({tokens: tokens.backslashEscapes.hardLineBreak}),
+      ast.backslashEscapes.hardLineBreak,
+      'hard line break'
+    );
   }
 );
 
@@ -40,6 +185,15 @@ test(
       ast.code.withBackslashEscape,
       'with backslash escape'
     );
+  }
+);
+
+test(
+  'emphasis: tokens should parse to abstract syntax tree',
+  t => {
+    isMatched(parser({tokens: tokens.emphasis}), [ast.emphasis], (a, b) => {
+      t.is(a, b, `emphasis: ${a} isn't equal ${b}`);
+    });
   }
 );
 
@@ -160,6 +314,30 @@ test(
 test.todo('link reference: link without text');
 
 test(
+  'image: tokens should parse to abstract syntax tree',
+  t => {
+    t.deepEqual(
+      parser({tokens: tokens.image.inline}),
+      ast.image.inline,
+      'inline'
+    );
+    t.deepEqual(
+      parser({tokens: tokens.image.optionalTitle}),
+      ast.image.optionalTitle,
+      'optional title'
+    );
+    t.deepEqual(
+      parser({
+        tokens: tokens.image.reference,
+        variables: variables.image.reference,
+      }),
+      ast.image.reference,
+      'reference'
+    );
+  }
+);
+
+test(
   'autolink: tokens should parse to abstract syntax tree',
   t => {
     t.deepEqual(
@@ -232,146 +410,7 @@ test(
   }
 );
 
-test(
-  'image: tokens should parse to abstract syntax tree',
-  t => {
-    t.deepEqual(
-      parser({tokens: tokens.image.inline}),
-      ast.image.inline,
-      'inline'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.image.optionalTitle}),
-      ast.image.optionalTitle,
-      'optional title'
-    );
-    t.deepEqual(
-      parser({
-        tokens: tokens.image.reference,
-        variables: variables.image.reference,
-      }),
-      ast.image.reference,
-      'reference'
-    );
-  }
-);
-
-test(
-  'paragraph: tokens should parse to abstract syntax tree',
-  t => {
-    isMatched(parser({tokens: tokens.paragraph}), [ast.paragraph], (a, b) => {
-      t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
-    });
-  }
-);
-
-test(
-  'unorder list: tokens should parse to abstract syntax tree',
-  t =>{
-    isMatched(
-      parser(
-        {tokens: tokens.unorderList}),
-      [ast.unorderList],
-      (a, b) => {
-        t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
-      }
-    );
-  }
-);
-
-test(
-  'order list: tokens should parse to abstract syntax tree',
-  t => {
-    isMatched(parser({tokens: tokens.orderList}), [ast.orderList], (a, b) => {
-      t.is(a, b, `order list: ${a} isn't equal ${b}`);
-    });
-  }
-);
-
-test(
-  'atx header: tokens should parse to abstract syntax tree',
-  t => {
-    isMatched(parser({tokens: tokens.atxHeader}), [ast.atxHeader], (a, b) => {
-      t.is(a, b, `order list: ${a} isn't equal ${b}`);
-    });
-  }
-);
-
-test(
-  'setext header: tokens should parse to abstract syntax tree',
-  t => {
-    isMatched(
-      parser({tokens: tokens.setextHeader}),
-      [ast.setextHeader],
-      (a, b) => {
-        t.is(a, b, `order list: ${a} isn't equal ${b}`);
-      }
-    );
-  }
-);
-
-test(
-  'horizontal rules: tokens should parse to abstract syntax tree',
-  t => {
-    isMatched(
-      parser({tokens: tokens.horizontalRule}),
-      [ast.horizontalRule],
-      (a, b) => {
-        t.is(a, b, `order list: ${a} isn't equal ${b}`);
-      }
-    );
-  }
-);
-
-test(
-  'code block: tokens should parse to abstract syntax tree',
-  t => {
-    isMatched(
-      parser({tokens: tokens.codeBlock.main}),
-      [ast.codeBlock.main], (a, b) => {
-        t.is(a, b, `code block: ${a} isn't equal ${b}`);
-      }
-    );
-    t.skip.deepEqual(
-      parser({tokens: tokens.codeBlock.withBackslashEscape[0]}),
-      ast.codeBlock.withBackslashEscape[0],
-      'with backslash escape 1'
-    );
-    t.skip.deepEqual(
-      parser({tokens: tokens.codeBlock.withBackslashEscape[1]}),
-      ast.codeBlock.withBackslashEscape[1],
-      'with backslash escape 2'
-    );
-  }
-);
-
-test(
-  'blockquote: tokens should parse to abstract syntax tree',
-  t => {
-    t.deepEqual(
-      parser({tokens: tokens.blockquote.everyLine}),
-      ast.blockquote.everyLine,
-      'every line'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.blockquote.firstLine}),
-      ast.blockquote.firstLine,
-      'first line'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.blockquote.nestedBlockquote}),
-      ast.blockquote.nestedBlockquote,
-      'nested blockquote'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.blockquote.containedOtherElements}),
-      ast.blockquote.containedOtherElements,
-      'contained other elements'
-    );
-  }
-);
-
-test.todo('blockquote: should exit from blockquote');
+// other
 
 test(
   'parser should throw exceptions',
@@ -398,37 +437,6 @@ test(
     t.notThrows(
       () => parser({tokens: [], variables: {}}),
       'tokens and variables are empty'
-    );
-  }
-);
-
-test(
-  'backslash escapes: tokens should parse to abstract syntax tree',
-  t => {
-    t.deepEqual(
-      parser({tokens: tokens.backslashEscapes.punctuation}),
-      ast.backslashEscapes.punctuation,
-      'punctuation'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.backslashEscapes.likeLiteral}),
-      ast.backslashEscapes.likeLiteral,
-      'like literal'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.backslashEscapes.regularChars}),
-      ast.backslashEscapes.regularChars,
-      'regular chars'
-    );
-    t.deepEqual(
-      parser({tokens: tokens.backslashEscapes.selfEscaped}),
-      ast.backslashEscapes.selfEscaped,
-      'self escaped'
-    );
-    t.skip.deepEqual(
-      parser({tokens: tokens.backslashEscapes.hardLineBreak}),
-      ast.backslashEscapes.hardLineBreak,
-      'hard line break'
     );
   }
 );
