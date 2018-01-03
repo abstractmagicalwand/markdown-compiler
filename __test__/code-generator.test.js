@@ -132,11 +132,11 @@ test(
       html.backslashEscapes.selfEscaped,
       'self escaped'
     );
-    t.skip.is(
+    /* t.skip.is(
       codeGenerator(ast.backslashEscapes.hardLineBreak),
       html.backslashEscapes.hardLineBreak,
       'hard line break'
-    );
+    ); */
   }
 );
 
@@ -194,11 +194,11 @@ test(
       html.linkInline.invalid,
       'invalid'
     );
-    t.skip.is(
+    /* t.skip.is(
       codeGenerator(ast.linkInline.withBackslashEscape[0]),
       html.linkInline.withBackslashEscape[0],
       'with backslash escape 1'
-    );
+    ); */
     t.is(
       codeGenerator(ast.linkInline.withBackslashEscape[1]),
       html.linkInline.withBackslashEscape[1],

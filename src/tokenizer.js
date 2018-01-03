@@ -1,5 +1,5 @@
-const patternUrl = /^\w{2,}:/;
-const patternEmail = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const patterns = require('./patterns');
+const text = require('../__test__/fixtures').text;
 
 /* eslint complexity: 0 */
 function tokenizer(rawText) {
@@ -143,12 +143,8 @@ function tokenizer(rawText) {
         for (; i < text.length && amountOfClosedBackticks < 3; i++) {
           if (text[i] === '`') {
             amountOfClosedBackticks++;
-          } else if (text[i] === '&') { // @TODO put out to encodeToHtmlEntities
-            value += '&amp;';
-          } else if (text[i] === '<') {
-            value += '&lt;';
           } else if (text[i] === '>' && level === -1) {
-            value += '&gt;';
+            value += text[i];
           } else if (text[i] === '>' && text[i + 1] === ' ') {
             level--;
             i++;
@@ -312,10 +308,10 @@ function tokenizer(rawText) {
           break;
         }
 
-        value += encodeToHtmlEntities(text[j]);
+        value += text[j];
       }
 
-      if (isClosed && patternUrl.test(value)) {
+      if (isClosed && patterns.url.test(value)) {
         i = j + 1;
 
         tokens.push({
@@ -327,7 +323,7 @@ function tokenizer(rawText) {
           end: i,
         });
         continue;
-      } else if (isClosed && patternEmail.test(value)) {
+      } else if (isClosed && patterns.email.test(value)) {
         i = j + 1;
 
         tokens.push({
@@ -427,18 +423,19 @@ function tokenizer(rawText) {
     // code
     if (text[i] === '`') {
       const start = i;
+      let j = i;
 
       let amountOfOpenedBackticks = 0;
-      for (; text[i] === '`'; i++) {
+      for (; text[j] === '`'; j++) {
         amountOfOpenedBackticks++;
       }
 
       let value = '';
       let isClosed = false;
-      while (i < text.length) {
-        if (text[i] === '`') {
+      while (j < text.length) {
+        if (text[j] === '`') {
           let amountOfClosedBackticks = 0;
-          for (; text[i] === '`'; i++) {
+          for (; text[j] === '`'; j++) {
             amountOfClosedBackticks++;
           }
 
@@ -449,26 +446,25 @@ function tokenizer(rawText) {
 
           value += '`'.repeat(amountOfClosedBackticks);
           continue;
-        } else if (text[i] === '&') {
-          value += '&amp;';
-        } else if (text[i] === '<') {
-          value += '&lt;';
-        } else if (text[i] === '>') {
-          value += '&gt;';
+        } else if (text[j] === '\n' && text[j + 1] === '\n') {
+          break;
         } else {
-          value += text[i];
+          value += text[j];
         }
-        i++;
+        j++;
       }
 
-      tokens.push({
-        type: 'Code',
-        value: value.trim(),
-        isClosed,
-        start,
-        end: i,
-      });
-      continue;
+      if (isClosed) {
+        i = j;
+        tokens.push({
+          type: 'Code',
+          value: value.trim(),
+          isClosed,
+          start,
+          end: i,
+        });
+        continue;
+      }
     }
 
     // opened image bracket
@@ -485,16 +481,21 @@ function tokenizer(rawText) {
       continue;
     }
 
+    const start = i;
+    if (text[i] === '\\' && patterns.punctuation.test(text[i + 1])) {
+      i++;
+    }
+
     // chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
-      tokens[tokens.length - 1].value += encodeToHtmlEntities(text[i]);
-      tokens[tokens.length - 1].end++;
+      tokens[tokens.length - 1].value += text[i];
+      tokens[tokens.length - 1].end = start + 1;
     } else {
       tokens.push({
         type: 'Chars',
-        value: encodeToHtmlEntities(text[i]),
-        start: i,
+        value: text[i],
+        start,
         end: i + 1,
       });
     }
@@ -548,17 +549,6 @@ function extractVariables(rawText) {
   };
 }
 
-function encodeToHtmlEntities(value) {
-  switch (value) {
-  case '&':
-    return '&amp;';
-  case '>':
-    return '&gt;';
-  case '<':
-    return '&lt;';
-  default:
-    return value;
-  }
-}
+tokenizer(text.linkInline.withBackslashEscape[1]);
 
 module.exports = tokenizer;

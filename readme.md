@@ -24,7 +24,7 @@ $ yarn build # build the bundle
 - [x] - Emphasis
 - [x] - Code
 - [x] - Images
-- [ ] - Backslash Escapes
+- [x] - Backslash Escapes
 - [x] - Automatic Links
 
 ## Backlog

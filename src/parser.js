@@ -1,3 +1,7 @@
+const he = require('he');
+const encodeToHtmlEntities = (value) =>
+  he.encode(value, { 'useNamedReferences': true });
+
 /* eslint complexity: 0 */
 function parser({tokens, variables}) { // eslint-disable-line
   if (!Array.isArray(tokens)) {
@@ -329,7 +333,7 @@ function parser({tokens, variables}) { // eslint-disable-line
 
       codeBlock.body.push({
         type: 'Chars',
-        value: tokens[current].value, // @TODO take out to tokenizer
+        value: encodeToHtmlEntities(tokens[current].value), // @TODO take out to tokenizer
         parent: codeBlock,
       });
       codeBlock.isClosed = tokens[current].isClosed;
@@ -419,7 +423,7 @@ function parser({tokens, variables}) { // eslint-disable-line
 
       const chars = {
         type: 'Chars',
-        value,
+        value: encodeToHtmlEntities(value),
         parent: code,
       };
       code.body.push(chars);
@@ -431,7 +435,8 @@ function parser({tokens, variables}) { // eslint-disable-line
 
     // link
     if (tokens[current].type === 'Autolink') {
-      const {operators, value, kind} = tokens[current];
+      const {operators, value: _value, kind} = tokens[current];
+      const value = encodeToHtmlEntities(_value);
 
       node.body.push({
         type: 'Link',
@@ -445,7 +450,7 @@ function parser({tokens, variables}) { // eslint-disable-line
         body: [
           {
             type: 'Chars',
-            value,
+            value: value,
           },
         ],
         isClosed: true,
@@ -622,11 +627,12 @@ function parser({tokens, variables}) { // eslint-disable-line
       const siblings = node.body;
       if (siblings[siblings.length - 1]
         && siblings[siblings.length - 1].type === 'Chars') {
-        siblings[siblings.length - 1].value += tokens[current].value;
+        siblings[siblings.length - 1].value +=
+          encodeToHtmlEntities(tokens[current].value);
       } else {
         const chars = {
           type: 'Chars',
-          value: tokens[current].value,
+          value: encodeToHtmlEntities(tokens[current].value),
           parent: node,
         };
 
@@ -644,6 +650,8 @@ function parser({tokens, variables}) { // eslint-disable-line
 
   return ast;
 }
+
+
 
 function extractTitleAndUrl(rawText) {
   const text = rawText.trim();
@@ -664,10 +672,10 @@ function extractTitleAndUrl(rawText) {
     const urlOperator = rawUrl[0];
     url = urlOperator === '<' ? {
       operators: [urlOperator, rawUrl[rawUrl.length - 1]],
-      value: rawUrl.slice(1, -1),
+      value: encodeToHtmlEntities(rawUrl.slice(1, -1)),
     } : {
       operators: null,
-      value: rawUrl,
+      value: encodeToHtmlEntities(rawUrl),
     };
   }
 
