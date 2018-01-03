@@ -11,31 +11,37 @@ $ yarn install # the start for a developer
 $ yarn build # build the bundle
 ```
 
-## Progress
-- [ ] - Automatic Escaping for Special Characters
-- [x] - Paragraphs
-- [ ] - Line Breaks
-- [x] - Headers
-- [x] - Blockquotes
-- [x] - Lists
-- [x] - Code Blocks
-- [x] - Horizontal Rules
-- [x] - Links
-- [x] - Emphasis
-- [x] - Code
-- [x] - Images
-- [x] - Backslash Escapes
-- [x] - Automatic Links
+## To-Do
+- [ ] Characters and lines
+- [ ] Tabs
+- [ ] Insecure characters
+- [ ] Precedence
+- [ ] Container blocks and leaf blocks
+- [ ] Thematic breaks
+- [ ] ATX headings
+- [ ] Setext headings
+- [ ] Indented code blocks
+- [ ] Fenced code blocks
+- [ ] HTML blocks
+- [ ] Link reference definitions
+- [ ] Paragraphs
+- [ ] Blank lines
+- [ ] Block quotes
+- [ ] List items
+- [ ] Lists
+- [x] Backslash escapes
+- [ ] Entity and numeric character references
+- [ ] Code spans
+- [ ] Emphasis and strong emphasis
+- [ ] Links
+- [ ] Images
+- [x] Autolinks
+- [ ] Raw HTML
+- [ ] Hard line breaks
+- [ ] Soft line breaks
+- [ ] Textual content
 
 ## Backlog
 - [ ] Support all list style type. https://www.w3.org/TR/html401/struct/lists.html
-- [ ] Improve output error from parser's test.
-- [ ] Replace `EOF` -> `EOA` and `BOF` -> `BOA`. A - article.
-- [ ] Repkace `text` -> `article`
-
-## Tips
-```
-& -> &#38;
-< -> &lt;
-> -> &gt;
-```
+- [ ] Delete `EOF` and `BOF`.
+- [ ] Repkace `text` -> `markdown`.
