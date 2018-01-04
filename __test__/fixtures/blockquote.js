@@ -64,9 +64,6 @@ html.firstLine = html.everyLine;
 const tokens = {
   everyLine: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Greater',
       depth: 0,
       value: '>',
@@ -138,14 +135,8 @@ const tokens = {
       start: 290,
       end: 335,
     },
-    {
-      type: 'EOF',
-    },
   ],
   firstLine: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Greater',
       depth: 0,
@@ -179,14 +170,8 @@ const tokens = {
       start: 213,
       end: 328,
     },
-    {
-      type: 'EOF',
-    },
   ],
   nestedBlockquote: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Greater',
       depth: 0,
@@ -247,14 +232,8 @@ const tokens = {
       start: 75,
       end: 99,
     },
-    {
-      type: 'EOF',
-    },
   ],
   containedOtherElements: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Greater',
       depth: 0,
@@ -382,9 +361,6 @@ const tokens = {
       start: 132,
       end: 201,
     },
-    {
-      type: 'EOF',
-    },
   ],
 };
 
@@ -393,9 +369,6 @@ const ast = {};
 ast.everyLine = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Blockquote',
       operator: '>',
@@ -423,31 +396,23 @@ ast.everyLine = {
         },
       ],
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.everyLine.body[0].parent = ast.everyLine;
-ast.everyLine.body[1].parent = ast.everyLine;
-ast.everyLine.body[2].parent = ast.everyLine;
 
-ast.everyLine.body[1].body[0].parent = ast.everyLine.body[1];
-ast.everyLine.body[1].body[1].parent = ast.everyLine.body[1];
+ast.everyLine.body[0].body[0].parent = ast.everyLine.body[0];
+ast.everyLine.body[0].body[1].parent = ast.everyLine.body[0];
 
-ast.everyLine.body[1].body[0].body[0].parent = ast.everyLine.body[1].body[0];
-ast.everyLine.body[1].body[1].body[0].parent = ast.everyLine.body[1].body[1];
+ast.everyLine.body[0].body[0].body[0].parent = ast.everyLine.body[0].body[0];
+ast.everyLine.body[0].body[1].body[0].parent = ast.everyLine.body[0].body[1];
 
 ast.firstLine = ast.everyLine;
 
 ast.nestedBlockquote = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Blockquote',
       operator: '>',
@@ -492,35 +457,27 @@ ast.nestedBlockquote = {
         },
       ],
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.nestedBlockquote.body[0].parent = ast.nestedBlockquote;
-ast.nestedBlockquote.body[1].parent = ast.nestedBlockquote;
-ast.nestedBlockquote.body[2].parent = ast.nestedBlockquote;
 
-ast.nestedBlockquote.body[1].body[0].parent = ast.nestedBlockquote.body[1];
-ast.nestedBlockquote.body[1].body[1].parent = ast.nestedBlockquote.body[1];
-ast.nestedBlockquote.body[1].body[2].parent = ast.nestedBlockquote.body[1];
+ast.nestedBlockquote.body[0].body[0].parent = ast.nestedBlockquote.body[0];
+ast.nestedBlockquote.body[0].body[1].parent = ast.nestedBlockquote.body[0];
+ast.nestedBlockquote.body[0].body[2].parent = ast.nestedBlockquote.body[0];
 
-ast.nestedBlockquote.body[1].body[0].body[0].parent = ast.nestedBlockquote.body[1].body[0];
+ast.nestedBlockquote.body[0].body[0].body[0].parent = ast.nestedBlockquote.body[0].body[0];
 
-ast.nestedBlockquote.body[1].body[1].body[0].parent = ast.nestedBlockquote.body[1].body[1];
+ast.nestedBlockquote.body[0].body[1].body[0].parent = ast.nestedBlockquote.body[0].body[1];
 
-ast.nestedBlockquote.body[1].body[1].body[0].body[0].parent = ast.nestedBlockquote.body[1].body[1].body[0];
+ast.nestedBlockquote.body[0].body[1].body[0].body[0].parent = ast.nestedBlockquote.body[0].body[1].body[0];
 
-ast.nestedBlockquote.body[1].body[2].body[0].parent = ast.nestedBlockquote.body[1].body[2];
+ast.nestedBlockquote.body[0].body[2].body[0].parent = ast.nestedBlockquote.body[0].body[2];
 
 ast.containedOtherElements = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Blockquote',
       operator: '>',
@@ -608,37 +565,32 @@ ast.containedOtherElements = {
         },
       ],
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.containedOtherElements.body[0].parent = ast.containedOtherElements;
-ast.containedOtherElements.body[1].parent = ast.containedOtherElements;
-ast.containedOtherElements.body[2].parent = ast.containedOtherElements;
 
-ast.containedOtherElements.body[1].body[0].parent = ast.containedOtherElements.body[1];
-ast.containedOtherElements.body[1].body[1].parent = ast.containedOtherElements.body[1];
-ast.containedOtherElements.body[1].body[2].parent = ast.containedOtherElements.body[1];
-ast.containedOtherElements.body[1].body[3].parent = ast.containedOtherElements.body[1];
+ast.containedOtherElements.body[0].body[0].parent = ast.containedOtherElements.body[0];
+ast.containedOtherElements.body[0].body[1].parent = ast.containedOtherElements.body[0];
+ast.containedOtherElements.body[0].body[2].parent = ast.containedOtherElements.body[0];
+ast.containedOtherElements.body[0].body[3].parent = ast.containedOtherElements.body[0];
 
-ast.containedOtherElements.body[1].body[0].body[0].parent = ast.containedOtherElements.body[1].body[0];
+ast.containedOtherElements.body[0].body[0].body[0].parent = ast.containedOtherElements.body[0].body[0];
 
-ast.containedOtherElements.body[1].body[1].body[0].parent = ast.containedOtherElements.body[1].body[1];
-ast.containedOtherElements.body[1].body[1].body[1].parent = ast.containedOtherElements.body[1].body[1];
+ast.containedOtherElements.body[0].body[1].body[0].parent = ast.containedOtherElements.body[0].body[1];
+ast.containedOtherElements.body[0].body[1].body[1].parent = ast.containedOtherElements.body[0].body[1];
 
-ast.containedOtherElements.body[1].body[1].body[0].body[0].parent = ast.containedOtherElements.body[1].body[1].body[0];
-ast.containedOtherElements.body[1].body[1].body[1].body[0].parent = ast.containedOtherElements.body[1].body[1].body[1];
+ast.containedOtherElements.body[0].body[1].body[0].body[0].parent = ast.containedOtherElements.body[0].body[1].body[0];
+ast.containedOtherElements.body[0].body[1].body[1].body[0].parent = ast.containedOtherElements.body[0].body[1].body[1];
 
-ast.containedOtherElements.body[1].body[2].body[0].parent = ast.containedOtherElements.body[1].body[2];
-ast.containedOtherElements.body[1].body[2].body[1].parent = ast.containedOtherElements.body[1].body[2];
-ast.containedOtherElements.body[1].body[2].body[2].parent = ast.containedOtherElements.body[1].body[2];
+ast.containedOtherElements.body[0].body[2].body[0].parent = ast.containedOtherElements.body[0].body[2];
+ast.containedOtherElements.body[0].body[2].body[1].parent = ast.containedOtherElements.body[0].body[2];
+ast.containedOtherElements.body[0].body[2].body[2].parent = ast.containedOtherElements.body[0].body[2];
 
-ast.containedOtherElements.body[1].body[2].body[1].body[0].parent = ast.containedOtherElements.body[1].body[2].body[1];
+ast.containedOtherElements.body[0].body[2].body[1].body[0].parent = ast.containedOtherElements.body[0].body[2].body[1];
 
-ast.containedOtherElements.body[1].body[3].body[0].parent = ast.containedOtherElements.body[1].body[3];
+ast.containedOtherElements.body[0].body[3].body[0].parent = ast.containedOtherElements.body[0].body[3];
 
 module.exports = {
   text,

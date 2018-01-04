@@ -16,9 +16,6 @@ module.exports = {
   text,
   tokens: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Item',
       depth: 0,
       value: '5',
@@ -103,16 +100,10 @@ module.exports = {
       start: 60,
       end: 66,
     },
-    {
-      type: 'EOF',
-    },
   ],
   ast: {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'OrderList',
         depth: 0,
@@ -211,9 +202,6 @@ module.exports = {
           },
         ],
         isClosed: true,
-      },
-      {
-        type: 'EOF',
       },
     ],
     parent: null,

@@ -35,38 +35,23 @@ const tokens = {};
 
 tokens.punctuation = [
   {
-    type: 'BOF',
-  },
-  {
     type: 'Chars',
     value: '!"#$%&\'()*+,\\-.\\/:;<=>?@[\\]^_`{|}~',
     start: 0,
     end: 64,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.likeLiteral = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: '\\→\\A\\a\\ \\3\\φ\\«',
     start: 0,
     end: 14,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.regularChars = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: '*not emphasized',
@@ -128,15 +113,9 @@ tokens.regularChars = [
     start: 119,
     end: 143,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.selfEscaped = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: '\\',
@@ -163,15 +142,9 @@ tokens.selfEscaped = [
     start: 11,
     end: 12,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.hardLineBreak = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: 'foo',
@@ -190,9 +163,6 @@ tokens.hardLineBreak = [
     start: 7,
     end: 10,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 const ast = {};
@@ -200,9 +170,6 @@ const ast = {};
 ast.punctuation = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -213,25 +180,16 @@ ast.punctuation = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.punctuation.body[0].parent = ast.punctuation;
-ast.punctuation.body[1].parent = ast.punctuation;
-ast.punctuation.body[2].parent = ast.punctuation;
-
-ast.punctuation.body[1].body[0].parent = ast.punctuation.body[1];
+ast.punctuation.body[0].body[0].parent = ast.punctuation.body[0];
 
 ast.likeLiteral = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -242,25 +200,16 @@ ast.likeLiteral = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.likeLiteral.body[0].parent = ast.likeLiteral;
-ast.likeLiteral.body[1].parent = ast.likeLiteral;
-ast.likeLiteral.body[2].parent = ast.likeLiteral;
-
-ast.likeLiteral.body[1].body[0].parent = ast.likeLiteral.body[1];
+ast.likeLiteral.body[0].body[0].parent = ast.likeLiteral.body[0];
 
 ast.regularChars = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -282,28 +231,18 @@ ast.regularChars = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.regularChars.body[0].parent = ast.regularChars;
-ast.regularChars.body[1].parent = ast.regularChars;
-ast.regularChars.body[2].parent = ast.regularChars;
-
-ast.regularChars.body[1].body[0].parent = ast.regularChars.body[1];
-ast.regularChars.body[1].body[1].parent = ast.regularChars.body[1];
-
-ast.regularChars.body[1].body[1].body[0].parent = ast.regularChars.body[1].body[1];
+ast.regularChars.body[0].body[0].parent = ast.regularChars.body[0];
+ast.regularChars.body[0].body[1].parent = ast.regularChars.body[0];
+ast.regularChars.body[0].body[1].body[0].parent = ast.regularChars.body[0].body[1];
 
 ast.selfEscaped = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -325,28 +264,18 @@ ast.selfEscaped = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.selfEscaped.body[0].parent = ast.selfEscaped;
-ast.selfEscaped.body[1].parent = ast.selfEscaped;
-ast.selfEscaped.body[2].parent = ast.selfEscaped;
-
-ast.selfEscaped.body[1].body[0].parent = ast.selfEscaped.body[1];
-ast.selfEscaped.body[1].body[1].parent = ast.selfEscaped.body[1];
-
-ast.selfEscaped.body[1].body[1].body[0].parent = ast.selfEscaped.body[1].body[1];
+ast.selfEscaped.body[0].body[0].parent = ast.selfEscaped.body[0];
+ast.selfEscaped.body[0].body[1].parent = ast.selfEscaped.body[0];
+ast.selfEscaped.body[0].body[1].body[0].parent = ast.selfEscaped.body[0].body[1];
 
 ast.hardLineBreak = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -365,18 +294,12 @@ ast.hardLineBreak = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.hardLineBreak.body[0].parent = ast.hardLineBreak;
-ast.hardLineBreak.body[1].parent = ast.hardLineBreak;
-ast.hardLineBreak.body[2].parent = ast.hardLineBreak;
-
-ast.hardLineBreak.body[1].body[0].parent = ast.hardLineBreak.body[1];
+ast.hardLineBreak.body[0].body[0].parent = ast.hardLineBreak.body[0];
 
 module.exports = {
   text,

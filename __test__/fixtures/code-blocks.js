@@ -46,9 +46,6 @@ const tokens = {};
 
 tokens.main = [
   {
-    type: 'BOF',
-  },
-  {
     type: 'Chars',
     value: 'This is a normal paragraph:',
     start: 0,
@@ -72,16 +69,10 @@ tokens.main = [
     start: 59,
     end: 126,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.withBackslashEscape = [
   [
-    {
-      type: 'BOF',
-    },
     {
       type: 'CodeBlock',
       value: '\\[\\]',
@@ -90,14 +81,8 @@ tokens.withBackslashEscape = [
       start: 0,
       end: 8,
     },
-    {
-      type: 'EOF',
-    },
   ],
   [
-    {
-      type: 'BOF',
-    },
     {
       type: 'CodeBlock',
       value: 'foo',
@@ -105,9 +90,6 @@ tokens.withBackslashEscape = [
       isClosed: true,
       start: 0,
       end: 20,
-    },
-    {
-      type: 'EOF',
     },
   ],
 ];
@@ -117,9 +99,6 @@ const ast = {};
 ast.main = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -154,9 +133,6 @@ ast.main = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -165,9 +141,6 @@ ast.withBackslashEscape = [
   {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'CodeBlock',
         language: null,
@@ -179,18 +152,12 @@ ast.withBackslashEscape = [
         ],
         isClosed: true,
       },
-      {
-        type: 'EOF',
-      },
     ],
     parent: null,
   },
   {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'CodeBlock',
         language: 'foo\\+bar',
@@ -202,25 +169,16 @@ ast.withBackslashEscape = [
         ],
         isClosed: true,
       },
-      {
-        type: 'EOF',
-      },
     ],
     parent: null,
   },
 ];
 
 ast.withBackslashEscape[0].body[0].parent = ast.withBackslashEscape[0];
-ast.withBackslashEscape[0].body[1].parent = ast.withBackslashEscape[0];
-ast.withBackslashEscape[0].body[2].parent = ast.withBackslashEscape[0];
-
-ast.withBackslashEscape[0].body[1].body[0].parent = ast.withBackslashEscape[0].body[1];
+ast.withBackslashEscape[0].body[0].body[0].parent = ast.withBackslashEscape[0].body[0];
 
 ast.withBackslashEscape[1].body[0].parent = ast.withBackslashEscape[1];
-ast.withBackslashEscape[1].body[1].parent = ast.withBackslashEscape[1];
-ast.withBackslashEscape[1].body[2].parent = ast.withBackslashEscape[1];
-
-ast.withBackslashEscape[1].body[1].body[0].parent = ast.withBackslashEscape[1].body[1];
+ast.withBackslashEscape[1].body[0].body[0].parent = ast.withBackslashEscape[1].body[0];
 
 module.exports = {
   text,

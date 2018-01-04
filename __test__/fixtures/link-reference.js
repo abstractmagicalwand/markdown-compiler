@@ -55,9 +55,6 @@ const tokens = {};
 
 tokens.linkDefinitions = [
   {
-    type: 'BOF',
-  },
-  {
     type: 'Chars',
     value: 'This is ',
     start: 0,
@@ -189,15 +186,9 @@ tokens.linkDefinitions = [
     start: 184,
     end: 206,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.titleOnNextLine = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: 'This is ',
@@ -246,15 +237,9 @@ tokens.titleOnNextLine = [
     start: 24,
     end: 46,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.notCaseSensitive = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: 'This is ',
@@ -345,15 +330,9 @@ tokens.notCaseSensitive = [
     start: 71,
     end: 93,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.implicitLinkName = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: 'I get 10 times more traffic from ',
@@ -468,15 +447,9 @@ tokens.implicitLinkName = [
     start: 74,
     end: 75,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.idents = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'Chars',
     value: 'This is ',
@@ -591,15 +564,9 @@ tokens.idents = [
     start: 75,
     end: 117,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.invalid = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'LeftSquareBracket',
     value: '[',
@@ -630,15 +597,9 @@ tokens.invalid = [
     start: 9,
     end: 10,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.withBackslashEscape = [
-  {
-    type: 'BOF',
-  },
   {
     type: 'LeftSquareBracket',
     value: '[',
@@ -656,9 +617,6 @@ tokens.withBackslashEscape = [
     value: ']',
     start: 4,
     end: 5,
-  },
-  {
-    type: 'EOF',
   },
 ];
 
@@ -697,9 +655,6 @@ const ast = {};
 ast.linkDefinitions = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -782,35 +737,27 @@ ast.linkDefinitions = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.linkDefinitions.body[0].parent = ast.linkDefinitions;
-ast.linkDefinitions.body[1].parent = ast.linkDefinitions;
-ast.linkDefinitions.body[2].parent = ast.linkDefinitions;
 
-ast.linkDefinitions.body[1].body[0].parent = ast.linkDefinitions.body[1];
-ast.linkDefinitions.body[1].body[1].parent = ast.linkDefinitions.body[1];
-ast.linkDefinitions.body[1].body[2].parent = ast.linkDefinitions.body[1];
-ast.linkDefinitions.body[1].body[3].parent = ast.linkDefinitions.body[1];
-ast.linkDefinitions.body[1].body[4].parent = ast.linkDefinitions.body[1];
-ast.linkDefinitions.body[1].body[5].parent = ast.linkDefinitions.body[1];
-ast.linkDefinitions.body[1].body[6].parent = ast.linkDefinitions.body[1];
+ast.linkDefinitions.body[0].body[0].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[1].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[2].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[3].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[4].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[5].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[6].parent = ast.linkDefinitions.body[0];
 
-ast.linkDefinitions.body[1].body[1].body[0].parent = ast.linkDefinitions.body[1].body[1];
-ast.linkDefinitions.body[1].body[3].body[0].parent = ast.linkDefinitions.body[1].body[3];
-ast.linkDefinitions.body[1].body[5].body[0].parent = ast.linkDefinitions.body[1].body[5];
+ast.linkDefinitions.body[0].body[1].body[0].parent = ast.linkDefinitions.body[0].body[1];
+ast.linkDefinitions.body[0].body[3].body[0].parent = ast.linkDefinitions.body[0].body[3];
+ast.linkDefinitions.body[0].body[5].body[0].parent = ast.linkDefinitions.body[0].body[5];
 
 ast.titleOnNextLine = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -845,29 +792,21 @@ ast.titleOnNextLine = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.titleOnNextLine.body[0].parent = ast.titleOnNextLine;
-ast.titleOnNextLine.body[1].parent = ast.titleOnNextLine;
-ast.titleOnNextLine.body[2].parent = ast.titleOnNextLine;
 
-ast.titleOnNextLine.body[1].body[0].parent = ast.titleOnNextLine.body[1];
-ast.titleOnNextLine.body[1].body[1].parent = ast.titleOnNextLine.body[1];
-ast.titleOnNextLine.body[1].body[2].parent = ast.titleOnNextLine.body[1];
+ast.titleOnNextLine.body[0].body[0].parent = ast.titleOnNextLine.body[0];
+ast.titleOnNextLine.body[0].body[1].parent = ast.titleOnNextLine.body[0];
+ast.titleOnNextLine.body[0].body[2].parent = ast.titleOnNextLine.body[0];
 
-ast.titleOnNextLine.body[1].body[1].body[0].parent = ast.titleOnNextLine.body[1].body[1];
+ast.titleOnNextLine.body[0].body[1].body[0].parent = ast.titleOnNextLine.body[0].body[1];
 
 ast.notCaseSensitive = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -926,32 +865,24 @@ ast.notCaseSensitive = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.notCaseSensitive.body[0].parent = ast.notCaseSensitive;
-ast.notCaseSensitive.body[1].parent = ast.notCaseSensitive;
-ast.notCaseSensitive.body[2].parent = ast.notCaseSensitive;
 
-ast.notCaseSensitive.body[1].body[0].parent = ast.notCaseSensitive.body[1];
-ast.notCaseSensitive.body[1].body[1].parent = ast.notCaseSensitive.body[1];
-ast.notCaseSensitive.body[1].body[2].parent = ast.notCaseSensitive.body[1];
-ast.notCaseSensitive.body[1].body[3].parent = ast.notCaseSensitive.body[1];
-ast.notCaseSensitive.body[1].body[4].parent = ast.notCaseSensitive.body[1];
+ast.notCaseSensitive.body[0].body[0].parent = ast.notCaseSensitive.body[0];
+ast.notCaseSensitive.body[0].body[1].parent = ast.notCaseSensitive.body[0];
+ast.notCaseSensitive.body[0].body[2].parent = ast.notCaseSensitive.body[0];
+ast.notCaseSensitive.body[0].body[3].parent = ast.notCaseSensitive.body[0];
+ast.notCaseSensitive.body[0].body[4].parent = ast.notCaseSensitive.body[0];
 
-ast.notCaseSensitive.body[1].body[1].body[0].parent = ast.notCaseSensitive.body[1].body[1];
-ast.notCaseSensitive.body[1].body[3].body[0].parent = ast.notCaseSensitive.body[1].body[3];
+ast.notCaseSensitive.body[0].body[1].body[0].parent = ast.notCaseSensitive.body[0].body[1];
+ast.notCaseSensitive.body[0].body[3].body[0].parent = ast.notCaseSensitive.body[0].body[3];
 
 ast.implicitLinkName = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -1034,35 +965,27 @@ ast.implicitLinkName = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.implicitLinkName.body[0].parent = ast.implicitLinkName;
-ast.implicitLinkName.body[1].parent = ast.implicitLinkName;
-ast.implicitLinkName.body[2].parent = ast.implicitLinkName;
 
-ast.implicitLinkName.body[1].body[0].parent = ast.implicitLinkName.body[1];
-ast.implicitLinkName.body[1].body[1].parent = ast.implicitLinkName.body[1];
-ast.implicitLinkName.body[1].body[2].parent = ast.implicitLinkName.body[1];
-ast.implicitLinkName.body[1].body[3].parent = ast.implicitLinkName.body[1];
-ast.implicitLinkName.body[1].body[4].parent = ast.implicitLinkName.body[1];
-ast.implicitLinkName.body[1].body[5].parent = ast.implicitLinkName.body[1];
-ast.implicitLinkName.body[1].body[6].parent = ast.implicitLinkName.body[1];
+ast.implicitLinkName.body[0].body[0].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[1].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[2].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[3].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[4].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[5].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[6].parent = ast.implicitLinkName.body[0];
 
-ast.implicitLinkName.body[1].body[1].body[0].parent = ast.implicitLinkName.body[1].body[1];
-ast.implicitLinkName.body[1].body[3].body[0].parent = ast.implicitLinkName.body[1].body[3];
-ast.implicitLinkName.body[1].body[5].body[0].parent = ast.implicitLinkName.body[1].body[5];
+ast.implicitLinkName.body[0].body[1].body[0].parent = ast.implicitLinkName.body[0].body[1];
+ast.implicitLinkName.body[0].body[3].body[0].parent = ast.implicitLinkName.body[0].body[3];
+ast.implicitLinkName.body[0].body[5].body[0].parent = ast.implicitLinkName.body[0].body[5];
 
 ast.idents = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -1139,39 +1062,29 @@ ast.idents = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.idents.body[0].parent = ast.idents;
-ast.idents.body[1].parent = ast.idents;
-ast.idents.body[2].parent = ast.idents;
 
+ast.idents.body[0].body[0].parent = ast.idents.body[0];
+ast.idents.body[0].body[1].parent = ast.idents.body[0];
+ast.idents.body[0].body[2].parent = ast.idents.body[0];
+ast.idents.body[0].body[3].parent = ast.idents.body[0];
 
-ast.idents.body[1].body[0].parent = ast.idents.body[1];
-ast.idents.body[1].body[1].parent = ast.idents.body[1];
-ast.idents.body[1].body[2].parent = ast.idents.body[1];
-ast.idents.body[1].body[3].parent = ast.idents.body[1];
+ast.idents.body[0].body[1].body[0].parent = ast.idents.body[0].body[1];
 
-ast.idents.body[1].body[1].body[0].parent = ast.idents.body[1].body[1];
+ast.idents.body[0].body[3].body[0].parent = ast.idents.body[0].body[3];
+ast.idents.body[0].body[3].body[1].parent = ast.idents.body[0].body[3];
 
-ast.idents.body[1].body[3].body[0].parent = ast.idents.body[1].body[3];
-ast.idents.body[1].body[3].body[1].parent = ast.idents.body[1].body[3];
-
-ast.idents.body[1].body[3].body[1].body[0].parent = ast.idents.body[1].body[3].body[1];
-ast.idents.body[1].body[3].body[1].body[1].parent = ast.idents.body[1].body[3].body[1];
-
-ast.idents.body[1].body[3].body[1].body[1].body[0].parent = ast.idents.body[1].body[3].body[1].body[1];
+ast.idents.body[0].body[3].body[1].body[0].parent = ast.idents.body[0].body[3].body[1];
+ast.idents.body[0].body[3].body[1].body[1].parent = ast.idents.body[0].body[3].body[1];
+ast.idents.body[0].body[3].body[1].body[1].body[0].parent = ast.idents.body[0].body[3].body[1].body[1];
 
 ast.invalid = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -1206,30 +1119,22 @@ ast.invalid = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.invalid.body[0].parent = ast.invalid;
-ast.invalid.body[1].parent = ast.invalid;
-ast.invalid.body[2].parent = ast.invalid;
 
-ast.invalid.body[1].body[0].parent = ast.invalid.body[1];
+ast.invalid.body[0].body[0].parent = ast.invalid.body[0];
 
-ast.invalid.body[1].body[0].body[0].parent = ast.invalid.body[1].body[0];
-ast.invalid.body[1].body[0].body[1].parent = ast.invalid.body[1].body[0];
+ast.invalid.body[0].body[0].body[0].parent = ast.invalid.body[0].body[0];
+ast.invalid.body[0].body[0].body[1].parent = ast.invalid.body[0].body[0];
 
-ast.invalid.body[1].body[0].body[1].body[0].parent = ast.invalid.body[1].body[0].body[1];
+ast.invalid.body[0].body[0].body[1].body[0].parent = ast.invalid.body[0].body[0].body[1];
 
 ast.withBackslashEscape = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -1256,20 +1161,13 @@ ast.withBackslashEscape = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.withBackslashEscape.body[0].parent = ast.withBackslashEscape;
-ast.withBackslashEscape.body[1].parent = ast.withBackslashEscape;
-ast.withBackslashEscape.body[2].parent = ast.withBackslashEscape;
-
-ast.withBackslashEscape.body[1].body[0].parent = ast.withBackslashEscape.body[1];
-
-ast.withBackslashEscape.body[1].body[0].body[0].parent = ast.withBackslashEscape.body[1].body[0];
+ast.withBackslashEscape.body[0].body[0].parent = ast.withBackslashEscape.body[0];
+ast.withBackslashEscape.body[0].body[0].body[0].parent = ast.withBackslashEscape.body[0].body[0];
 
 module.exports = {
   text,

@@ -19,9 +19,6 @@ module.exports = {
   text,
   tokens: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Chars',
       value: 'A First Level Header',
       start: 0,
@@ -53,16 +50,10 @@ module.exports = {
       start: 120,
       end: 153,
     },
-    {
-      type: 'EOF',
-    },
   ],
   ast: {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Header',
         amount: 1,
@@ -96,9 +87,6 @@ module.exports = {
           },
         ],
         isClosed: true,
-      },
-      {
-        type: 'EOF',
       },
     ],
     parent: null,

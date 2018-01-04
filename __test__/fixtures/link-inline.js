@@ -25,9 +25,6 @@ const html = {
 const tokens = {
   withTitle: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Chars',
       value: 'This is ',
       start: 0,
@@ -75,14 +72,8 @@ const tokens = {
       start: 49,
       end: 62,
     },
-    {
-      type: 'EOF',
-    },
   ],
   withoutTitle: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'LeftSquareBracket',
       value: '[',
@@ -125,14 +116,8 @@ const tokens = {
       start: 32,
       end: 56,
     },
-    {
-      type: 'EOF',
-    },
   ],
   relativePath: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Chars',
       value: 'See my ',
@@ -181,14 +166,8 @@ const tokens = {
       start: 23,
       end: 41,
     },
-    {
-      type: 'EOF',
-    },
   ],
   withEmphasis: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'LeftSquareBracket',
       value: '[',
@@ -271,14 +250,8 @@ const tokens = {
       start: 38,
       end: 62,
     },
-    {
-      type: 'EOF',
-    },
   ],
   invalid: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'LeftSquareBracket',
       value: '[',
@@ -327,18 +300,12 @@ const tokens = {
       start: 35,
       end: 41,
     },
-    {
-      type: 'EOF',
-    },
   ],
 };
 
 tokens.withBackslashEscape = [
   [],
   [
-    {
-      type: 'BOF',
-    },
     {
       type: 'LeftSquareBracket',
       value: '[',
@@ -375,9 +342,6 @@ tokens.withBackslashEscape = [
       start: 22,
       end: 23,
     },
-    {
-      type: 'EOF',
-    },
   ],
 ];
 
@@ -386,9 +350,6 @@ const ast = {};
 ast.withTitle = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -423,29 +384,21 @@ ast.withTitle = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.withTitle.body[0].parent = ast.withTitle;
-ast.withTitle.body[1].parent = ast.withTitle;
-ast.withTitle.body[2].parent = ast.withTitle;
 
-ast.withTitle.body[1].body[0].parent = ast.withTitle.body[1];
-ast.withTitle.body[1].body[1].parent = ast.withTitle.body[1];
-ast.withTitle.body[1].body[2].parent = ast.withTitle.body[1];
+ast.withTitle.body[0].body[0].parent = ast.withTitle.body[0];
+ast.withTitle.body[0].body[1].parent = ast.withTitle.body[0];
+ast.withTitle.body[0].body[2].parent = ast.withTitle.body[0];
 
-ast.withTitle.body[1].body[1].body[0].parent = ast.withTitle.body[1].body[1];
+ast.withTitle.body[0].body[1].body[0].parent = ast.withTitle.body[0].body[1];
 
 ast.withoutTitle = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -473,28 +426,20 @@ ast.withoutTitle = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.withoutTitle.body[0].parent = ast.withoutTitle;
-ast.withoutTitle.body[1].parent = ast.withoutTitle;
-ast.withoutTitle.body[2].parent = ast.withoutTitle;
 
-ast.withoutTitle.body[1].body[0].parent = ast.withoutTitle.body[1];
-ast.withoutTitle.body[1].body[1].parent = ast.withoutTitle.body[1];
+ast.withoutTitle.body[0].body[0].parent = ast.withoutTitle.body[0];
+ast.withoutTitle.body[0].body[1].parent = ast.withoutTitle.body[0];
 
-ast.withoutTitle.body[1].body[0].body[0].parent = ast.withoutTitle.body[1].body[0];
+ast.withoutTitle.body[0].body[0].body[0].parent = ast.withoutTitle.body[0].body[0];
 
 ast.relativePath = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -526,29 +471,21 @@ ast.relativePath = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.relativePath.body[0].parent = ast.relativePath;
-ast.relativePath.body[1].parent = ast.relativePath;
-ast.relativePath.body[2].parent = ast.relativePath;
 
-ast.relativePath.body[1].body[0].parent = ast.relativePath.body[1];
-ast.relativePath.body[1].body[1].parent = ast.relativePath.body[1];
-ast.relativePath.body[1].body[2].parent = ast.relativePath.body[1];
+ast.relativePath.body[0].body[0].parent = ast.relativePath.body[0];
+ast.relativePath.body[0].body[1].parent = ast.relativePath.body[0];
+ast.relativePath.body[0].body[2].parent = ast.relativePath.body[0];
 
-ast.relativePath.body[1].body[1].body[0].parent = ast.relativePath.body[1].body[1];
+ast.relativePath.body[0].body[1].body[0].parent = ast.relativePath.body[0].body[1];
 
 ast.withEmphasis = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -598,33 +535,25 @@ ast.withEmphasis = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.withEmphasis.body[0].parent = ast.withEmphasis;
-ast.withEmphasis.body[1].parent = ast.withEmphasis;
-ast.withEmphasis.body[2].parent = ast.withEmphasis;
 
-ast.withEmphasis.body[1].body[0].parent = ast.withEmphasis.body[1];
-ast.withEmphasis.body[1].body[1].parent = ast.withEmphasis.body[1];
+ast.withEmphasis.body[0].body[0].parent = ast.withEmphasis.body[0];
+ast.withEmphasis.body[0].body[1].parent = ast.withEmphasis.body[0];
 
-ast.withEmphasis.body[1].body[0].body[0].parent = ast.withEmphasis.body[1].body[0];
-ast.withEmphasis.body[1].body[0].body[1].parent = ast.withEmphasis.body[1].body[0];
-ast.withEmphasis.body[1].body[0].body[2].parent = ast.withEmphasis.body[1].body[0];
+ast.withEmphasis.body[0].body[0].body[0].parent = ast.withEmphasis.body[0].body[0];
+ast.withEmphasis.body[0].body[0].body[1].parent = ast.withEmphasis.body[0].body[0];
+ast.withEmphasis.body[0].body[0].body[2].parent = ast.withEmphasis.body[0].body[0];
 
-ast.withEmphasis.body[1].body[0].body[0].body[0].parent = ast.withEmphasis.body[1].body[0].body[0];
-ast.withEmphasis.body[1].body[0].body[2].body[0].parent= ast.withEmphasis.body[1].body[0].body[2];
+ast.withEmphasis.body[0].body[0].body[0].body[0].parent = ast.withEmphasis.body[0].body[0].body[0];
+ast.withEmphasis.body[0].body[0].body[2].body[0].parent= ast.withEmphasis.body[0].body[0].body[2];
 
 ast.invalid = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -645,29 +574,19 @@ ast.invalid = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.invalid.body[0].parent = ast.invalid;
-ast.invalid.body[1].parent = ast.invalid;
-ast.invalid.body[2].parent = ast.invalid;
-
-ast.invalid.body[1].body[0].parent = ast.invalid.body[1];
-
-ast.invalid.body[1].body[0].body[0].parent = ast.invalid.body[1].body[0];
+ast.invalid.body[0].body[0].parent = ast.invalid.body[0];
+ast.invalid.body[0].body[0].body[0].parent = ast.invalid.body[0].body[0];
 
 ast.withBackslashEscape = [
   {},
   {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Paragraph',
         body: [
@@ -694,21 +613,14 @@ ast.withBackslashEscape = [
         ],
         isClosed: true,
       },
-      {
-        type: 'EOF',
-      },
     ],
     parent: null,
   },
 ];
 
 ast.withBackslashEscape[1].body[0].parent = ast.withBackslashEscape[1];
-ast.withBackslashEscape[1].body[1].parent = ast.withBackslashEscape[1];
-ast.withBackslashEscape[1].body[2].parent = ast.withBackslashEscape[1];
-
-ast.withBackslashEscape[1].body[1].body[0].parent = ast.withBackslashEscape[1].body[1];
-
-ast.withBackslashEscape[1].body[1].body[0].body[0].parent = ast.withBackslashEscape[1].body[1].body[0];
+ast.withBackslashEscape[1].body[0].body[0].parent = ast.withBackslashEscape[1].body[0];
+ast.withBackslashEscape[1].body[0].body[0].body[0].parent = ast.withBackslashEscape[1].body[0].body[0];
 
 module.exports = {
   text,

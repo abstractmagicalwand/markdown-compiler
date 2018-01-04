@@ -20,9 +20,6 @@ module.exports = {
   text,
   tokens: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Bullet',
       depth: 0,
       value: '*',
@@ -133,16 +130,10 @@ module.exports = {
       start: 336,
       end: 356,
     },
-    {
-      type: 'EOF',
-    },
   ],
   ast: {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'UnorderList',
         depth: 0,
@@ -267,9 +258,6 @@ module.exports = {
           },
         ],
         isClosed: true,
-      },
-      {
-        type: 'EOF',
       },
     ],
     parent: null,

@@ -24,9 +24,6 @@ ast.$1 = {
   type: 'Program',
   body: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Paragraph',
       body: [
         {
@@ -50,9 +47,6 @@ ast.$1 = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -60,9 +54,6 @@ ast.$1 = {
 ast.$2 = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -79,9 +70,6 @@ ast.$2 = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -89,9 +77,6 @@ ast.$2 = {
 ast.$3 = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -112,9 +97,6 @@ ast.$3 = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -122,9 +104,6 @@ ast.$3 = {
 ast.$4 = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -145,9 +124,6 @@ ast.$4 = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -155,9 +131,6 @@ ast.$4 = {
 ast.$5 = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -182,9 +155,6 @@ ast.$5 = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -192,9 +162,6 @@ ast.$5 = {
 ast.$6 = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -229,9 +196,6 @@ ast.$6 = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
@@ -239,9 +203,6 @@ ast.$6 = {
 ast.withBackslashEscape = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -258,28 +219,18 @@ ast.withBackslashEscape = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.withBackslashEscape.body[0].parent = ast.withBackslashEscape;
-ast.withBackslashEscape.body[1].parent = ast.withBackslashEscape;
-ast.withBackslashEscape.body[2].parent = ast.withBackslashEscape;
-
-ast.withBackslashEscape.body[1].body[0].parent = ast.withBackslashEscape.body[1];
-
-ast.withBackslashEscape.body[1].body[0].body[0].parent = ast.withBackslashEscape.body[1].body[0];
+ast.withBackslashEscape.body[0].body[0].parent = ast.withBackslashEscape.body[0];
+ast.withBackslashEscape.body[0].body[0].body[0].parent = ast.withBackslashEscape.body[0].body[0];
 
 module.exports = {
   text,
   tokens: {
     $1: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Chars',
         value: 'Use the ',
@@ -299,14 +250,8 @@ module.exports = {
         start: 18,
         end: 28,
       },
-      {
-        type: 'EOF',
-      },
     ],
     $2: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Code',
         value: 'There is a literal backtick (`) here.',
@@ -314,14 +259,8 @@ module.exports = {
         start: 0,
         end: 41,
       },
-      {
-        type: 'EOF',
-      },
     ],
     $3: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Chars',
         value: 'A single backtick in a code span: ',
@@ -335,14 +274,8 @@ module.exports = {
         start: 34,
         end: 41,
       },
-      {
-        type: 'EOF',
-      },
     ],
     $4: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Chars',
         value: 'A backtick-delimited string in a code span: ',
@@ -356,14 +289,8 @@ module.exports = {
         start: 44,
         end: 55,
       },
-      {
-        type: 'EOF',
-      },
     ],
     $5: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Chars',
         value: 'Please don\'t use any ',
@@ -383,14 +310,8 @@ module.exports = {
         start: 30,
         end: 36,
       },
-      {
-        type: 'EOF',
-      },
     ],
     $6: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Code',
         value: '&#8212;',
@@ -417,23 +338,14 @@ module.exports = {
         start: 56,
         end: 57,
       },
-      {
-        type: 'EOF',
-      },
     ],
     withBackslashEscape: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Code',
         value: '\\[\\`',
         isClosed: true,
         start: 0,
         end: 10,
-      },
-      {
-        type: 'EOF',
       },
     ],
   },

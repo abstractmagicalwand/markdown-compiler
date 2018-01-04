@@ -22,9 +22,6 @@ module.exports = {
   text,
   tokens: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'HorizontalRule',
       value: '*',
       start: 0,
@@ -54,17 +51,11 @@ module.exports = {
       start: 23,
       end: 63,
     },
-    {
-      type: 'EOF',
-    },
   ],
   ast: {
     type: 'Program',
     body: [
       {
-        type: 'BOF',
-      },
-      {
         type: 'HorizontalRule',
         value: '*',
       },
@@ -83,9 +74,6 @@ module.exports = {
       {
         type: 'HorizontalRule',
         value: '-',
-      },
-      {
-        type: 'EOF',
       },
     ],
     parent: null,

@@ -23,9 +23,6 @@ module.exports = {
   text,
   tokens: [
     {
-      type: 'BOF',
-    },
-    {
       type: 'Hashes',
       value: '#',
       amount: 1,
@@ -103,16 +100,10 @@ module.exports = {
       start: 72,
       end: 94,
     },
-    {
-      type: 'EOF',
-    },
   ],
   ast: {
     type: 'Program',
     body: [
-      {
-        type: 'BOF',
-      },
       {
         type: 'Header',
         amount: 1,
@@ -186,9 +177,6 @@ module.exports = {
           },
         ],
         isClosed: true,
-      },
-      {
-        type: 'EOF',
       },
     ],
     parent: null,

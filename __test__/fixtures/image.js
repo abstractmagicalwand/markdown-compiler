@@ -26,10 +26,6 @@ const tokens = {};
 
 tokens.inline = [
   {
-    type: 'BOF',
-    //@TODO add start and end
-  },
-  {
     type: 'OpenedImageBracket',
     value: '![',
     start: 0,
@@ -65,16 +61,9 @@ tokens.inline = [
     start: 28,
     end: 29,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.optionalTitle = [
-  {
-    type: 'BOF',
-    //@TODO add start and end
-  },
   {
     type: 'OpenedImageBracket',
     value: '![',
@@ -111,16 +100,9 @@ tokens.optionalTitle = [
     start: 45,
     end: 46,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 tokens.reference = [
-  {
-    type: 'BOF',
-    //@TODO add start and end
-  },
   {
     type: 'OpenedImageBracket',
     value: '![',
@@ -157,9 +139,6 @@ tokens.reference = [
     start: 14,
     end: 15,
   },
-  {
-    type: 'EOF',
-  },
 ];
 
 const ast = {};
@@ -167,9 +146,6 @@ const ast = {};
 ast.inline = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -187,25 +163,16 @@ ast.inline = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.inline.body[0].parent = ast.inline;
-ast.inline.body[1].parent = ast.inline;
-ast.inline.body[2].parent = ast.inline;
-
-ast.inline.body[1].body[0].parent = ast.inline.body[1];
+ast.inline.body[0].body[0].parent = ast.inline.body[0];
 
 ast.optionalTitle = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -226,25 +193,16 @@ ast.optionalTitle = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.optionalTitle.body[0].parent = ast.optionalTitle;
-ast.optionalTitle.body[1].parent = ast.optionalTitle;
-ast.optionalTitle.body[2].parent = ast.optionalTitle;
-
-ast.optionalTitle.body[1].body[0].parent = ast.optionalTitle.body[1];
+ast.optionalTitle.body[0].body[0].parent = ast.optionalTitle.body[0];
 
 ast.reference = {
   type: 'Program',
   body: [
-    {
-      type: 'BOF',
-    },
     {
       type: 'Paragraph',
       body: [
@@ -265,18 +223,12 @@ ast.reference = {
       ],
       isClosed: true,
     },
-    {
-      type: 'EOF',
-    },
   ],
   parent: null,
 };
 
 ast.reference.body[0].parent = ast.reference;
-ast.reference.body[1].parent = ast.reference;
-ast.reference.body[2].parent = ast.reference;
-
-ast.reference.body[1].body[0].parent = ast.reference.body[1];
+ast.reference.body[0].body[0].parent = ast.reference.body[0];
 
 module.exports = {
   text,
