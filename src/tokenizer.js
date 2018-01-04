@@ -12,15 +12,8 @@ function tokenizer(rawText) {
   const tokens = [];
   const {text, variables} = extractVariables(rawText);
 
-  // bof
-  tokens.push({
-    type: 'BOF',
-  });
-
   let i = 0;
   while (i < text.length) {
-    let lastToken = tokens[tokens.length - 1];
-
     if (text[i] === '\n' || i === 0) {
       const value = text[i];
       let start = i;
@@ -112,7 +105,9 @@ function tokenizer(rawText) {
       }
 
       // signs and hyphens
-      if (lastToken.type === 'Chars' && (text[i] === '=' || text[i] === '-')) {
+      if (tokens[tokens.length - 1]
+        && tokens[tokens.length - 1].type === 'Chars'
+        && (text[i] === '=' || text[i] === '-')) {
         const value = text[i];
         let amount = 0;
 
@@ -139,7 +134,8 @@ function tokenizer(rawText) {
       if (text[i] === '`' && text[i + 1] === '`' && text[i + 2] === '`') {
         i += 3;
 
-        const currDepth = tokens[tokens.length - 1].type === 'Greater'
+        const currDepth = tokens[tokens.length - 1]
+          && tokens[tokens.length - 1].type === 'Greater'
           ? tokens[tokens.length - 1].depth
           : -1;
 
@@ -173,7 +169,9 @@ function tokenizer(rawText) {
       }
 
       // horizontal rule
-      if (lastToken.type !== 'Chars' && (text[i] === '-' || text[i] === '*')) {
+      if ((tokens[tokens.length - 1] === undefined
+        || tokens[tokens.length - 1].type !== 'Chars')
+        && (text[i] === '-' || text[i] === '*')) {
         const value = text[i];
 
         let j = i;
@@ -508,11 +506,6 @@ function tokenizer(rawText) {
 
     i++;
   }
-
-  // eof
-  tokens.push({
-    type: 'EOF',
-  });
 
   let results = {tokens};
 

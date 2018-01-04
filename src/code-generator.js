@@ -111,13 +111,6 @@ function codeGenerator(ast) {
           html += '<hr>\n';
           item.i++;
           continue;
-        } else if (type === 'BOF') {
-          item.i++;
-          continue;
-        } else if (type === 'EOF') {
-          html = html.trim();
-          item.i++;
-          continue;
         } else {
           html += node.operator;
         }
@@ -132,7 +125,7 @@ function codeGenerator(ast) {
     }
   }
 
-  return html;
+  return html.trim();
 }
 
 codeGenerator({});

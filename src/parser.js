@@ -24,7 +24,25 @@ function parser({tokens, variables}) { // eslint-disable-line
 
   let current = 0;
   let node = ast;
-  while (current < tokens.length) {
+  while (current <= tokens.length) {
+    if (tokens[current] === undefined) {
+      let n = node;
+      while (n) {
+        if (n.type === 'Paragraph'
+          || n.type === 'OrderList'
+          || n.type === 'UnorderList'
+          || n.type === 'ListItem'
+          || n.type === 'Header') {
+          n.isClosed = true;
+        }
+
+        n = n.parent;
+      }
+
+      current++;
+      continue;
+    }
+
     if (tokens[current].type === 'NewLine') {
       let parent = node;
 
@@ -46,43 +64,6 @@ function parser({tokens, variables}) { // eslint-disable-line
         node = parent.parent;
       }
 
-      current++;
-      continue;
-    }
-
-    //bof
-    if (tokens[current].type === 'BOF') {
-      const bof = {
-        type: 'BOF',
-        parent: ast,
-      };
-
-      node.body.push(bof);
-      current++;
-      continue;
-    }
-
-    // eof
-    if (tokens[current].type === 'EOF') {
-      let n = node;
-      const eof = {
-        type: 'EOF',
-      };
-
-      while (n) {
-        if (n.type === 'Paragraph'
-          || n.type === 'OrderList'
-          || n.type === 'UnorderList'
-          || n.type === 'ListItem'
-          || n.type === 'Header') {
-          n.isClosed = true;
-        }
-
-        n = n.parent;
-      }
-
-      eof.parent = ast;
-      ast.body.push(eof);
       current++;
       continue;
     }
@@ -353,7 +334,7 @@ function parser({tokens, variables}) { // eslint-disable-line
       || node.type === 'Program'
       || tokens[current].type === 'NewLine'
       || tokens[current].type === 'Chars'
-      && tokens[current - 1].type === 'BOF') {
+      && tokens[current - 1] === undefined) {
       const paragraph = {
         type: 'Paragraph',
         body: [],
@@ -493,16 +474,17 @@ function parser({tokens, variables}) { // eslint-disable-line
       if (n && n.type === 'Link') {
         let j = current + 1;
 
-        if (tokens[j].type === 'Chars' && !tokens[j].value.trim().length) {
+        if (tokens[j] && tokens[j].type === 'Chars'
+          && !tokens[j].value.trim().length) {
           j++;
         }
 
         // link inline
-        if (tokens[j].type === 'LeftParenthesis') {
+        if (tokens[j] && tokens[j].type === 'LeftParenthesis') {
           const closedOperator2 = tokens[j].value;
           j++;
 
-          if (tokens[j].type === 'Chars') {
+          if (tokens[j] && tokens[j].type === 'Chars') {
             const {title, url} = extractTitleAndUrl(tokens[j].value);
             n.title = title;
             n.href = url;
@@ -510,7 +492,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             j++;
           }
 
-          if (tokens[j].type === 'RightParenthesis') {
+          if (tokens[j] && tokens[j].type === 'RightParenthesis') {
             n.isClosed = true;
             n.operators.push(closedOperator, closedOperator2, tokens[j].value);
             node = node.parent;
@@ -518,19 +500,21 @@ function parser({tokens, variables}) { // eslint-disable-line
             current += j - current + 1;
             continue;
           }
-        } else if (variables && tokens[j].type === 'LeftSquareBracket') { // link reference
+        } else if (tokens[j] && tokens[j].type === 'LeftSquareBracket'
+            && variables) { // link reference
           const closedOperator2 = tokens[j].value;
           j++;
 
           let label = '';
-          if (tokens[j].type === 'Chars') {
+          if (tokens[j] && tokens[j].type === 'Chars') {
             label = tokens[j].value.toLowerCase().trim();
             j++;
           } else if (n.body[n.body.length - 1].type === 'Chars') {
             label = n.body[n.body.length - 1].value.toLowerCase().trim();
           }
 
-          if (variables[label] && tokens[j].type === 'RightSquareBracket') {
+          if (tokens[j] && tokens[j].type === 'RightSquareBracket'
+            && variables[label]) {
             n.isClosed = true;
             n.label = label;
             n.operators.push(closedOperator, closedOperator2, tokens[j].value);
@@ -560,24 +544,25 @@ function parser({tokens, variables}) { // eslint-disable-line
       };
       j++;
 
-      if (tokens[j].type === 'Chars') {
+      if (tokens[j] && tokens[j].type === 'Chars') {
         image.alt = tokens[j].value;
         j++;
       }
 
-      if (tokens[j].type === 'RightSquareBracket') {
+      if (tokens[j] && tokens[j].type === 'RightSquareBracket') {
         image.operators.push(tokens[j].value);
         j++;
 
-        if (tokens[j].type === 'Chars' && !tokens[j].value.trim().length) {
+        if (tokens[j] && tokens[j].type === 'Chars'
+          && !tokens[j].value.trim().length) {
           j++;
         }
 
-        if (tokens[j].type === 'LeftParenthesis') {
+        if (tokens[j] && tokens[j].type === 'LeftParenthesis') {
           image.operators.push(tokens[j].value);
           j++;
 
-          if (tokens[j].type === 'Chars') {
+          if (tokens[j] && tokens[j].type === 'Chars') {
             const {title, url} = extractTitleAndUrl(tokens[j].value);
             image.src = url;
             image.title = title;
@@ -585,19 +570,20 @@ function parser({tokens, variables}) { // eslint-disable-line
             j++;
           }
 
-          if (tokens[j].type === 'RightParenthesis') {
+          if (tokens[j] && tokens[j].type === 'RightParenthesis') {
             image.operators.push(tokens[j].value);
             node.body.push(image);
 
             current += j - current + 1;
             continue;
           }
-        } else if (variables && tokens[j].type === 'LeftSquareBracket') { // image reference
+        } else if (tokens[j] && tokens[j].type === 'LeftSquareBracket'
+          && variables) { // image reference
           image.operators.push(tokens[j].value);
           j++;
 
 
-          if (tokens[j].type === 'Chars') {
+          if (tokens[j] && tokens[j].type === 'Chars') {
             image.label = tokens[j].value.toLowerCase().trim();
             j++;
           } else if (image.alt) {
@@ -606,7 +592,7 @@ function parser({tokens, variables}) { // eslint-disable-line
 
           if (image.label
             && variables[image.label]
-            && tokens[j].type === 'RightSquareBracket') {
+            && tokens[j] && tokens[j].type === 'RightSquareBracket') {
             image.operators.push(tokens[j].value);
 
             const {title, url} = extractTitleAndUrl(variables[image.label]);
