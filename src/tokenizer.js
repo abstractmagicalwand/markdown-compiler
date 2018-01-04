@@ -3,6 +3,12 @@ const text = require('../__test__/fixtures').text;
 
 /* eslint complexity: 0 */
 function tokenizer(rawText) {
+  if (typeof rawText !== 'string') {
+    throw new TypeError(
+      `rawText is ${typeof rawText}. It should be string.`
+    );
+  }
+
   const tokens = [];
   const {text, variables} = extractVariables(rawText);
 

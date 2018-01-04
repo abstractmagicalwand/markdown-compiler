@@ -7,28 +7,28 @@ import {html, text} from './fixtures'; // eslint-disable-line
 
 test(
   'horizontal rules: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.horizontalRule), html.horizontalRule, '');
   }
 );
 
 test(
   'atx header: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.atxHeader), html.atxHeader);
   }
 );
 
 test(
   'setext header: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.setextHeader), html.setextHeader);
   }
 );
 
 test(
   'code block: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.codeBlock.main), html.codeBlock.main, 'main');
     t.skip.is(
       compiler(text.codeBlock.withBackslashEscape[0]),
@@ -45,7 +45,7 @@ test(
 
 test(
   'paragraph: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.paragraph), html.paragraph);
   }
 );
@@ -54,7 +54,7 @@ test(
 
 test(
   'blockquote: markdown should compile to html',
-  t => {
+  async t => {
     t.is(
       compiler(text.blockquote.everyLine),
       html.blockquote.everyLine,
@@ -80,14 +80,14 @@ test(
 
 test(
   'unorder list: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.unorderList), html.unorderList);
   }
 );
 
 test(
   'order list: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.orderList), html.orderList, '');
   }
 );
@@ -96,7 +96,7 @@ test(
 
 test(
   'backslash escapes: markdown should compile to html',
-  t => {
+  async t => {
     t.is(
       compiler(text.backslashEscapes.punctuation),
       html.backslashEscapes.punctuation,
@@ -127,7 +127,7 @@ test(
 
 test(
   'code: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.code.$1), html.code.$1, '$1');
     t.is(compiler(text.code.$2), html.code.$2, '$2');
     t.is(compiler(text.code.$3), html.code.$3, '$3');
@@ -144,14 +144,14 @@ test(
 
 test(
   'emphasis: markdown should compile to html',
-  t => {
+  async t => {
     t.is(compiler(text.emphasis), html.emphasis);
   }
 );
 
 test(
   'link inline: markdown should compile to html',
-  t => {
+  async t => {
     t.is(
       compiler(text.linkInline.withTitle),
       html.linkInline.withTitle,
@@ -194,7 +194,7 @@ test.todo('link inline: link without text');
 
 test(
   'link reference: markdown should compile to html',
-  t => {
+  async t => {
     t.is(
       compiler(text.linkReference.linkDefinitions),
       html.linkReference.linkDefinitions,
@@ -235,7 +235,7 @@ test(
 
 test(
   'autolink: markdown should compile to html',
-  t => {
+  async t => {
     t.is(
       compiler(text.autolink.url.valid[0]),
       html.autolink.url.valid[0],

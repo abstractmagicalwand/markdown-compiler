@@ -7,7 +7,7 @@ import {text, tokens, variables} from './fixtures';
 
 test(
   'horizontal rules: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.horizontalRule),
       {tokens: tokens.horizontalRule}
@@ -17,21 +17,21 @@ test(
 
 test(
   'atx header: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.atxHeader), {tokens: tokens.atxHeader});
   }
 );
 
 test(
   'setext header: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.setextHeader), {tokens: tokens.setextHeader});
   }
 );
 
 test(
   'code block: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.codeBlock.main),
       {tokens: tokens.codeBlock.main},
@@ -52,7 +52,7 @@ test(
 
 test(
   'paragraph: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.paragraph), {tokens: tokens.paragraph});
   }
 );
@@ -61,7 +61,7 @@ test(
 
 test(
   'blockquote: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.blockquote.everyLine),
       {tokens: tokens.blockquote.everyLine},
@@ -87,14 +87,14 @@ test(
 
 test(
   'unorder list: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.unorderList), {tokens: tokens.unorderList});
   }
 );
 
 test(
   'order list: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.orderList), {tokens: tokens.orderList});
   }
 );
@@ -103,7 +103,7 @@ test(
 
 test(
   'backslash escapes: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.backslashEscapes.punctuation),
       {tokens: tokens.backslashEscapes.punctuation},
@@ -134,7 +134,7 @@ test(
 
 test(
   'code: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.code.$1), {tokens: tokens.code.$1}, '$1');
     t.deepEqual(tokenizer(text.code.$2), {tokens: tokens.code.$2}, '$2');
     t.deepEqual(tokenizer(text.code.$3), {tokens: tokens.code.$3}, '$3');
@@ -151,15 +151,14 @@ test(
 
 test(
   'emphasis: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(tokenizer(text.emphasis), {tokens: tokens.emphasis});
   }
 );
 
-
 test(
   'link inline: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.linkInline.withTitle),
       {tokens: tokens.linkInline.withTitle},
@@ -202,7 +201,7 @@ test.todo('link inline: link without text');
 
 test(
   'link reference: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.linkReference.linkDefinitions),
       {
@@ -265,7 +264,7 @@ test.todo('link reference: link without text');
 
 test(
   'image: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.image.inline),
       {
@@ -292,7 +291,7 @@ test(
 
 test(
   'autolink: markdown should transform to tokens',
-  t => {
+  async t => {
     t.deepEqual(
       tokenizer(text.autolink.url.valid[0]),
       {tokens: tokens.autolink.url.valid[0]},
@@ -359,5 +358,25 @@ test(
       {tokens: tokens.autolink.areNotAutolinks[5]},
       'should not be autolink - 6'
     );
+  }
+);
+
+// other
+
+test(
+  'parser should throw exceptions',
+  async t => {
+    t.throws(
+      () => tokenizer(1),
+      TypeError,
+      'rawText is number. It should be string.'
+    );
+  }
+);
+
+test(
+  'parser should not throw any exceptions',
+  async t => {
+    t.notThrows(() => tokenizer(''), 'string is empty');
   }
 );

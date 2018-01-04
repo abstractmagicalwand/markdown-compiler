@@ -9,7 +9,7 @@ import {tokens, variables, ast } from './fixtures';
 
 test(
   'horizontal rules: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(
       parser({tokens: tokens.horizontalRule}),
       [ast.horizontalRule],
@@ -22,7 +22,7 @@ test(
 
 test(
   'atx header: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(parser({tokens: tokens.atxHeader}), [ast.atxHeader], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
@@ -31,7 +31,7 @@ test(
 
 test(
   'setext header: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(
       parser({tokens: tokens.setextHeader}),
       [ast.setextHeader],
@@ -44,7 +44,7 @@ test(
 
 test(
   'code block: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(
       parser({tokens: tokens.codeBlock.main}),
       [ast.codeBlock.main], (a, b) => {
@@ -66,7 +66,7 @@ test(
 
 test(
   'paragraph: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(parser({tokens: tokens.paragraph}), [ast.paragraph], (a, b) => {
       t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
     });
@@ -77,7 +77,7 @@ test(
 
 test(
   'blockquote: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     t.deepEqual(
       parser({tokens: tokens.blockquote.everyLine}),
       ast.blockquote.everyLine,
@@ -119,7 +119,7 @@ test(
 
 test(
   'order list: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(parser({tokens: tokens.orderList}), [ast.orderList], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
@@ -130,7 +130,7 @@ test(
 
 test(
   'backslash escapes: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     t.deepEqual(
       parser({tokens: tokens.backslashEscapes.punctuation}),
       ast.backslashEscapes.punctuation,
@@ -161,7 +161,7 @@ test(
 
 test(
   'code: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(parser({tokens: tokens.code.$1}), [ast.code.$1], (a, b) => {
       t.is(a, b, `code($1): ${a} isn't equal ${b}`);
     });
@@ -190,7 +190,7 @@ test(
 
 test(
   'emphasis: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     isMatched(parser({tokens: tokens.emphasis}), [ast.emphasis], (a, b) => {
       t.is(a, b, `emphasis: ${a} isn't equal ${b}`);
     });
@@ -199,7 +199,7 @@ test(
 
 test(
   'link inline: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     t.deepEqual(
       parser({tokens: tokens.linkInline.withTitle}),
       ast.linkInline.withTitle,
@@ -242,7 +242,7 @@ test.todo('link inline: link without text');
 
 test(
   'link reference: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     t.deepEqual(
       parser(
         {
@@ -315,7 +315,7 @@ test.todo('link reference: link without text');
 
 test(
   'image: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     t.deepEqual(
       parser({tokens: tokens.image.inline}),
       ast.image.inline,
@@ -339,7 +339,7 @@ test(
 
 test(
   'autolink: tokens should parse to abstract syntax tree',
-  t => {
+  async t => {
     t.deepEqual(
       parser({tokens: tokens.autolink.url.valid[0]}),
       ast.autolink.url.valid[0],
@@ -414,14 +414,22 @@ test(
 
 test(
   'parser should throw exceptions',
-  t => {
+  async t => {
     t.throws(
       () => parser({tokens: [{type: 'function'}]}),
       Error,
       'token is not valide'
     );
-    t.throws(() => parser({}), TypeError, 'tokens are not valide');
-    t.throws(() => parser({tokens: {}}), TypeError, 'tokens are not array');
+    t.throws(
+      () => parser({}),
+      TypeError,
+      'tokens are undefined. It should be array.'
+    );
+    t.throws(
+      () => parser({tokens: {}}),
+      TypeError,
+      'tokens are object. It should be array.'
+    );
     t.throws(
       () => parser({tokens: [], variables: []}),
       TypeError,
@@ -431,8 +439,8 @@ test(
 );
 
 test(
-  'parser shouldn\'t throw exceptions',
-  t => {
+  'parser should not throw any exceptions',
+  async t => {
     t.notThrows(() => parser({tokens: []}), 'tokens are empty');
     t.notThrows(
       () => parser({tokens: [], variables: {}}),

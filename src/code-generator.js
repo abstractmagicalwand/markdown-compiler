@@ -1,5 +1,9 @@
 /* eslint complexity: 0 */
 function codeGenerator(ast) {
+  if (ast && ast.__proto__.constructor !== Object) {
+    throw TypeError(`ast is ${typeof rawText}. It should be object.`);
+  }
+
   let html = '';
   let stack = [];
 
@@ -47,7 +51,7 @@ function codeGenerator(ast) {
       stack.pop();
     }
 
-    while (item.node.body.length > item.i) {
+    while (item.node.body && item.node.body.length > item.i) {
       const node = item.node.body[item.i];
       const {type, isClosed} = node;
 
@@ -130,5 +134,7 @@ function codeGenerator(ast) {
 
   return html;
 }
+
+codeGenerator({});
 
 module.exports = codeGenerator;

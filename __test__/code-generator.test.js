@@ -7,14 +7,14 @@ import {ast, html} from './fixtures'; // eslint-disable-line
 
 test(
   'horizontal rule: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.horizontalRule), html.horizontalRule);
   }
 );
 
 test(
   'atx header: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.atxHeader), html.atxHeader);
   }
 );
@@ -23,7 +23,7 @@ test.todo('atx header: unclosed markdown tag');
 
 test(
   'setext header: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.setextHeader), html.setextHeader);
   }
 );
@@ -32,7 +32,7 @@ test.todo('setext header: unclosed markdown tag');
 
 test(
   'code block: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.codeBlock.main), html.codeBlock.main, 'main');
     t.skip.is(
       codeGenerator(ast.codeBlock.withBackslashEscape[0]),
@@ -51,7 +51,7 @@ test.todo('code block: unclosed markdown tag');
 
 test(
   'paragraph: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.paragraph), html.paragraph);
   }
 );
@@ -60,7 +60,7 @@ test(
 
 test(
   'blockquote: code should generate to html',
-  t => {
+  async t => {
     t.is(
       codeGenerator(ast.blockquote.everyLine),
       html.blockquote.everyLine,
@@ -91,7 +91,7 @@ test.todo('blockquote: unclosed markdown tag');
 
 test(
   'unorder list: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.unorderList), html.unorderList);
   }
 );
@@ -100,7 +100,7 @@ test.todo('unorder list: unclosed markdown tag');
 
 test(
   'order list: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.orderList), html.orderList);
   }
 );
@@ -111,7 +111,7 @@ test.todo('order list: unclosed markdown tag');
 
 test(
   'backslash escapes: code should generate to html',
-  t => {
+  async t => {
     t.is(
       codeGenerator(ast.backslashEscapes.punctuation),
       html.backslashEscapes.punctuation,
@@ -142,7 +142,7 @@ test(
 
 test(
   'code: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.code.$1), html.code.$1, '$1');
     t.is(codeGenerator(ast.code.$2), html.code.$2, '$2');
     t.is(codeGenerator(ast.code.$3), html.code.$3, '$3');
@@ -159,7 +159,7 @@ test(
 
 test(
   'emphasis: code should generate to html',
-  t => {
+  async t => {
     t.is(codeGenerator(ast.emphasis), html.emphasis);
   }
 );
@@ -168,7 +168,7 @@ test.todo('emphasis: unclosed markdown tag');
 
 test(
   'link inline: code should generate to html',
-  t => {
+  async t => {
     t.is(
       codeGenerator(ast.linkInline.withTitle),
       html.linkInline.withTitle,
@@ -213,7 +213,7 @@ test.todo('link inline: without text');
 
 test(
   'link reference: code should generate to html',
-  t => {
+  async t => {
     t.is(
       codeGenerator(ast.linkReference.linkDefinitions),
       html.linkReference.linkDefinitions,
@@ -258,7 +258,7 @@ test.todo('link reference: without text');
 
 test(
   'image: code should generate to html',
-  t => {
+  async t => {
     t.is(
       codeGenerator(ast.image.inline),
       html.image.inline,
@@ -279,7 +279,7 @@ test(
 
 test(
   'autolink: code should generate to html',
-  t => {
+  async t => {
     t.is(
       codeGenerator(ast.autolink.url.valid[0]),
       html.autolink.url.valid[0],
@@ -347,5 +347,25 @@ test(
       html.autolink.areNotAutolinks[5],
       'should not be autolink 6'
     );
+  }
+);
+
+// other
+
+test(
+  'code generator should throw exceptions',
+  async t => {
+    t.throws(
+      () => codeGenerator(1),
+      TypeError,
+      'rawText is number. It should be string.'
+    );
+  }
+);
+
+test(
+  'code generator should not throw any exceptions',
+  async t => {
+    t.notThrows(() => codeGenerator({}), 'object is empty');
   }
 );

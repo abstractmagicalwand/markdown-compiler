@@ -5,11 +5,15 @@ const encodeToHtmlEntities = (value) =>
 /* eslint complexity: 0 */
 function parser({tokens, variables}) { // eslint-disable-line
   if (!Array.isArray(tokens)) {
-    throw new TypeError('tokens is not array');
+    throw new TypeError(
+      `tokens are ${typeof tokens}. It should be array.`
+    );
   }
 
   if (variables && variables.__proto__.constructor !== Object) {
-    throw new TypeError('variables is not object');
+    throw new TypeError(
+      `variables are ${typeof variables}. It should be object.`
+    );
   }
 
   const ast = {
