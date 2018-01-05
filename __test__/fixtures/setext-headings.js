@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
+const markdown = strip(`
     A First Level Header
     ====================
     This is just a regular paragraph.
@@ -16,7 +16,7 @@ const html = strip(`
   `);
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'Chars',

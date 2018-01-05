@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
+const markdown = strip(`
     5.  Bird
     3.  McHale
     1.  Parish
@@ -13,7 +13,7 @@ const text = strip(`
 const html = '<ol start="5"><li>Bird</li><li>McHale</li><li>Parish</li><li><ol start="2"><li>Bird</li><li>McHale</li><li>Parish</li></ol></li></ol>';
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'Item',

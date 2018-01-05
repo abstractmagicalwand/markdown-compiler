@@ -1,10 +1,10 @@
 const input = `
-    text
-    text
-    text
-    text
+    markdown
+    markdown
+    markdown
+    markdown
   `;
-const output = 'text\ntext\ntext\ntext';
+const output = 'markdown\ntext\ntext\ntext';
 
 module.exports = {
   input,

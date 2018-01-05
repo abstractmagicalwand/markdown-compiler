@@ -1,8 +1,8 @@
-const text = '**Homo** *Sapiens* _non_ __urinat__ **_in_** **ventum_';
+const markdown = '**Homo** *Sapiens* _non_ __urinat__ **_in_** **ventum_';
 const html = '<p><strong>Homo</strong> <em>Sapiens</em> <em>non</em> <strong>urinat</strong> <strong><em>in</em></strong> **ventum_</p>';
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'Asterisk',

@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
+const markdown = strip(`
     # Header 1
     ## Header 2
     ### Header 3
@@ -20,7 +20,7 @@ const html = strip(`
   `);
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'Hashes',

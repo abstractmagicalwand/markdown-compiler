@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
+const markdown = strip(`
     **Guardian Angel**
 
     I love You, My Guardian Angel, in gloom.
@@ -21,7 +21,7 @@ const html = strip(`
   `);
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'Asterisk',

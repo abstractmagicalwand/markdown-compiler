@@ -42,5 +42,4 @@ $ yarn build # build the bundle
 - [ ] Textual content
 
 ## Backlog
-- [ ] Support all list style type. https://www.w3.org/TR/html401/struct/lists.html
-- [ ] Repkace `text` -> `markdown`.
+- Support all list style type. https://www.w3.org/TR/html401/struct/lists.html

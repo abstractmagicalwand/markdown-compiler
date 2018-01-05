@@ -1,4 +1,4 @@
-const text = {
+const markdown = {
   withTitle: 'This is [an example](http://example.com/ "Title") inline link.',
   withoutTitle: '[This link](http://example.net/) has no title attribute.',
   relativePath: 'See my [About](/about/) page for details.',
@@ -623,7 +623,7 @@ ast.withBackslashEscape[1].body[0].body[0].parent = ast.withBackslashEscape[1].b
 ast.withBackslashEscape[1].body[0].body[0].body[0].parent = ast.withBackslashEscape[1].body[0].body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   ast,
   html,

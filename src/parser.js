@@ -25,7 +25,7 @@ function parser({tokens, variables}) { // eslint-disable-line
   let current = 0;
   let node = ast;
   while (current <= tokens.length) {
-    if (tokens[current] === undefined) {
+    if (tokens[current] == null) {
       let n = node;
       while (n) {
         if (n.type === 'Paragraph'
@@ -334,7 +334,7 @@ function parser({tokens, variables}) { // eslint-disable-line
       || node.type === 'Program'
       || tokens[current].type === 'NewLine'
       || tokens[current].type === 'Chars'
-      && tokens[current - 1] === undefined) {
+      && tokens[current - 1] == null) {
       const paragraph = {
         type: 'Paragraph',
         body: [],
@@ -643,18 +643,18 @@ function parser({tokens, variables}) { // eslint-disable-line
 
 
 
-function extractTitleAndUrl(rawText) {
-  const text = rawText.trim();
-  const rawBorder = text.match(/\s+/i);
+function extractTitleAndUrl(_markdown) {
+  const markdown = _markdown.trim();
+  const rawBorder = markdown.match(/\s+/i);
   const border = rawBorder && rawBorder.index ? rawBorder.index : -1;
 
   let rawUrl = null;
   let rawTitle = null;
   if (border === -1) {
-    rawUrl = text;
+    rawUrl = markdown;
   } else if (border > -1) {
-    rawUrl = text.slice(0, border);
-    rawTitle = text.slice(border).trim();
+    rawUrl = markdown.slice(0, border);
+    rawTitle = markdown.slice(border).trim();
   }
 
   let url = null;

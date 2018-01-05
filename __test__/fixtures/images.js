@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = {
+const markdown = {
   inline: '![Alt text](/path/to/img.jpg)',
   optionalTitle: '![Alt text](/path/to/img.jpg "Optional title")',
   reference: strip(`
@@ -231,7 +231,7 @@ ast.reference.body[0].parent = ast.reference;
 ast.reference.body[0].body[0].parent = ast.reference.body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   variables,
   ast,

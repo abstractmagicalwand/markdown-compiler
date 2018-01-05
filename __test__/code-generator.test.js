@@ -209,7 +209,7 @@ test(
 
 test.todo('links inline: unclosed markdown tag');
 
-test.todo('links inline: without text');
+test.todo('links inline: without markdown');
 
 test(
   'links reference: code should generate to html',
@@ -254,7 +254,7 @@ test(
 
 test.todo('links reference: unclosed markdown tag');
 
-test.todo('links reference: without text');
+test.todo('links reference: without markdown');
 
 test(
   'images: code should generate to html',

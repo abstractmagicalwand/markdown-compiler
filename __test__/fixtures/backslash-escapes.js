@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = {
+const markdown = {
   punctuation: '\\!\\"\\#\\$\\%\\&\\\'\\(\\)\\*\\+\\,\\-\\.\\\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\_\\`\\{\\|\\}\\~',
   likeLiteral: '\\→\\A\\a\\ \\3\\φ\\«',
   regularChars: strip(`
@@ -302,7 +302,7 @@ ast.hardLineBreak.body[0].parent = ast.hardLineBreak;
 ast.hardLineBreak.body[0].body[0].parent = ast.hardLineBreak.body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   ast,
   html,

@@ -19,22 +19,22 @@ const autolinks = require('./autolinks');
 const traverser = require('./traverser');
 
 module.exports = {
-  text: {
-    thematicBreaks: thematicBreaks.text,
-    atxHeadings: atxHeadings.text,
-    setextHeadings: setextHeadings.text,
-    codeBlocks: codeBlocks.text,
-    paragraphs: paragraphs.text,
-    blockQuotes: blockQuotes.text,
-    unorderLists: unorderLists.text,
-    orderLists: orderLists.text,
-    backslashEscapes: backslashEscapes.text,
-    codeSpans: codeSpans.text,
-    emphasis: emphasis.text,
-    linksInline: linksInline.text,
-    linksReference: linksReference.text,
-    images: images.text,
-    autolinks: autolinks.text,
+  markdown: {
+    thematicBreaks: thematicBreaks.markdown,
+    atxHeadings: atxHeadings.markdown,
+    setextHeadings: setextHeadings.markdown,
+    codeBlocks: codeBlocks.markdown,
+    paragraphs: paragraphs.markdown,
+    blockQuotes: blockQuotes.markdown,
+    unorderLists: unorderLists.markdown,
+    orderLists: orderLists.markdown,
+    backslashEscapes: backslashEscapes.markdown,
+    codeSpans: codeSpans.markdown,
+    emphasis: emphasis.markdown,
+    linksInline: linksInline.markdown,
+    linksReference: linksReference.markdown,
+    images: images.markdown,
+    autolinks: autolinks.markdown,
   },
   tokens: {
     thematicBreaks: thematicBreaks.tokens,

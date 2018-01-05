@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = {
+const markdown = {
   main: strip(`
     This is a normal paragraph:
 
@@ -181,7 +181,7 @@ ast.withBackslashEscape[1].body[0].parent = ast.withBackslashEscape[1];
 ast.withBackslashEscape[1].body[0].body[0].parent = ast.withBackslashEscape[1].body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   ast,
   html,

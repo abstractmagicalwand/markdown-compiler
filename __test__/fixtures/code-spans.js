@@ -1,4 +1,4 @@
-const text = {
+const markdown = {
   $1: 'Use the `printf()` function.',
   $2: '``There is a literal backtick (`) here.``',
   $3: 'A single backtick in a code span: `` ` ``',
@@ -228,7 +228,7 @@ ast.withBackslashEscape.body[0].body[0].parent = ast.withBackslashEscape.body[0]
 ast.withBackslashEscape.body[0].body[0].body[0].parent = ast.withBackslashEscape.body[0].body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens: {
     $1: [
       {

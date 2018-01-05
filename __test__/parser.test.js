@@ -238,7 +238,7 @@ test(
   }
 );
 
-test.todo('links inline: link without text');
+test.todo('links inline: link without markdown');
 
 test(
   'links reference: tokens should parse to abstract syntax tree',
@@ -311,7 +311,7 @@ test(
   }
 );
 
-test.todo('links reference: link without text');
+test.todo('links reference: link without markdown');
 
 test(
   'images: tokens should parse to abstract syntax tree',

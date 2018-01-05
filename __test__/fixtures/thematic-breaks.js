@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
+const markdown = strip(`
     * * *
 
     ***
@@ -19,7 +19,7 @@ const html = strip(`
   `);
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'HorizontalRule',

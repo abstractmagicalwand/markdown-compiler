@@ -1,4 +1,4 @@
-const text = {
+const markdown = {
   url: {
     valid: [
       '<http://foo.bar.baz>',
@@ -525,7 +525,7 @@ ast.areNotAutolinks[5].body[0].parent = ast.areNotAutolinks[5];
 ast.areNotAutolinks[5].body[0].body[0].parent = ast.areNotAutolinks[5].body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   ast,
   html,

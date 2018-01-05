@@ -1,5 +1,5 @@
 const patterns = require('./patterns');
-const text = require('../__test__/fixtures').text;
+const markdown = require('../__test__/fixtures').markdown;
 
 /* eslint complexity: 0 */
 function tokenizer(rawText) {
@@ -10,36 +10,36 @@ function tokenizer(rawText) {
   }
 
   const tokens = [];
-  const {text, variables} = extractVariables(rawText);
+  const {markdown, variables} = extractVariables(rawText);
 
   let i = 0;
-  while (i < text.length) {
-    if (text[i] === '\n' || i === 0) {
-      const value = text[i];
+  while (i < markdown.length) {
+    if (markdown[i] === '\n' || i === 0) {
+      const value = markdown[i];
       let start = i;
 
       let amountOfNewLines = 0;
-      for (; text[i] === '\n'; i++) {
+      for (; markdown[i] === '\n'; i++) {
         amountOfNewLines++;
       }
 
       let amountOfSpaces = 0;
-      for (; text[i] === ' '; i++) {
+      for (; markdown[i] === ' '; i++) {
         amountOfSpaces++;
       }
 
       // greater
-      if (text[i] === '>') {
+      if (markdown[i] === '>') {
         let depth = 0;
 
-        while (text[i] === '>') {
+        while (markdown[i] === '>') {
           let j = i;
 
           do {
             j++;
-          } while (text[j] === ' ');
+          } while (markdown[j] === ' ');
 
-          if (text[j - 1] === ' ' || text[j] === '\n') {
+          if (markdown[j - 1] === ' ' || markdown[j] === '\n') {
             i = j;
 
             if (amountOfNewLines >= 2) {
@@ -72,24 +72,24 @@ function tokenizer(rawText) {
           break;
         }
 
-        if (text[i] === '\n') {
+        if (markdown[i] === '\n') {
           continue;
         }
       }
 
       // hashes
-      if (text[i] === '#') {
+      if (markdown[i] === '#') {
         let amountOfNewLines = 1;
 
         let j = i + 1;
-        for (; text[j] === '#'; j++) {
+        for (; markdown[j] === '#'; j++) {
           amountOfNewLines++;
         }
 
         if (amountOfNewLines <= 6) {
           i = j;
 
-          while (text[i] === ' ') {
+          while (markdown[i] === ' ') {
             i++;
           }
 
@@ -107,16 +107,16 @@ function tokenizer(rawText) {
       // signs and hyphens
       if (tokens[tokens.length - 1]
         && tokens[tokens.length - 1].type === 'Chars'
-        && (text[i] === '=' || text[i] === '-')) {
-        const value = text[i];
+        && (markdown[i] === '=' || markdown[i] === '-')) {
+        const value = markdown[i];
         let amount = 0;
 
         let j = i;
-        for (; text[j] === value; j++) {
+        for (; markdown[j] === value; j++) {
           amount++;
         }
 
-        if (text[j] === '\n') {
+        if (markdown[j] === '\n') {
           i = j + 1;
 
           tokens.push({
@@ -131,7 +131,7 @@ function tokenizer(rawText) {
       }
 
       //code block
-      if (text[i] === '`' && text[i + 1] === '`' && text[i + 2] === '`') {
+      if (markdown[i] === '`' && markdown[i + 1] === '`' && markdown[i + 2] === '`') {
         i += 3;
 
         const currDepth = tokens[tokens.length - 1]
@@ -142,19 +142,19 @@ function tokenizer(rawText) {
         let value = '';
         let amountOfClosedBackticks = 0;
         let level = currDepth;
-        for (; i < text.length && amountOfClosedBackticks < 3; i++) {
-          if (text[i] === '`') {
+        for (; i < markdown.length && amountOfClosedBackticks < 3; i++) {
+          if (markdown[i] === '`') {
             amountOfClosedBackticks++;
-          } else if (text[i] === '>' && level === -1) {
-            value += text[i];
-          } else if (text[i] === '>' && text[i + 1] === ' ') {
+          } else if (markdown[i] === '>' && level === -1) {
+            value += markdown[i];
+          } else if (markdown[i] === '>' && markdown[i + 1] === ' ') {
             level--;
             i++;
-          } else if (text[i] === '\n') {
+          } else if (markdown[i] === '\n') {
             level = currDepth;
             value += '\n';
           } else {
-            value += text[i];
+            value += markdown[i];
           }
         }
 
@@ -169,17 +169,17 @@ function tokenizer(rawText) {
       }
 
       // horizontal rule
-      if ((tokens[tokens.length - 1] === undefined
+      if ((tokens[tokens.length - 1] == null
         || tokens[tokens.length - 1].type !== 'Chars')
-        && (text[i] === '-' || text[i] === '*')) {
-        const value = text[i];
+        && (markdown[i] === '-' || markdown[i] === '*')) {
+        const value = markdown[i];
 
         let j = i;
-        while (text[j] === value || text[j] === ' ') {
+        while (markdown[j] === value || markdown[j] === ' ') {
           j++;
         }
 
-        if (text[j] === '\n' || j === text.length) {
+        if (markdown[j] === '\n' || j === markdown.length) {
           i = j;
 
           tokens.push({
@@ -193,18 +193,18 @@ function tokenizer(rawText) {
       }
 
       // bullet
-      if (text[i] === '*' || text[i] === '+' || text[i] === '-') {
+      if (markdown[i] === '*' || markdown[i] === '+' || markdown[i] === '-') {
         let depth = Math.floor(amountOfSpaces * 0.5);
 
-        while (text[i] === '*' || text[i] === '+' || text[i] === '-') {
-          const value = text[i];
+        while (markdown[i] === '*' || markdown[i] === '+' || markdown[i] === '-') {
+          const value = markdown[i];
 
           let j = i + 1;
-          while (text[j] === ' ') {
+          while (markdown[j] === ' ') {
             j++;
           }
 
-          if (text[j - 1] === ' ') {
+          if (markdown[j - 1] === ' ') {
             i = j;
 
             tokens.push({
@@ -227,23 +227,23 @@ function tokenizer(rawText) {
       }
 
       // item
-      if (/\d/.test(text[i])) {
+      if (/\d/.test(markdown[i])) {
         let depth = Math.floor(amountOfSpaces * 0.5);
 
-        while (/\d/.test(text[i])) {
+        while (/\d/.test(markdown[i])) {
           let value = '';
           let j = i;
-          while (/\d/.test(text[j])) {
-            value += text[j];
+          while (/\d/.test(markdown[j])) {
+            value += markdown[j];
             j++;
           }
 
-          if (text[j] === '.') {
+          if (markdown[j] === '.') {
             do {
               j++;
-            } while (text[j] === ' ');
+            } while (markdown[j] === ' ');
 
-            if (text[j - 1] === ' ') {
+            if (markdown[j - 1] === ' ') {
               i = j;
 
               tokens.push({
@@ -298,21 +298,21 @@ function tokenizer(rawText) {
     }
 
     // autolink
-    if (text[i] === '<') {
+    if (markdown[i] === '<') {
       const start = i;
-      const operators = [text[i]];
+      const operators = [markdown[i]];
       let j = i + 1;
 
       let value = '';
       let isClosed = false;
-      for (; !/\s/.test(text[j]); j++) {
-        if (text[j] === '>') {
+      for (; !/\s/.test(markdown[j]); j++) {
+        if (markdown[j] === '>') {
           isClosed = true;
-          operators.push(text[j]);
+          operators.push(markdown[j]);
           break;
         }
 
-        value += text[j];
+        value += markdown[j];
       }
 
       if (isClosed && patterns.url.test(value)) {
@@ -343,20 +343,20 @@ function tokenizer(rawText) {
     }
 
     // square bracket
-    if (text[i] === '[') {
+    if (markdown[i] === '[') {
       tokens.push({
         type: 'LeftSquareBracket',
-        value: text[i],
+        value: markdown[i],
         start: i,
         end: ++i,
       });
       continue;
     }
 
-    if (text[i] === ']') {
+    if (markdown[i] === ']') {
       tokens.push({
         type: 'RightSquareBracket',
-        value: text[i],
+        value: markdown[i],
         start: i,
         end: ++i,
       });
@@ -364,20 +364,20 @@ function tokenizer(rawText) {
     }
 
     // parenthesis
-    if (text[i] === '(') {
+    if (markdown[i] === '(') {
       tokens.push({
         type: 'LeftParenthesis',
-        value: text[i],
+        value: markdown[i],
         start: i,
         end: ++i,
       });
       continue;
     }
 
-    if (text[i] === ')') {
+    if (markdown[i] === ')') {
       tokens.push({
         type: 'RightParenthesis',
-        value: text[i],
+        value: markdown[i],
         start: i,
         end: ++i,
       });
@@ -385,12 +385,12 @@ function tokenizer(rawText) {
     }
 
     // asterisk
-    if (text[i] === '*') {
+    if (markdown[i] === '*') {
       const start = i;
-      const value = text[i];
+      const value = markdown[i];
 
       let amount = 0;
-      for (; text[i] === value; i++) {
+      for (; markdown[i] === value; i++) {
         amount++;
       }
 
@@ -405,12 +405,12 @@ function tokenizer(rawText) {
     }
 
     // underscore
-    if (text[i] === '_') {
+    if (markdown[i] === '_') {
       const start = i;
-      const value = text[i];
+      const value = markdown[i];
 
       let amount = 0;
-      for (; text[i] === value; i++) {
+      for (; markdown[i] === value; i++) {
         amount++;
       }
 
@@ -425,21 +425,21 @@ function tokenizer(rawText) {
     }
 
     // code
-    if (text[i] === '`') {
+    if (markdown[i] === '`') {
       const start = i;
       let j = i;
 
       let amountOfOpenedBackticks = 0;
-      for (; text[j] === '`'; j++) {
+      for (; markdown[j] === '`'; j++) {
         amountOfOpenedBackticks++;
       }
 
       let value = '';
       let isClosed = false;
-      while (j < text.length) {
-        if (text[j] === '`') {
+      while (j < markdown.length) {
+        if (markdown[j] === '`') {
           let amountOfClosedBackticks = 0;
-          for (; text[j] === '`'; j++) {
+          for (; markdown[j] === '`'; j++) {
             amountOfClosedBackticks++;
           }
 
@@ -450,10 +450,10 @@ function tokenizer(rawText) {
 
           value += '`'.repeat(amountOfClosedBackticks);
           continue;
-        } else if (text[j] === '\n' && text[j + 1] === '\n') {
+        } else if (markdown[j] === '\n' && markdown[j + 1] === '\n') {
           break;
         } else {
-          value += text[j];
+          value += markdown[j];
         }
         j++;
       }
@@ -472,7 +472,7 @@ function tokenizer(rawText) {
     }
 
     // opened image bracket
-    if (text[i] === '!' && text[i + 1] === '[') {
+    if (markdown[i] === '!' && markdown[i + 1] === '[') {
       const start = i;
       i += 2;
 
@@ -486,19 +486,19 @@ function tokenizer(rawText) {
     }
 
     const start = i;
-    if (text[i] === '\\' && patterns.punctuation.test(text[i + 1])) {
+    if (markdown[i] === '\\' && patterns.punctuation.test(markdown[i + 1])) {
       i++;
     }
 
     // chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
-      tokens[tokens.length - 1].value += text[i];
+      tokens[tokens.length - 1].value += markdown[i];
       tokens[tokens.length - 1].end = start + 1;
     } else {
       tokens.push({
         type: 'Chars',
-        value: text[i],
+        value: markdown[i],
         start,
         end: i + 1,
       });
@@ -516,13 +516,13 @@ function tokenizer(rawText) {
   return results;
 }
 
-function extractVariables(rawText) {
+function extractVariables(markdown) {
   const variables = {};
 
-  const textByNewLine = rawText.split('\n');
-  for (let i = 0; i < textByNewLine.length; i++) {
-    if (/^ {0,3}\[.+\]:/.test(textByNewLine[i])) {
-      let rawValue = textByNewLine[i].split(/:\s/);
+  const markdownByNewLine = markdown.split('\n');
+  for (let i = 0; i < markdownByNewLine.length; i++) {
+    if (/^ {0,3}\[.+\]:/.test(markdownByNewLine[i])) {
+      let rawValue = markdownByNewLine[i].split(/:\s/);
 
       const id = rawValue[0].trim().slice(1, -1);
 
@@ -531,11 +531,11 @@ function extractVariables(rawText) {
       }
 
       variables[id] = rawValue[1];
-      textByNewLine.splice(i, 1);
+      markdownByNewLine.splice(i, 1);
 
-      if (textByNewLine[i] && /^\s+['"(]/.test(textByNewLine[i])) {
-        variables[id] += `\n${textByNewLine[i]}`;
-        textByNewLine.splice(i, 1);
+      if (markdownByNewLine[i] && /^\s+['"(]/.test(markdownByNewLine[i])) {
+        variables[id] += `\n${markdownByNewLine[i]}`;
+        markdownByNewLine.splice(i, 1);
       }
 
       i--;
@@ -543,11 +543,11 @@ function extractVariables(rawText) {
   }
 
   return {
-    text: textByNewLine.join('\n').trim(),
+    markdown: markdownByNewLine.join('\n').trim(),
     variables,
   };
 }
 
-tokenizer(text.linksInline.withBackslashEscape[1]);
+tokenizer(markdown.linksInline.withBackslashEscape[1]);
 
 module.exports = tokenizer;

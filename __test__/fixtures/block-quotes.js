@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = {
+const markdown = {
   everyLine: strip(`
     > This is a blockquote with two paragraphs. Lorem ipsum dolor sit amet,
     > consectetuer adipiscing elit. Aliquam hendrerit mi posuere lectus.
@@ -593,7 +593,7 @@ ast.containedOtherElements.body[0].body[2].body[1].body[0].parent = ast.containe
 ast.containedOtherElements.body[0].body[3].body[0].parent = ast.containedOtherElements.body[0].body[3];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   ast,
   html,

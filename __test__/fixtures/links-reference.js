@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-let text = {
+let markdown = {
   linkDefinitions: strip(`
       This is [an example][double quotation mark] reference-style link.
       This is [an example][single quotation mark] reference-style link.
@@ -1170,7 +1170,7 @@ ast.withBackslashEscape.body[0].body[0].parent = ast.withBackslashEscape.body[0]
 ast.withBackslashEscape.body[0].body[0].body[0].parent = ast.withBackslashEscape.body[0].body[0];
 
 module.exports = {
-  text,
+  markdown,
   tokens,
   variables,
   ast,

@@ -1,6 +1,6 @@
 const strip = require('../helpers/strip');
 
-const text = strip(`
+const markdown = strip(`
     * Link to To-Do list
     + Add Pictures
     - - Ars longa, vita brevis
@@ -17,7 +17,7 @@ const text = strip(`
 const html = '<ul><li>Link to To-Do list</li><li>Add Pictures</li><li><ul><li>Ars longa, vita brevis</li><li>Do the To-Do List!<ul><li>Add an infobox.</li></ul></li></ul></li><li>Update the Criticism section with the latest developments. -Fix coordinates for the Nova Zagora entry.</li><li>Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.</li><li>At fiat voluntas tua</li></ul>';
 
 module.exports = {
-  text,
+  markdown,
   tokens: [
     {
       type: 'Bullet',
