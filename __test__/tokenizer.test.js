@@ -6,96 +6,96 @@ import {text, tokens, variables} from './fixtures';
 // leaf blocks
 
 test(
-  'horizontal rules: markdown should transform to tokens',
+  'thematic breaks: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.horizontalRule),
-      {tokens: tokens.horizontalRule}
+      tokenizer(text.thematicBreaks),
+      {tokens: tokens.thematicBreaks}
     );
   }
 );
 
 test(
-  'atx header: markdown should transform to tokens',
+  'atx headings: markdown should transform to tokens',
   async t => {
-    t.deepEqual(tokenizer(text.atxHeader), {tokens: tokens.atxHeader});
+    t.deepEqual(tokenizer(text.atxHeadings), {tokens: tokens.atxHeadings});
   }
 );
 
 test(
-  'setext header: markdown should transform to tokens',
+  'setext headings: markdown should transform to tokens',
   async t => {
-    t.deepEqual(tokenizer(text.setextHeader), {tokens: tokens.setextHeader});
+    t.deepEqual(tokenizer(text.setextHeadings), {tokens: tokens.setextHeadings});
   }
 );
 
 test(
-  'code block: markdown should transform to tokens',
+  'code blocks: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.codeBlock.main),
-      {tokens: tokens.codeBlock.main},
+      tokenizer(text.codeBlocks.main),
+      {tokens: tokens.codeBlocks.main},
       'main'
     );
     t.skip.deepEqual(
-      tokenizer(text.codeBlock.withBackslashEscape[0]),
-      {tokens: tokens.codeBlock.withBackslashEscape[0]},
+      tokenizer(text.codeBlocks.withBackslashEscape[0]),
+      {tokens: tokens.codeBlocks.withBackslashEscape[0]},
       'with backslash escape 1'
     );
     t.skip.deepEqual(
-      tokenizer(text.codeBlock.withBackslashEscape[1]),
-      {tokens: tokens.codeBlock.withBackslashEscape[1]},
+      tokenizer(text.codeBlocks.withBackslashEscape[1]),
+      {tokens: tokens.codeBlocks.withBackslashEscape[1]},
       'with backslash escape 2'
     );
   }
 );
 
 test(
-  'paragraph: markdown should transform to tokens',
+  'paragraphs: markdown should transform to tokens',
   async t => {
-    t.deepEqual(tokenizer(text.paragraph), {tokens: tokens.paragraph});
+    t.deepEqual(tokenizer(text.paragraphs), {tokens: tokens.paragraphs});
   }
 );
 
 // container blocks
 
 test(
-  'blockquote: markdown should transform to tokens',
+  'block quotes: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.blockquote.everyLine),
-      {tokens: tokens.blockquote.everyLine},
+      tokenizer(text.blockQuotes.everyLine),
+      {tokens: tokens.blockQuotes.everyLine},
       'every line'
     );
     t.deepEqual(
-      tokenizer(text.blockquote.firstLine),
-      {tokens: tokens.blockquote.firstLine},
+      tokenizer(text.blockQuotes.firstLine),
+      {tokens: tokens.blockQuotes.firstLine},
       'first line'
     );
     t.deepEqual(
-      tokenizer(text.blockquote.nestedBlockquote),
-      {tokens: tokens.blockquote.nestedBlockquote},
-      'nested blockquote'
+      tokenizer(text.blockQuotes.nestedBlockquote),
+      {tokens: tokens.blockQuotes.nestedBlockquote},
+      'nested block quotes'
     );
     t.deepEqual(
-      tokenizer(text.blockquote.containedOtherElements),
-      {tokens: tokens.blockquote.containedOtherElements},
+      tokenizer(text.blockQuotes.containedOtherElements),
+      {tokens: tokens.blockQuotes.containedOtherElements},
       'contained other elements'
     );
   }
 );
 
 test(
-  'unorder list: markdown should transform to tokens',
+  'unorder lists: markdown should transform to tokens',
   async t => {
-    t.deepEqual(tokenizer(text.unorderList), {tokens: tokens.unorderList});
+    t.deepEqual(tokenizer(text.unorderLists), {tokens: tokens.unorderLists});
   }
 );
 
 test(
-  'order list: markdown should transform to tokens',
+  'order lists: markdown should transform to tokens',
   async t => {
-    t.deepEqual(tokenizer(text.orderList), {tokens: tokens.orderList});
+    t.deepEqual(tokenizer(text.orderLists), {tokens: tokens.orderLists});
   }
 );
 
@@ -133,17 +133,17 @@ test(
 );
 
 test(
-  'code: markdown should transform to tokens',
+  'code spans: markdown should transform to tokens',
   async t => {
-    t.deepEqual(tokenizer(text.code.$1), {tokens: tokens.code.$1}, '$1');
-    t.deepEqual(tokenizer(text.code.$2), {tokens: tokens.code.$2}, '$2');
-    t.deepEqual(tokenizer(text.code.$3), {tokens: tokens.code.$3}, '$3');
-    t.deepEqual(tokenizer(text.code.$4), {tokens: tokens.code.$4}, '$4');
-    t.deepEqual(tokenizer(text.code.$5), {tokens: tokens.code.$5}, '$5');
-    t.deepEqual(tokenizer(text.code.$6), {tokens: tokens.code.$6}, '$6');
+    t.deepEqual(tokenizer(text.codeSpans.$1), {tokens: tokens.codeSpans.$1}, '$1');
+    t.deepEqual(tokenizer(text.codeSpans.$2), {tokens: tokens.codeSpans.$2}, '$2');
+    t.deepEqual(tokenizer(text.codeSpans.$3), {tokens: tokens.codeSpans.$3}, '$3');
+    t.deepEqual(tokenizer(text.codeSpans.$4), {tokens: tokens.codeSpans.$4}, '$4');
+    t.deepEqual(tokenizer(text.codeSpans.$5), {tokens: tokens.codeSpans.$5}, '$5');
+    t.deepEqual(tokenizer(text.codeSpans.$6), {tokens: tokens.codeSpans.$6}, '$6');
     t.deepEqual(
-      tokenizer(text.code.withBackslashEscape),
-      {tokens: tokens.code.withBackslashEscape},
+      tokenizer(text.codeSpans.withBackslashEscape),
+      {tokens: tokens.codeSpans.withBackslashEscape},
       'with backslash escape'
     );
   }
@@ -157,206 +157,206 @@ test(
 );
 
 test(
-  'link inline: markdown should transform to tokens',
+  'links inline: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.linkInline.withTitle),
-      {tokens: tokens.linkInline.withTitle},
+      tokenizer(text.linksInline.withTitle),
+      {tokens: tokens.linksInline.withTitle},
       'with title'
     );
     t.deepEqual(
-      tokenizer(text.linkInline.withoutTitle),
-      {tokens: tokens.linkInline.withoutTitle},
+      tokenizer(text.linksInline.withoutTitle),
+      {tokens: tokens.linksInline.withoutTitle},
       'without title'
     );
     t.deepEqual(
-      tokenizer(text.linkInline.relativePath),
-      {tokens: tokens.linkInline.relativePath},
+      tokenizer(text.linksInline.relativePath),
+      {tokens: tokens.linksInline.relativePath},
       'relative path'
     );
     t.deepEqual(
-      tokenizer(text.linkInline.withEmphasis),
-      {tokens: tokens.linkInline.withEmphasis},
+      tokenizer(text.linksInline.withEmphasis),
+      {tokens: tokens.linksInline.withEmphasis},
       'with emphasis'
     );
     t.deepEqual(
-      tokenizer(text.linkInline.invalid),
-      {tokens: tokens.linkInline.invalid},
+      tokenizer(text.linksInline.invalid),
+      {tokens: tokens.linksInline.invalid},
       'invalid'
     );
     t.skip.deepEqual(
-      tokenizer(text.linkInline.withBackslashEscape[0]),
-      {tokens: tokens.linkInline.withBackslashEscape[0]},
+      tokenizer(text.linksInline.withBackslashEscape[0]),
+      {tokens: tokens.linksInline.withBackslashEscape[0]},
       'with backslash escape 1'
     );
     t.deepEqual(
-      tokenizer(text.linkInline.withBackslashEscape[1]),
-      {tokens: tokens.linkInline.withBackslashEscape[1]},
+      tokenizer(text.linksInline.withBackslashEscape[1]),
+      {tokens: tokens.linksInline.withBackslashEscape[1]},
       'with backslash escape 2'
     );
   }
 );
 
-test.todo('link inline: link without text');
+test.todo('links inline: link without text');
 
 test(
-  'link reference: markdown should transform to tokens',
+  'links reference: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.linkReference.linkDefinitions),
+      tokenizer(text.linksReference.linkDefinitions),
       {
-        tokens: tokens.linkReference.linkDefinitions,
-        variables: variables.linkReference.linkDefinitions,
+        tokens: tokens.linksReference.linkDefinitions,
+        variables: variables.linksReference.linkDefinitions,
       },
       'link definitions'
     );
     t.deepEqual(
-      tokenizer(text.linkReference.titleOnNextLine),
+      tokenizer(text.linksReference.titleOnNextLine),
       {
-        tokens: tokens.linkReference.titleOnNextLine,
-        variables: variables.linkReference.titleOnNextLine,
+        tokens: tokens.linksReference.titleOnNextLine,
+        variables: variables.linksReference.titleOnNextLine,
       },
       'title on the next line'
     );
     t.deepEqual(
-      tokenizer(text.linkReference.notCaseSensitive),
+      tokenizer(text.linksReference.notCaseSensitive),
       {
-        tokens: tokens.linkReference.notCaseSensitive,
-        variables: variables.linkReference.notCaseSensitive,
+        tokens: tokens.linksReference.notCaseSensitive,
+        variables: variables.linksReference.notCaseSensitive,
       },
       'not case sensitive'
     );
     t.deepEqual(
-      tokenizer(text.linkReference.implicitLinkName),
+      tokenizer(text.linksReference.implicitLinkName),
       {
-        tokens: tokens.linkReference.implicitLinkName,
-        variables: variables.linkReference.implicitLinkName,
+        tokens: tokens.linksReference.implicitLinkName,
+        variables: variables.linksReference.implicitLinkName,
       },
       'implicit link name'
     );
     t.deepEqual(
-      tokenizer(text.linkReference.idents),
+      tokenizer(text.linksReference.idents),
       {
-        tokens: tokens.linkReference.idents,
-        variables: variables.linkReference.idents,
+        tokens: tokens.linksReference.idents,
+        variables: variables.linksReference.idents,
       },
       'idents'
     );
     t.deepEqual(
-      tokenizer(text.linkReference.invalid),
+      tokenizer(text.linksReference.invalid),
       {
-        tokens: tokens.linkReference.invalid,
+        tokens: tokens.linksReference.invalid,
       },
       'invalid'
     );
     t.deepEqual(
-      tokenizer(text.linkReference.withBackslashEscape),
+      tokenizer(text.linksReference.withBackslashEscape),
       {
-        tokens: tokens.linkReference.withBackslashEscape,
-        variables: variables.linkReference.withBackslashEscape,
+        tokens: tokens.linksReference.withBackslashEscape,
+        variables: variables.linksReference.withBackslashEscape,
       },
       'with backslash escape'
     );
   }
 );
 
-test.todo('link reference: link without text');
+test.todo('links reference: link without text');
 
 test(
-  'image: markdown should transform to tokens',
+  'images: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.image.inline),
+      tokenizer(text.images.inline),
       {
-        tokens: tokens.image.inline,
+        tokens: tokens.images.inline,
       },
       'inline'
     );
     t.deepEqual(
-      tokenizer(text.image.optionalTitle),
+      tokenizer(text.images.optionalTitle),
       {
-        tokens: tokens.image.optionalTitle,
+        tokens: tokens.images.optionalTitle,
       },
       'optional title'
     );
     t.deepEqual(
-      tokenizer(text.image.reference),
+      tokenizer(text.images.reference),
       {
-        tokens: tokens.image.reference,
-        variables: variables.image.reference,
+        tokens: tokens.images.reference,
+        variables: variables.images.reference,
       },
       'reference'
     );
   });
 
 test(
-  'autolink: markdown should transform to tokens',
+  'autolinks: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(text.autolink.url.valid[0]),
-      {tokens: tokens.autolink.url.valid[0]},
+      tokenizer(text.autolinks.url.valid[0]),
+      {tokens: tokens.autolinks.url.valid[0]},
       'valid url 1'
     );
     t.deepEqual(
-      tokenizer(text.autolink.url.valid[1]),
-      {tokens: tokens.autolink.url.valid[1]},
+      tokenizer(text.autolinks.url.valid[1]),
+      {tokens: tokens.autolinks.url.valid[1]},
       'valid url 2'
     );
     t.deepEqual(
-      tokenizer(text.autolink.url.valid[2]),
-      {tokens: tokens.autolink.url.valid[2]},
+      tokenizer(text.autolinks.url.valid[2]),
+      {tokens: tokens.autolinks.url.valid[2]},
       'valid url 3'
     );
     t.skip.deepEqual(
-      tokenizer(text.autolink.url.withBackslashEscape),
-      {tokens: tokens.autolink.url.withBackslashEscape},
+      tokenizer(text.autolinks.url.withBackslashEscape),
+      {tokens: tokens.autolinks.url.withBackslashEscape},
       'url with backslash escape'
     );
 
     t.deepEqual(
-      tokenizer(text.autolink.email.valid[0]),
-      {tokens: tokens.autolink.email.valid[0]},
+      tokenizer(text.autolinks.email.valid[0]),
+      {tokens: tokens.autolinks.email.valid[0]},
       'valid email 1'
     );
     t.deepEqual(
-      tokenizer(text.autolink.email.valid[1]),
-      {tokens: tokens.autolink.email.valid[1]},
+      tokenizer(text.autolinks.email.valid[1]),
+      {tokens: tokens.autolinks.email.valid[1]},
       'valid email 2'
     );
     t.skip.deepEqual(
-      tokenizer(text.autolink.email.withBackslashEscape),
-      {tokens: tokens.autolink.email.withBackslashEscape},
+      tokenizer(text.autolinks.email.withBackslashEscape),
+      {tokens: tokens.autolinks.email.withBackslashEscape},
       'email with backslash escape'
     );
     t.deepEqual(
-      tokenizer(text.autolink.areNotAutolinks[0]),
-      {tokens: tokens.autolink.areNotAutolinks[0]},
-      'should not be autolink - 1'
+      tokenizer(text.autolinks.areNotAutolinks[0]),
+      {tokens: tokens.autolinks.areNotAutolinks[0]},
+      'should not be autolinks - 1'
     );
     t.deepEqual(
-      tokenizer(text.autolink.areNotAutolinks[1]),
-      {tokens: tokens.autolink.areNotAutolinks[1]},
-      'should not be autolink - 2'
+      tokenizer(text.autolinks.areNotAutolinks[1]),
+      {tokens: tokens.autolinks.areNotAutolinks[1]},
+      'should not be autolinks - 2'
     );
     t.deepEqual(
-      tokenizer(text.autolink.areNotAutolinks[2]),
-      {tokens: tokens.autolink.areNotAutolinks[2]},
-      'should not be autolink - 3'
+      tokenizer(text.autolinks.areNotAutolinks[2]),
+      {tokens: tokens.autolinks.areNotAutolinks[2]},
+      'should not be autolinks - 3'
     );
     t.deepEqual(
-      tokenizer(text.autolink.areNotAutolinks[3]),
-      {tokens: tokens.autolink.areNotAutolinks[3]},
-      'should not be autolink - 4'
+      tokenizer(text.autolinks.areNotAutolinks[3]),
+      {tokens: tokens.autolinks.areNotAutolinks[3]},
+      'should not be autolinks - 4'
     );
     t.deepEqual(
-      tokenizer(text.autolink.areNotAutolinks[4]),
-      {tokens: tokens.autolink.areNotAutolinks[4]},
-      'should not be autolink - 5'
+      tokenizer(text.autolinks.areNotAutolinks[4]),
+      {tokens: tokens.autolinks.areNotAutolinks[4]},
+      'should not be autolinks - 5'
     );
     t.deepEqual(
-      tokenizer(text.autolink.areNotAutolinks[5]),
-      {tokens: tokens.autolink.areNotAutolinks[5]},
-      'should not be autolink - 6'
+      tokenizer(text.autolinks.areNotAutolinks[5]),
+      {tokens: tokens.autolinks.areNotAutolinks[5]},
+      'should not be autolinks - 6'
     );
   }
 );

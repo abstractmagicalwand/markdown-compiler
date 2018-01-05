@@ -6,106 +6,106 @@ import {ast, html} from './fixtures'; // eslint-disable-line
 // leaf blocks
 
 test(
-  'horizontal rule: code should generate to html',
+  'thematic breaks: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.horizontalRule), html.horizontalRule);
+    t.is(codeGenerator(ast.thematicBreaks), html.thematicBreaks);
   }
 );
 
 test(
-  'atx header: code should generate to html',
+  'atx headings: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.atxHeader), html.atxHeader);
+    t.is(codeGenerator(ast.atxHeadings), html.atxHeadings);
   }
 );
 
-test.todo('atx header: unclosed markdown tag');
+test.todo('atx headings: unclosed markdown tag');
 
 test(
-  'setext header: code should generate to html',
+  'setext headings: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.setextHeader), html.setextHeader);
+    t.is(codeGenerator(ast.setextHeadings), html.setextHeadings);
   }
 );
 
-test.todo('setext header: unclosed markdown tag');
+test.todo('setext headings: unclosed markdown tag');
 
 test(
-  'code block: code should generate to html',
+  'code blocks: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.codeBlock.main), html.codeBlock.main, 'main');
+    t.is(codeGenerator(ast.codeBlocks.main), html.codeBlocks.main, 'main');
     t.skip.is(
-      codeGenerator(ast.codeBlock.withBackslashEscape[0]),
-      html.codeBlock.withBackslashEscape[0],
+      codeGenerator(ast.codeBlocks.withBackslashEscape[0]),
+      html.codeBlocks.withBackslashEscape[0],
       'with backslash escape 1'
     );
     t.skip.is(
-      codeGenerator(ast.codeBlock.withBackslashEscape[1]),
-      html.codeBlock.withBackslashEscape[1],
+      codeGenerator(ast.codeBlocks.withBackslashEscape[1]),
+      html.codeBlocks.withBackslashEscape[1],
       'with backslash escape 2'
     );
   }
 );
 
-test.todo('code block: unclosed markdown tag');
+test.todo('code blocks: unclosed markdown tag');
 
 test(
-  'paragraph: code should generate to html',
+  'paragraphs: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.paragraph), html.paragraph);
+    t.is(codeGenerator(ast.paragraphs), html.paragraphs);
   }
 );
 
 // container blocks
 
 test(
-  'blockquote: code should generate to html',
+  'block quotes: code should generate to html',
   async t => {
     t.is(
-      codeGenerator(ast.blockquote.everyLine),
-      html.blockquote.everyLine,
+      codeGenerator(ast.blockQuotes.everyLine),
+      html.blockQuotes.everyLine,
       'every line'
     );
 
     t.is(
-      codeGenerator(ast.blockquote.firstLine),
-      html.blockquote.firstLine,
+      codeGenerator(ast.blockQuotes.firstLine),
+      html.blockQuotes.firstLine,
       'first line'
     );
 
     t.is(
-      codeGenerator(ast.blockquote.nestedBlockquote),
-      html.blockquote.nestedBlockquote,
-      'nested blockquote'
+      codeGenerator(ast.blockQuotes.nestedBlockquote),
+      html.blockQuotes.nestedBlockquote,
+      'nested block quotes'
     );
 
     t.is(
-      codeGenerator(ast.blockquote.containedOtherElements),
-      html.blockquote.containedOtherElements,
+      codeGenerator(ast.blockQuotes.containedOtherElements),
+      html.blockQuotes.containedOtherElements,
       'contained other elements'
     );
   }
 );
 
-test.todo('blockquote: unclosed markdown tag');
+test.todo('block quotes: unclosed markdown tag');
 
 test(
-  'unorder list: code should generate to html',
+  'unorder lists: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.unorderList), html.unorderList);
+    t.is(codeGenerator(ast.unorderLists), html.unorderLists);
   }
 );
 
-test.todo('unorder list: unclosed markdown tag');
+test.todo('unorder lists: unclosed markdown tag');
 
 test(
-  'order list: code should generate to html',
+  'order lists: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.orderList), html.orderList);
+    t.is(codeGenerator(ast.orderLists), html.orderLists);
   }
 );
 
-test.todo('order list: unclosed markdown tag');
+test.todo('order lists: unclosed markdown tag');
 
 // inlines
 
@@ -141,17 +141,17 @@ test(
 );
 
 test(
-  'code: code should generate to html',
+  'code spans: code should generate to html',
   async t => {
-    t.is(codeGenerator(ast.code.$1), html.code.$1, '$1');
-    t.is(codeGenerator(ast.code.$2), html.code.$2, '$2');
-    t.is(codeGenerator(ast.code.$3), html.code.$3, '$3');
-    t.is(codeGenerator(ast.code.$4), html.code.$4, '$4');
-    t.is(codeGenerator(ast.code.$5), html.code.$5, '$5');
-    t.is(codeGenerator(ast.code.$6), html.code.$6, '$6');
+    t.is(codeGenerator(ast.codeSpans.$1), html.codeSpans.$1, '$1');
+    t.is(codeGenerator(ast.codeSpans.$2), html.codeSpans.$2, '$2');
+    t.is(codeGenerator(ast.codeSpans.$3), html.codeSpans.$3, '$3');
+    t.is(codeGenerator(ast.codeSpans.$4), html.codeSpans.$4, '$4');
+    t.is(codeGenerator(ast.codeSpans.$5), html.codeSpans.$5, '$5');
+    t.is(codeGenerator(ast.codeSpans.$6), html.codeSpans.$6, '$6');
     t.is(
-      codeGenerator(ast.code.withBackslashEscape),
-      html.code.withBackslashEscape,
+      codeGenerator(ast.codeSpans.withBackslashEscape),
+      html.codeSpans.withBackslashEscape,
       'with backslash escape'
     );
   }
@@ -167,185 +167,185 @@ test(
 test.todo('emphasis: unclosed markdown tag');
 
 test(
-  'link inline: code should generate to html',
+  'links inline: code should generate to html',
   async t => {
     t.is(
-      codeGenerator(ast.linkInline.withTitle),
-      html.linkInline.withTitle,
+      codeGenerator(ast.linksInline.withTitle),
+      html.linksInline.withTitle,
       'with title'
     );
     t.is(
-      codeGenerator(ast.linkInline.withoutTitle),
-      html.linkInline.withoutTitle,
+      codeGenerator(ast.linksInline.withoutTitle),
+      html.linksInline.withoutTitle,
       'without title'
     );
     t.is(
-      codeGenerator(ast.linkInline.relativePath),
-      html.linkInline.relativePath,
+      codeGenerator(ast.linksInline.relativePath),
+      html.linksInline.relativePath,
       'relative path'
     );
     t.is(
-      codeGenerator(ast.linkInline.withEmphasis),
-      html.linkInline.withEmphasis,
+      codeGenerator(ast.linksInline.withEmphasis),
+      html.linksInline.withEmphasis,
       'with emphasis'
     );
     t.is(
-      codeGenerator(ast.linkInline.invalid),
-      html.linkInline.invalid,
+      codeGenerator(ast.linksInline.invalid),
+      html.linksInline.invalid,
       'invalid'
     );
     /* t.skip.is(
-      codeGenerator(ast.linkInline.withBackslashEscape[0]),
-      html.linkInline.withBackslashEscape[0],
+      codeGenerator(ast.linksInline.withBackslashEscape[0]),
+      html.linksInline.withBackslashEscape[0],
       'with backslash escape 1'
     ); */
     t.is(
-      codeGenerator(ast.linkInline.withBackslashEscape[1]),
-      html.linkInline.withBackslashEscape[1],
+      codeGenerator(ast.linksInline.withBackslashEscape[1]),
+      html.linksInline.withBackslashEscape[1],
       'with backslash escape 2'
     );
   }
 );
 
-test.todo('link inline: unclosed markdown tag');
+test.todo('links inline: unclosed markdown tag');
 
-test.todo('link inline: without text');
+test.todo('links inline: without text');
 
 test(
-  'link reference: code should generate to html',
+  'links reference: code should generate to html',
   async t => {
     t.is(
-      codeGenerator(ast.linkReference.linkDefinitions),
-      html.linkReference.linkDefinitions,
+      codeGenerator(ast.linksReference.linkDefinitions),
+      html.linksReference.linkDefinitions,
       'link definitions'
     );
     t.is(
-      codeGenerator(ast.linkReference.titleOnNextLine),
-      html.linkReference.titleOnNextLine,
+      codeGenerator(ast.linksReference.titleOnNextLine),
+      html.linksReference.titleOnNextLine,
       'title on the next line'
     );
     t.is(
-      codeGenerator(ast.linkReference.notCaseSensitive),
-      html.linkReference.notCaseSensitive,
+      codeGenerator(ast.linksReference.notCaseSensitive),
+      html.linksReference.notCaseSensitive,
       'not case sensitive'
     );
     t.is(
-      codeGenerator(ast.linkReference.implicitLinkName),
-      html.linkReference.implicitLinkName,
+      codeGenerator(ast.linksReference.implicitLinkName),
+      html.linksReference.implicitLinkName,
       'implicit link name'
     );
     t.is(
-      codeGenerator(ast.linkReference.idents),
-      html.linkReference.idents,
+      codeGenerator(ast.linksReference.idents),
+      html.linksReference.idents,
       'idents'
     );
     t.is(
-      codeGenerator(ast.linkReference.invalid),
-      html.linkReference.invalid,
+      codeGenerator(ast.linksReference.invalid),
+      html.linksReference.invalid,
       'invalid'
     );
     t.is(
-      codeGenerator(ast.linkReference.withBackslashEscape),
-      html.linkReference.withBackslashEscape,
+      codeGenerator(ast.linksReference.withBackslashEscape),
+      html.linksReference.withBackslashEscape,
       'with backslash escape'
     );
   }
 );
 
-test.todo('link reference: unclosed markdown tag');
+test.todo('links reference: unclosed markdown tag');
 
-test.todo('link reference: without text');
+test.todo('links reference: without text');
 
 test(
-  'image: code should generate to html',
+  'images: code should generate to html',
   async t => {
     t.is(
-      codeGenerator(ast.image.inline),
-      html.image.inline,
+      codeGenerator(ast.images.inline),
+      html.images.inline,
       'inline'
     );
     t.is(
-      codeGenerator(ast.image.optionalTitle),
-      html.image.optionalTitle,
+      codeGenerator(ast.images.optionalTitle),
+      html.images.optionalTitle,
       'optional title'
     );
     t.is(
-      codeGenerator(ast.image.reference),
-      html.image.reference,
+      codeGenerator(ast.images.reference),
+      html.images.reference,
       'reference'
     );
   }
 );
 
 test(
-  'autolink: code should generate to html',
+  'autolinks: code should generate to html',
   async t => {
     t.is(
-      codeGenerator(ast.autolink.url.valid[0]),
-      html.autolink.url.valid[0],
+      codeGenerator(ast.autolinks.url.valid[0]),
+      html.autolinks.url.valid[0],
       'valid url 1'
     );
     t.is(
-      codeGenerator(ast.autolink.url.valid[0]),
-      html.autolink.url.valid[0],
+      codeGenerator(ast.autolinks.url.valid[0]),
+      html.autolinks.url.valid[0],
       'valid url 2'
     );
     t.is(
-      codeGenerator(ast.autolink.url.valid[0]),
-      html.autolink.url.valid[0],
+      codeGenerator(ast.autolinks.url.valid[0]),
+      html.autolinks.url.valid[0],
       'valid url 3'
     );
     t.skip.is(
-      codeGenerator(ast.autolink.url.withBackslashEscape),
-      html.autolink.url.withBackslashEscape,
+      codeGenerator(ast.autolinks.url.withBackslashEscape),
+      html.autolinks.url.withBackslashEscape,
       'url with backslash escape'
     );
 
     t.is(
-      codeGenerator(ast.autolink.email.valid[0]),
-      html.autolink.email.valid[0],
+      codeGenerator(ast.autolinks.email.valid[0]),
+      html.autolinks.email.valid[0],
       'valid email 1'
     );
     t.is(
-      codeGenerator(ast.autolink.email.valid[0]),
-      html.autolink.email.valid[0],
+      codeGenerator(ast.autolinks.email.valid[0]),
+      html.autolinks.email.valid[0],
       'valid email 2'
     );
     t.skip.is(
-      codeGenerator(ast.autolink.email.withBackslashEscape),
-      html.autolink.email.withBackslashEscape,
+      codeGenerator(ast.autolinks.email.withBackslashEscape),
+      html.autolinks.email.withBackslashEscape,
       'email with backslash escape'
     );
 
     t.is(
-      codeGenerator(ast.autolink.areNotAutolinks[0]),
-      html.autolink.areNotAutolinks[0],
-      'should not be autolink 1'
+      codeGenerator(ast.autolinks.areNotAutolinks[0]),
+      html.autolinks.areNotAutolinks[0],
+      'should not be autolinks 1'
     );
     t.is(
-      codeGenerator(ast.autolink.areNotAutolinks[1]),
-      html.autolink.areNotAutolinks[1],
-      'should not be autolink 2'
+      codeGenerator(ast.autolinks.areNotAutolinks[1]),
+      html.autolinks.areNotAutolinks[1],
+      'should not be autolinks 2'
     );
     t.is(
-      codeGenerator(ast.autolink.areNotAutolinks[2]),
-      html.autolink.areNotAutolinks[2],
-      'should not be autolink 3'
+      codeGenerator(ast.autolinks.areNotAutolinks[2]),
+      html.autolinks.areNotAutolinks[2],
+      'should not be autolinks 3'
     );
     t.is(
-      codeGenerator(ast.autolink.areNotAutolinks[3]),
-      html.autolink.areNotAutolinks[3],
-      'should not be autolink 4'
+      codeGenerator(ast.autolinks.areNotAutolinks[3]),
+      html.autolinks.areNotAutolinks[3],
+      'should not be autolinks 4'
     );
     t.is(
-      codeGenerator(ast.autolink.areNotAutolinks[4]),
-      html.autolink.areNotAutolinks[4],
-      'should not be autolink 5'
+      codeGenerator(ast.autolinks.areNotAutolinks[4]),
+      html.autolinks.areNotAutolinks[4],
+      'should not be autolinks 5'
     );
     t.is(
-      codeGenerator(ast.autolink.areNotAutolinks[5]),
-      html.autolink.areNotAutolinks[5],
-      'should not be autolink 6'
+      codeGenerator(ast.autolinks.areNotAutolinks[5]),
+      html.autolinks.areNotAutolinks[5],
+      'should not be autolinks 6'
     );
   }
 );
@@ -353,7 +353,7 @@ test(
 // other
 
 test(
-  'code generator should throw exceptions',
+  'code spans generator should throw exceptions',
   async t => {
     t.throws(
       () => codeGenerator(1),
@@ -364,7 +364,7 @@ test(
 );
 
 test(
-  'code generator should not throw any exceptions',
+  'code spans generator should not throw any exceptions',
   async t => {
     t.notThrows(() => codeGenerator({}), 'object is empty');
   }

@@ -6,89 +6,89 @@ import {html, text} from './fixtures'; // eslint-disable-line
 // leaf blocks
 
 test(
-  'horizontal rules: markdown should compile to html',
+  'thematic breaks: markdown should compile to html',
   async t => {
-    t.is(compiler(text.horizontalRule), html.horizontalRule, '');
+    t.is(compiler(text.thematicBreaks), html.thematicBreaks, '');
   }
 );
 
 test(
-  'atx header: markdown should compile to html',
+  'atx headings: markdown should compile to html',
   async t => {
-    t.is(compiler(text.atxHeader), html.atxHeader);
+    t.is(compiler(text.atxHeadings), html.atxHeadings);
   }
 );
 
 test(
-  'setext header: markdown should compile to html',
+  'setext headings: markdown should compile to html',
   async t => {
-    t.is(compiler(text.setextHeader), html.setextHeader);
+    t.is(compiler(text.setextHeadings), html.setextHeadings);
   }
 );
 
 test(
-  'code block: markdown should compile to html',
+  'code blocks: markdown should compile to html',
   async t => {
-    t.is(compiler(text.codeBlock.main), html.codeBlock.main, 'main');
+    t.is(compiler(text.codeBlocks.main), html.codeBlocks.main, 'main');
     t.skip.is(
-      compiler(text.codeBlock.withBackslashEscape[0]),
-      html.codeBlock.withBackslashEscape[0],
+      compiler(text.codeBlocks.withBackslashEscape[0]),
+      html.codeBlocks.withBackslashEscape[0],
       'with backslash escape 1'
     );
     t.skip.is(
-      compiler(text.codeBlock.withBackslashEscape[1]),
-      html.codeBlock.withBackslashEscape[1],
+      compiler(text.codeBlocks.withBackslashEscape[1]),
+      html.codeBlocks.withBackslashEscape[1],
       'with backslash escape 2'
     );
   }
 );
 
 test(
-  'paragraph: markdown should compile to html',
+  'paragraphs: markdown should compile to html',
   async t => {
-    t.is(compiler(text.paragraph), html.paragraph);
+    t.is(compiler(text.paragraphs), html.paragraphs);
   }
 );
 
 // container blocks
 
 test(
-  'blockquote: markdown should compile to html',
+  'block quotes: markdown should compile to html',
   async t => {
     t.is(
-      compiler(text.blockquote.everyLine),
-      html.blockquote.everyLine,
+      compiler(text.blockQuotes.everyLine),
+      html.blockQuotes.everyLine,
       'every line'
     );
     t.is(
-      compiler(text.blockquote.firstLine),
-      html.blockquote.firstLine,
+      compiler(text.blockQuotes.firstLine),
+      html.blockQuotes.firstLine,
       'first line'
     );
     t.is(
-      compiler(text.blockquote.nestedBlockquote),
-      html.blockquote.nestedBlockquote,
-      'nested blockquote'
+      compiler(text.blockQuotes.nestedBlockquote),
+      html.blockQuotes.nestedBlockquote,
+      'nested block quotes'
     );
     t.is(
-      compiler(text.blockquote.containedOtherElements),
-      html.blockquote.containedOtherElements,
+      compiler(text.blockQuotes.containedOtherElements),
+      html.blockQuotes.containedOtherElements,
       'contained other elements'
     );
   }
 );
 
 test(
-  'unorder list: markdown should compile to html',
+  'unorder lists: markdown should compile to html',
   async t => {
-    t.is(compiler(text.unorderList), html.unorderList);
+    t.is(compiler(text.unorderLists), html.unorderLists);
   }
 );
 
 test(
-  'order list: markdown should compile to html',
+  'order lists: markdown should compile to html',
   async t => {
-    t.is(compiler(text.orderList), html.orderList, '');
+    t.is(compiler(text.orderLists), html.orderLists, '');
   }
 );
 
@@ -126,17 +126,17 @@ test(
 );
 
 test(
-  'code: markdown should compile to html',
+  'code spans: markdown should compile to html',
   async t => {
-    t.is(compiler(text.code.$1), html.code.$1, '$1');
-    t.is(compiler(text.code.$2), html.code.$2, '$2');
-    t.is(compiler(text.code.$3), html.code.$3, '$3');
-    t.is(compiler(text.code.$4), html.code.$4, '$4');
-    t.is(compiler(text.code.$5), html.code.$5, '$5');
-    t.is(compiler(text.code.$6), html.code.$6, '$6');
+    t.is(compiler(text.codeSpans.$1), html.codeSpans.$1, '$1');
+    t.is(compiler(text.codeSpans.$2), html.codeSpans.$2, '$2');
+    t.is(compiler(text.codeSpans.$3), html.codeSpans.$3, '$3');
+    t.is(compiler(text.codeSpans.$4), html.codeSpans.$4, '$4');
+    t.is(compiler(text.codeSpans.$5), html.codeSpans.$5, '$5');
+    t.is(compiler(text.codeSpans.$6), html.codeSpans.$6, '$6');
     t.is(
-      compiler(text.code.withBackslashEscape),
-      html.code.withBackslashEscape,
+      compiler(text.codeSpans.withBackslashEscape),
+      html.codeSpans.withBackslashEscape,
       'with backslash escape'
     );
   }
@@ -150,158 +150,158 @@ test(
 );
 
 test(
-  'link inline: markdown should compile to html',
+  'links inline: markdown should compile to html',
   async t => {
     t.is(
-      compiler(text.linkInline.withTitle),
-      html.linkInline.withTitle,
+      compiler(text.linksInline.withTitle),
+      html.linksInline.withTitle,
       'with title'
     );
     t.is(
-      compiler(text.linkInline.withoutTitle),
-      html.linkInline.withoutTitle,
+      compiler(text.linksInline.withoutTitle),
+      html.linksInline.withoutTitle,
       'without title'
     );
     t.is(
-      compiler(text.linkInline.relativePath),
-      html.linkInline.relativePath,
+      compiler(text.linksInline.relativePath),
+      html.linksInline.relativePath,
       'relative path'
     );
     t.is(
-      compiler(text.linkInline.withEmphasis),
-      html.linkInline.withEmphasis,
+      compiler(text.linksInline.withEmphasis),
+      html.linksInline.withEmphasis,
       'with emphasis'
     );
     t.is(
-      compiler(text.linkInline.invalid),
-      html.linkInline.invalid,
+      compiler(text.linksInline.invalid),
+      html.linksInline.invalid,
       'invalid'
     );
     t.skip.is(
-      compiler(text.linkInline.withBackslashEscape[0]),
-      html.linkInline.withBackslashEscape[0],
+      compiler(text.linksInline.withBackslashEscape[0]),
+      html.linksInline.withBackslashEscape[0],
       'with backslash escape 1'
     );
     t.is(
-      compiler(text.linkInline.withBackslashEscape[1]),
-      html.linkInline.withBackslashEscape[1],
+      compiler(text.linksInline.withBackslashEscape[1]),
+      html.linksInline.withBackslashEscape[1],
       'with backslash escape 2'
     );
   }
 );
 
-test.todo('link inline: link without text');
+test.todo('links inline: link without text');
 
 test(
-  'link reference: markdown should compile to html',
+  'links reference: markdown should compile to html',
   async t => {
     t.is(
-      compiler(text.linkReference.linkDefinitions),
-      html.linkReference.linkDefinitions,
+      compiler(text.linksReference.linkDefinitions),
+      html.linksReference.linkDefinitions,
       'link definitions'
     );
     t.is(
-      compiler(text.linkReference.titleOnNextLine),
-      html.linkReference.titleOnNextLine,
+      compiler(text.linksReference.titleOnNextLine),
+      html.linksReference.titleOnNextLine,
       'title on the next line'
     );
     t.is(
-      compiler(text.linkReference.notCaseSensitive),
-      html.linkReference.notCaseSensitive,
+      compiler(text.linksReference.notCaseSensitive),
+      html.linksReference.notCaseSensitive,
       'not case sensitive'
     );
     t.is(
-      compiler(text.linkReference.implicitLinkName),
-      html.linkReference.implicitLinkName,
+      compiler(text.linksReference.implicitLinkName),
+      html.linksReference.implicitLinkName,
       'implicit link name'
     );
     t.is(
-      compiler(text.linkReference.idents),
-      html.linkReference.idents,
+      compiler(text.linksReference.idents),
+      html.linksReference.idents,
       'idents'
     );
     t.is(
-      compiler(text.linkReference.invalid),
-      html.linkReference.invalid,
+      compiler(text.linksReference.invalid),
+      html.linksReference.invalid,
       'invalid'
     );
     t.skip.is(
-      compiler(text.linkReference.withBackslashEscape),
-      html.linkReference.withBackslashEscape,
+      compiler(text.linksReference.withBackslashEscape),
+      html.linksReference.withBackslashEscape,
       'with backslash escape'
     );
   }
 );
 
 test(
-  'autolink: markdown should compile to html',
+  'autolinks: markdown should compile to html',
   async t => {
     t.is(
-      compiler(text.autolink.url.valid[0]),
-      html.autolink.url.valid[0],
+      compiler(text.autolinks.url.valid[0]),
+      html.autolinks.url.valid[0],
       'valid url 1'
     );
     t.is(
-      compiler(text.autolink.url.valid[0]),
-      html.autolink.url.valid[0],
+      compiler(text.autolinks.url.valid[0]),
+      html.autolinks.url.valid[0],
       'valid url 2'
     );
     t.is(
-      compiler(text.autolink.url.valid[0]),
-      html.autolink.url.valid[0],
+      compiler(text.autolinks.url.valid[0]),
+      html.autolinks.url.valid[0],
       'valid url 3'
     );
     t.skip.is(
-      compiler(text.autolink.url.withBackslashEscape),
-      html.autolink.url.withBackslashEscape,
+      compiler(text.autolinks.url.withBackslashEscape),
+      html.autolinks.url.withBackslashEscape,
       'url with backslash escape'
     );
 
     t.is(
-      compiler(text.autolink.email.valid[0]),
-      html.autolink.email.valid[0],
+      compiler(text.autolinks.email.valid[0]),
+      html.autolinks.email.valid[0],
       'valid email 1'
     );
     t.is(
-      compiler(text.autolink.email.valid[0]),
-      html.autolink.email.valid[0],
+      compiler(text.autolinks.email.valid[0]),
+      html.autolinks.email.valid[0],
       'valid email 2'
     );
     t.skip.is(
-      compiler(text.autolink.email.withBackslashEscape),
-      html.autolink.email.withBackslashEscape,
+      compiler(text.autolinks.email.withBackslashEscape),
+      html.autolinks.email.withBackslashEscape,
       'email with backslash escape'
     );
 
     t.is(
-      compiler(text.autolink.areNotAutolinks[0]),
-      html.autolink.areNotAutolinks[0],
-      'should not be autolink 1'
+      compiler(text.autolinks.areNotAutolinks[0]),
+      html.autolinks.areNotAutolinks[0],
+      'should not be autolinks 1'
     );
     t.is(
-      compiler(text.autolink.areNotAutolinks[1]),
-      html.autolink.areNotAutolinks[1],
-      'should not be autolink 2'
+      compiler(text.autolinks.areNotAutolinks[1]),
+      html.autolinks.areNotAutolinks[1],
+      'should not be autolinks 2'
     );
     t.is(
-      compiler(text.autolink.areNotAutolinks[2]),
-      html.autolink.areNotAutolinks[2],
-      'should not be autolink 3'
+      compiler(text.autolinks.areNotAutolinks[2]),
+      html.autolinks.areNotAutolinks[2],
+      'should not be autolinks 3'
     );
     t.is(
-      compiler(text.autolink.areNotAutolinks[3]),
-      html.autolink.areNotAutolinks[3],
-      'should not be autolink 4'
+      compiler(text.autolinks.areNotAutolinks[3]),
+      html.autolinks.areNotAutolinks[3],
+      'should not be autolinks 4'
     );
     t.is(
-      compiler(text.autolink.areNotAutolinks[4]),
-      html.autolink.areNotAutolinks[4],
-      'should not be autolink 5'
+      compiler(text.autolinks.areNotAutolinks[4]),
+      html.autolinks.areNotAutolinks[4],
+      'should not be autolinks 5'
     );
     t.is(
-      compiler(text.autolink.areNotAutolinks[5]),
-      html.autolink.areNotAutolinks[5],
-      'should not be autolink 6'
+      compiler(text.autolinks.areNotAutolinks[5]),
+      html.autolinks.areNotAutolinks[5],
+      'should not be autolinks 6'
     );
   }
 );

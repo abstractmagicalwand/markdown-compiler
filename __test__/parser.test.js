@@ -8,11 +8,11 @@ import {tokens, variables, ast } from './fixtures';
 // leaf blocks
 
 test(
-  'horizontal rules: tokens should parse to abstract syntax tree',
+  'thematic breaks: tokens should parse to abstract syntax tree',
   async t => {
     isMatched(
-      parser({tokens: tokens.horizontalRule}),
-      [ast.horizontalRule],
+      parser({tokens: tokens.thematicBreaks}),
+      [ast.thematicBreaks],
       (a, b) => {
         t.is(a, b, `order list: ${a} isn't equal ${b}`);
       }
@@ -21,20 +21,20 @@ test(
 );
 
 test(
-  'atx header: tokens should parse to abstract syntax tree',
+  'atx headings: tokens should parse to abstract syntax tree',
   async t => {
-    isMatched(parser({tokens: tokens.atxHeader}), [ast.atxHeader], (a, b) => {
+    isMatched(parser({tokens: tokens.atxHeadings}), [ast.atxHeadings], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
 );
 
 test(
-  'setext header: tokens should parse to abstract syntax tree',
+  'setext headings: tokens should parse to abstract syntax tree',
   async t => {
     isMatched(
-      parser({tokens: tokens.setextHeader}),
-      [ast.setextHeader],
+      parser({tokens: tokens.setextHeadings}),
+      [ast.setextHeadings],
       (a, b) => {
         t.is(a, b, `order list: ${a} isn't equal ${b}`);
       }
@@ -43,32 +43,32 @@ test(
 );
 
 test(
-  'code block: tokens should parse to abstract syntax tree',
+  'code blocks: tokens should parse to abstract syntax tree',
   async t => {
     isMatched(
-      parser({tokens: tokens.codeBlock.main}),
-      [ast.codeBlock.main], (a, b) => {
+      parser({tokens: tokens.codeBlocks.main}),
+      [ast.codeBlocks.main], (a, b) => {
         t.is(a, b, `code block: ${a} isn't equal ${b}`);
       }
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.codeBlock.withBackslashEscape[0]}),
-      ast.codeBlock.withBackslashEscape[0],
+      parser({tokens: tokens.codeBlocks.withBackslashEscape[0]}),
+      ast.codeBlocks.withBackslashEscape[0],
       'with backslash escape 1'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.codeBlock.withBackslashEscape[1]}),
-      ast.codeBlock.withBackslashEscape[1],
+      parser({tokens: tokens.codeBlocks.withBackslashEscape[1]}),
+      ast.codeBlocks.withBackslashEscape[1],
       'with backslash escape 2'
     );
   }
 );
 
 test(
-  'paragraph: tokens should parse to abstract syntax tree',
+  'paragraphs: tokens should parse to abstract syntax tree',
   async t => {
-    isMatched(parser({tokens: tokens.paragraph}), [ast.paragraph], (a, b) => {
-      t.is(a, b, `paragraph: ${a} isn't equal ${b}`);
+    isMatched(parser({tokens: tokens.paragraphs}), [ast.paragraphs], (a, b) => {
+      t.is(a, b, `paragraphs: ${a} isn't equal ${b}`);
     });
   }
 );
@@ -76,40 +76,40 @@ test(
 // container blocks
 
 test(
-  'blockquote: tokens should parse to abstract syntax tree',
+  'block quotes: tokens should parse to abstract syntax tree',
   async t => {
     t.deepEqual(
-      parser({tokens: tokens.blockquote.everyLine}),
-      ast.blockquote.everyLine,
+      parser({tokens: tokens.blockQuotes.everyLine}),
+      ast.blockQuotes.everyLine,
       'every line'
     );
     t.deepEqual(
-      parser({tokens: tokens.blockquote.firstLine}),
-      ast.blockquote.firstLine,
+      parser({tokens: tokens.blockQuotes.firstLine}),
+      ast.blockQuotes.firstLine,
       'first line'
     );
     t.deepEqual(
-      parser({tokens: tokens.blockquote.nestedBlockquote}),
-      ast.blockquote.nestedBlockquote,
-      'nested blockquote'
+      parser({tokens: tokens.blockQuotes.nestedBlockquote}),
+      ast.blockQuotes.nestedBlockquote,
+      'nested block quotes'
     );
     t.deepEqual(
-      parser({tokens: tokens.blockquote.containedOtherElements}),
-      ast.blockquote.containedOtherElements,
+      parser({tokens: tokens.blockQuotes.containedOtherElements}),
+      ast.blockQuotes.containedOtherElements,
       'contained other elements'
     );
   }
 );
 
-test.todo('blockquote: should exit from blockquote');
+test.todo('block quotes: should exit from blockQuotes');
 
 test(
-  'unorder list: tokens should parse to abstract syntax tree',
+  'unorder lists: tokens should parse to abstract syntax tree',
   t => {
     isMatched(
       parser(
-        {tokens: tokens.unorderList}),
-      [ast.unorderList],
+        {tokens: tokens.unorderLists}),
+      [ast.unorderLists],
       (a, b) => {
         t.is(a, b, `unorder list: ${a} isn't equal ${b}`);
       }
@@ -118,9 +118,9 @@ test(
 );
 
 test(
-  'order list: tokens should parse to abstract syntax tree',
+  'order lists: tokens should parse to abstract syntax tree',
   async t => {
-    isMatched(parser({tokens: tokens.orderList}), [ast.orderList], (a, b) => {
+    isMatched(parser({tokens: tokens.orderLists}), [ast.orderLists], (a, b) => {
       t.is(a, b, `order list: ${a} isn't equal ${b}`);
     });
   }
@@ -160,29 +160,29 @@ test(
 );
 
 test(
-  'code: tokens should parse to abstract syntax tree',
+  'code spans: tokens should parse to abstract syntax tree',
   async t => {
-    isMatched(parser({tokens: tokens.code.$1}), [ast.code.$1], (a, b) => {
+    isMatched(parser({tokens: tokens.codeSpans.$1}), [ast.codeSpans.$1], (a, b) => {
       t.is(a, b, `code($1): ${a} isn't equal ${b}`);
     });
-    isMatched(parser({tokens: tokens.code.$2}), [ast.code.$2], (a, b) => {
+    isMatched(parser({tokens: tokens.codeSpans.$2}), [ast.codeSpans.$2], (a, b) => {
       t.is(a, b, `code($2): ${a} isn't equal ${b}`);
     });
-    isMatched(parser({tokens: tokens.code.$3}), [ast.code.$3], (a, b) => {
+    isMatched(parser({tokens: tokens.codeSpans.$3}), [ast.codeSpans.$3], (a, b) => {
       t.is(a, b, `code($3): ${a} isn't equal ${b}`);
     });
-    isMatched(parser({tokens: tokens.code.$4}), [ast.code.$4], (a, b) => {
+    isMatched(parser({tokens: tokens.codeSpans.$4}), [ast.codeSpans.$4], (a, b) => {
       t.is(a, b, `code($4): ${a} isn't equal ${b}`);
     });
-    isMatched(parser({tokens: tokens.code.$5}), [ast.code.$5], (a, b) => {
+    isMatched(parser({tokens: tokens.codeSpans.$5}), [ast.codeSpans.$5], (a, b) => {
       t.is(a, b, `code($5): ${a} isn't equal ${b}`);
     });
-    isMatched(parser({tokens: tokens.code.$6}), [ast.code.$6], (a, b) => {
+    isMatched(parser({tokens: tokens.codeSpans.$6}), [ast.codeSpans.$6], (a, b) => {
       t.is(a, b, `code($6): ${a} isn't equal ${b}`);
     });
     t.deepEqual(
-      parser({tokens: tokens.code.withBackslashEscape}),
-      ast.code.withBackslashEscape,
+      parser({tokens: tokens.codeSpans.withBackslashEscape}),
+      ast.codeSpans.withBackslashEscape,
       'with backslash escape'
     );
   }
@@ -198,214 +198,214 @@ test(
 );
 
 test(
-  'link inline: tokens should parse to abstract syntax tree',
+  'links inline: tokens should parse to abstract syntax tree',
   async t => {
     t.deepEqual(
-      parser({tokens: tokens.linkInline.withTitle}),
-      ast.linkInline.withTitle,
+      parser({tokens: tokens.linksInline.withTitle}),
+      ast.linksInline.withTitle,
       'with title'
     );
     t.deepEqual(
-      parser({tokens: tokens.linkInline.withoutTitle}),
-      ast.linkInline.withoutTitle,
+      parser({tokens: tokens.linksInline.withoutTitle}),
+      ast.linksInline.withoutTitle,
       'without title'
     );
     t.deepEqual(
-      parser({tokens: tokens.linkInline.relativePath}),
-      ast.linkInline.relativePath,
+      parser({tokens: tokens.linksInline.relativePath}),
+      ast.linksInline.relativePath,
       'relative path'
     );
     t.deepEqual(
-      parser({tokens: tokens.linkInline.withEmphasis}),
-      ast.linkInline.withEmphasis,
+      parser({tokens: tokens.linksInline.withEmphasis}),
+      ast.linksInline.withEmphasis,
       'with emphasis'
     );
     t.deepEqual(
-      parser({tokens: tokens.linkInline.invalid}),
-      ast.linkInline.invalid,
+      parser({tokens: tokens.linksInline.invalid}),
+      ast.linksInline.invalid,
       'invalid'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.linkInline.withBackslashEscape[0]}),
-      ast.linkInline.withBackslashEscape[0],
+      parser({tokens: tokens.linksInline.withBackslashEscape[0]}),
+      ast.linksInline.withBackslashEscape[0],
       'with backslash escape 1'
     );
     t.deepEqual(
-      parser({tokens: tokens.linkInline.withBackslashEscape[1]}),
-      ast.linkInline.withBackslashEscape[1],
+      parser({tokens: tokens.linksInline.withBackslashEscape[1]}),
+      ast.linksInline.withBackslashEscape[1],
       'with backslash escape 2'
     );
   }
 );
 
-test.todo('link inline: link without text');
+test.todo('links inline: link without text');
 
 test(
-  'link reference: tokens should parse to abstract syntax tree',
+  'links reference: tokens should parse to abstract syntax tree',
   async t => {
     t.deepEqual(
       parser(
         {
-          tokens: tokens.linkReference.linkDefinitions,
-          variables: variables.linkReference.linkDefinitions,
+          tokens: tokens.linksReference.linkDefinitions,
+          variables: variables.linksReference.linkDefinitions,
         }
       ),
-      ast.linkReference.linkDefinitions,
+      ast.linksReference.linkDefinitions,
       'link definitions'
     );
     t.deepEqual(
       parser(
         {
-          tokens: tokens.linkReference.titleOnNextLine,
-          variables: variables.linkReference.titleOnNextLine,
+          tokens: tokens.linksReference.titleOnNextLine,
+          variables: variables.linksReference.titleOnNextLine,
         }
       ),
-      ast.linkReference.titleOnNextLine,
+      ast.linksReference.titleOnNextLine,
       'title on the next line'
     );
     t.deepEqual(
       parser(
         {
-          tokens: tokens.linkReference.notCaseSensitive,
-          variables: variables.linkReference.notCaseSensitive,
+          tokens: tokens.linksReference.notCaseSensitive,
+          variables: variables.linksReference.notCaseSensitive,
         }
       ),
-      ast.linkReference.notCaseSensitive,
+      ast.linksReference.notCaseSensitive,
       'not case sensitive'
     );
     t.deepEqual(
       parser(
         {
-          tokens: tokens.linkReference.implicitLinkName,
-          variables: variables.linkReference.implicitLinkName,
+          tokens: tokens.linksReference.implicitLinkName,
+          variables: variables.linksReference.implicitLinkName,
         }
       ),
-      ast.linkReference.implicitLinkName,
+      ast.linksReference.implicitLinkName,
       'implicit link name'
     );
     t.deepEqual(
       parser(
         {
-          tokens: tokens.linkReference.idents,
-          variables: variables.linkReference.idents,
+          tokens: tokens.linksReference.idents,
+          variables: variables.linksReference.idents,
         }
       ),
-      ast.linkReference.idents,
+      ast.linksReference.idents,
       'idents'
     );
     t.deepEqual(
       parser(
         {
-          tokens: tokens.linkReference.invalid,
-          variables: variables.linkReference.invalid,
+          tokens: tokens.linksReference.invalid,
+          variables: variables.linksReference.invalid,
         }
       ),
-      ast.linkReference.invalid,
+      ast.linksReference.invalid,
       'invalid'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.linkReference.withBackslashEscape}),
-      ast.linkReference.withBackslashEscape,
+      parser({tokens: tokens.linksReference.withBackslashEscape}),
+      ast.linksReference.withBackslashEscape,
       'with backslash escape'
     );
   }
 );
 
-test.todo('link reference: link without text');
+test.todo('links reference: link without text');
 
 test(
-  'image: tokens should parse to abstract syntax tree',
+  'images: tokens should parse to abstract syntax tree',
   async t => {
     t.deepEqual(
-      parser({tokens: tokens.image.inline}),
-      ast.image.inline,
+      parser({tokens: tokens.images.inline}),
+      ast.images.inline,
       'inline'
     );
     t.deepEqual(
-      parser({tokens: tokens.image.optionalTitle}),
-      ast.image.optionalTitle,
+      parser({tokens: tokens.images.optionalTitle}),
+      ast.images.optionalTitle,
       'optional title'
     );
     t.deepEqual(
       parser({
-        tokens: tokens.image.reference,
-        variables: variables.image.reference,
+        tokens: tokens.images.reference,
+        variables: variables.images.reference,
       }),
-      ast.image.reference,
+      ast.images.reference,
       'reference'
     );
   }
 );
 
 test(
-  'autolink: tokens should parse to abstract syntax tree',
+  'autolinks: tokens should parse to abstract syntax tree',
   async t => {
     t.deepEqual(
-      parser({tokens: tokens.autolink.url.valid[0]}),
-      ast.autolink.url.valid[0],
+      parser({tokens: tokens.autolinks.url.valid[0]}),
+      ast.autolinks.url.valid[0],
       'valid url 1'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.url.valid[1]}),
-      ast.autolink.url.valid[1],
+      parser({tokens: tokens.autolinks.url.valid[1]}),
+      ast.autolinks.url.valid[1],
       'valid url 2'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.url.valid[2]}),
-      ast.autolink.url.valid[2],
+      parser({tokens: tokens.autolinks.url.valid[2]}),
+      ast.autolinks.url.valid[2],
       'valid url 3'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.autolink.url.withBackslashEscape}),
-      ast.autolink.url.withBackslashEscape,
+      parser({tokens: tokens.autolinks.url.withBackslashEscape}),
+      ast.autolinks.url.withBackslashEscape,
       'url with backslash escape'
     );
 
     t.deepEqual(
-      parser({tokens: tokens.autolink.email.valid[0]}),
-      ast.autolink.email.valid[0],
+      parser({tokens: tokens.autolinks.email.valid[0]}),
+      ast.autolinks.email.valid[0],
       'valid email 1'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.email.valid[1]}),
-      ast.autolink.email.valid[1],
+      parser({tokens: tokens.autolinks.email.valid[1]}),
+      ast.autolinks.email.valid[1],
       'valid email 2'
     );
     t.skip.deepEqual(
-      parser({tokens: tokens.autolink.email.withBackslashEscape}),
-      ast.autolink.email.withBackslashEscape,
+      parser({tokens: tokens.autolinks.email.withBackslashEscape}),
+      ast.autolinks.email.withBackslashEscape,
       'email with backslash escape'
     );
 
     t.deepEqual(
-      parser({tokens: tokens.autolink.areNotAutolinks[0]}),
-      ast.autolink.areNotAutolinks[0],
-      'are not autolinks 1'
+      parser({tokens: tokens.autolinks.areNotAutolinks[0]}),
+      ast.autolinks.areNotAutolinks[0],
+      'are not autolinkss 1'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.areNotAutolinks[1]}),
-      ast.autolink.areNotAutolinks[1],
-      'are not autolinks 2'
+      parser({tokens: tokens.autolinks.areNotAutolinks[1]}),
+      ast.autolinks.areNotAutolinks[1],
+      'are not autolinkss 2'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.areNotAutolinks[2]}),
-      ast.autolink.areNotAutolinks[2],
-      'are not autolinks 3'
+      parser({tokens: tokens.autolinks.areNotAutolinks[2]}),
+      ast.autolinks.areNotAutolinks[2],
+      'are not autolinkss 3'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.areNotAutolinks[3]}),
-      ast.autolink.areNotAutolinks[3],
-      'are not autolinks 4'
+      parser({tokens: tokens.autolinks.areNotAutolinks[3]}),
+      ast.autolinks.areNotAutolinks[3],
+      'are not autolinkss 4'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.areNotAutolinks[4]}),
-      ast.autolink.areNotAutolinks[4],
-      'are not autolinks 5'
+      parser({tokens: tokens.autolinks.areNotAutolinks[4]}),
+      ast.autolinks.areNotAutolinks[4],
+      'are not autolinkss 5'
     );
     t.deepEqual(
-      parser({tokens: tokens.autolink.areNotAutolinks[5]}),
-      ast.autolink.areNotAutolinks[5],
-      'are not autolinks 6'
+      parser({tokens: tokens.autolinks.areNotAutolinks[5]}),
+      ast.autolinks.areNotAutolinks[5],
+      'are not autolinkss 6'
     );
   }
 );

@@ -548,6 +548,6 @@ function extractVariables(rawText) {
   };
 }
 
-tokenizer(text.linkInline.withBackslashEscape[1]);
+tokenizer(text.linksInline.withBackslashEscape[1]);
 
 module.exports = tokenizer;

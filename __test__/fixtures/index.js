@@ -1,92 +1,95 @@
-const blockquote = require('./blockquote');
-const emphasis = require('./emphasis');
-const paragraph = require('./paragraph');
-const unorderList = require('./unorder-list');
-const orderList = require('./order-list');
-const traverser = require('./traverser');
-const setextHeader = require('./setext-header');
-const atxHeader = require('./atx-header');
-const horizontalRule = require('./horizontal-rule');
-const codeBlock = require('./code-blocks');
-const code = require('./code');
-const linkInline = require('./link-inline');
-const linkReference = require('./link-reference');
-const image = require('./image');
-const autolink = require('./link-auto');
+const thematicBreaks = require('./thematic-breaks');
+const atxHeadings = require('./atx-headings');
+const setextHeadings = require('./setext-headings');
+const codeBlocks = require('./code-blocks');
+const paragraphs = require('./paragraphs');
+
+const blockQuotes = require('./block-quotes');
+const unorderLists = require('./lists-unorder');
+const orderLists = require('./lists-order');
+
 const backslashEscapes = require('./backslash-escapes');
+const codeSpans = require('./code-spans');
+const emphasis = require('./emphasis');
+const linksInline = require('./links-inline');
+const linksReference = require('./links-reference');
+const images = require('./images');
+const autolinks = require('./autolinks');
+
+const traverser = require('./traverser');
 
 module.exports = {
   text: {
-    blockquote: blockquote.text,
-    emphasis: emphasis.text,
-    paragraph: paragraph.text,
-    unorderList: unorderList.text,
-    orderList: orderList.text,
-    setextHeader: setextHeader.text,
-    atxHeader: atxHeader.text,
-    horizontalRule: horizontalRule.text,
-    codeBlock: codeBlock.text,
-    code: code.text,
-    autolink: autolink.text,
-    linkInline: linkInline.text,
-    linkReference: linkReference.text,
-    image: image.text,
+    thematicBreaks: thematicBreaks.text,
+    atxHeadings: atxHeadings.text,
+    setextHeadings: setextHeadings.text,
+    codeBlocks: codeBlocks.text,
+    paragraphs: paragraphs.text,
+    blockQuotes: blockQuotes.text,
+    unorderLists: unorderLists.text,
+    orderLists: orderLists.text,
     backslashEscapes: backslashEscapes.text,
+    codeSpans: codeSpans.text,
+    emphasis: emphasis.text,
+    linksInline: linksInline.text,
+    linksReference: linksReference.text,
+    images: images.text,
+    autolinks: autolinks.text,
   },
   tokens: {
-    blockquote: blockquote.tokens,
-    emphasis: emphasis.tokens,
-    paragraph: paragraph.tokens,
-    unorderList: unorderList.tokens,
-    orderList: orderList.tokens,
-    setextHeader: setextHeader.tokens,
-    atxHeader: atxHeader.tokens,
-    horizontalRule: horizontalRule.tokens,
-    codeBlock: codeBlock.tokens,
-    code: code.tokens,
-    autolink: autolink.tokens,
-    linkInline: linkInline.tokens,
-    linkReference: linkReference.tokens,
-    image: image.tokens,
+    thematicBreaks: thematicBreaks.tokens,
+    atxHeadings: atxHeadings.tokens,
+    setextHeadings: setextHeadings.tokens,
+    codeBlocks: codeBlocks.tokens,
+    paragraphs: paragraphs.tokens,
+    blockQuotes: blockQuotes.tokens,
+    unorderLists: unorderLists.tokens,
+    orderLists: orderLists.tokens,
     backslashEscapes: backslashEscapes.tokens,
+    codeSpans: codeSpans.tokens,
+    emphasis: emphasis.tokens,
+    linksInline: linksInline.tokens,
+    linksReference: linksReference.tokens,
+    images: images.tokens,
+    autolinks: autolinks.tokens,
   },
   variables: {
-    linkReference: linkReference.variables,
-    image: image.variables,
+    images: images.variables,
+    linksReference: linksReference.variables,
   },
   ast: {
-    blockquote: blockquote.ast,
-    emphasis: emphasis.ast,
-    paragraph: paragraph.ast,
-    unorderList: unorderList.ast,
-    orderList: orderList.ast,
-    setextHeader: setextHeader.ast,
-    atxHeader: atxHeader.ast,
-    horizontalRule: horizontalRule.ast,
-    codeBlock: codeBlock.ast,
-    code: code.ast,
-    autolink: autolink.ast,
-    linkInline: linkInline.ast,
-    linkReference: linkReference.ast,
-    image: image.ast,
+    thematicBreaks: thematicBreaks.ast,
+    atxHeadings: atxHeadings.ast,
+    setextHeadings: setextHeadings.ast,
+    codeBlocks: codeBlocks.ast,
+    paragraphs: paragraphs.ast,
+    blockQuotes: blockQuotes.ast,
+    unorderLists: unorderLists.ast,
+    orderLists: orderLists.ast,
     backslashEscapes: backslashEscapes.ast,
+    codeSpans: codeSpans.ast,
+    emphasis: emphasis.ast,
+    linksInline: linksInline.ast,
+    linksReference: linksReference.ast,
+    images: images.ast,
+    autolinks: autolinks.ast,
   },
   html: {
-    blockquote: blockquote.html,
-    emphasis: emphasis.html,
-    paragraph: paragraph.html,
-    unorderList: unorderList.html,
-    orderList: orderList.html,
-    setextHeader: setextHeader.html,
-    atxHeader: atxHeader.html,
-    horizontalRule: horizontalRule.html,
-    codeBlock: codeBlock.html,
-    code: code.html,
-    autolink: autolink.html,
-    linkInline: linkInline.html,
-    linkReference: linkReference.html,
-    image: image.html,
+    thematicBreaks: thematicBreaks.html,
+    atxHeadings: atxHeadings.html,
+    setextHeadings: setextHeadings.html,
+    codeBlocks: codeBlocks.html,
+    paragraphs: paragraphs.html,
+    blockQuotes: blockQuotes.html,
+    unorderLists: unorderLists.html,
+    orderLists: orderLists.html,
     backslashEscapes: backslashEscapes.html,
+    codeSpans: codeSpans.html,
+    emphasis: emphasis.html,
+    linksInline: linksInline.html,
+    linksReference: linksReference.html,
+    images: images.html,
+    autolinks: autolinks.html,
   },
   traverser,
 };
