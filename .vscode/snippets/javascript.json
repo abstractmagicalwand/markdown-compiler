@@ -1,13 +1,41 @@
-/* need extension https://marketplace.visualstudio.com/items?itemName=rebornix.project-snippets */
 {
+  "Backslash": {
+    "prefix": "tbs",
+    "body": [
+      "{",
+      "  type: 'Backslash',",
+      "  value: '\\\\\\',",
+      "  start: $1,",
+      "  end: $2,",
+      "},$3"
+    ]
+  },
+  "Spaces": {
+    "prefix": "tsp",
+    "body": [
+      "{",
+      "  type: 'Spaces',",
+      "  amount: $1,",
+      "  value: ' ',",
+      "  start: $2,",
+      "  end: $3,",
+      "},$4"
+    ]
+  },
   "HardLineBreak": {
-    "prefix": "thlb",
+    "prefix": "nbr",
     "body": [
       "{",
       "  type: 'HardLineBreak',",
-      "  operator: '/\n',",
-      "  start: $1,",
-      "  end: $2,",
+      "  operator: '\\n',",
+      "}"
+    ]
+  },
+  "SoftLineBreak": {
+    "prefix": "nsb",
+    "body": [
+      "{",
+      "  type: 'SoftLineBreak',",
       "}"
     ]
   },
@@ -126,10 +154,10 @@
       "{",
       "  type: 'NewLine',",
       "  amount: $1,",
-      "  value: '$2',",
-      "  start: $3,",
-      "  end: $4,",
-      "},$5"
+      "  value: '\\n',",
+      "  start: $2,",
+      "  end: $3,",
+      "},$4"
     ]
   },
   "Asterisk": {

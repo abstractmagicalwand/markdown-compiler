@@ -25,23 +25,64 @@ module.exports = {
       end: 20,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 20,
+      end: 21,
+    },
+    {
       type: 'Signs',
       amount: 20,
-      value: '=',
-      start: 20,
+      value: '====================',
+      start: 21,
+      end: 41,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 41,
       end: 42,
     },
     {
       type: 'Chars',
-      value: 'This is just a regular paragraph. A Second Level Header',
+      value: 'This is just a regular paragraph.',
       start: 42,
+      end: 75,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 75,
+      end: 76,
+    },
+    {
+      type: 'Chars',
+      value: 'A Second Level Header',
+      start: 76,
       end: 97,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 97,
+      end: 98,
     },
     {
       type: 'Hyphens',
       amount: 21,
-      value: '-',
-      start: 97,
+      value: '---------------------',
+      start: 98,
+      end: 119,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 119,
       end: 120,
     },
     {
@@ -56,8 +97,8 @@ module.exports = {
     body: [
       {
         type: 'Header',
-        amount: 1,
-        value: '=',
+        level: 1,
+        value: '====================',
         body: [
           {
             type: 'Chars',
@@ -68,8 +109,8 @@ module.exports = {
       },
       {
         type: 'Header',
-        amount: 2,
-        value: '-',
+        level: 2,
+        value: '---------------------',
         body: [
           {
             type: 'Chars',

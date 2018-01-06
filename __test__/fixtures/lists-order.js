@@ -18,7 +18,7 @@ module.exports = {
     {
       type: 'Item',
       depth: 0,
-      value: '5',
+      value: '5.  ',
       start: 0,
       end: 4,
     },
@@ -29,10 +29,17 @@ module.exports = {
       end: 8,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 8,
+      end: 9,
+    },
+    {
       type: 'Item',
       depth: 0,
-      value: '3',
-      start: 8,
+      value: '3.  ',
+      start: 9,
       end: 13,
     },
     {
@@ -42,10 +49,17 @@ module.exports = {
       end: 19,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 19,
+      end: 20,
+    },
+    {
       type: 'Item',
       depth: 0,
-      value: '1',
-      start: 19,
+      value: '1.  ',
+      start: 20,
       end: 24,
     },
     {
@@ -55,16 +69,23 @@ module.exports = {
       end: 30,
     },
     {
+      type: 'NewLine',
+      amount: 2,
+      value: '\n',
+      start: 30,
+      end: 32,
+    },
+    {
       type: 'Item',
       depth: 0,
-      value: '3',
-      start: 30,
+      value: '3. ',
+      start: 32,
       end: 35,
     },
     {
       type: 'Item',
       depth: 1,
-      value: '2',
+      value: '2. ',
       start: 35,
       end: 38,
     },
@@ -75,10 +96,17 @@ module.exports = {
       end: 42,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 42,
+      end: 43,
+    },
+    {
       type: 'Item',
       depth: 1,
-      value: '1',
-      start: 42,
+      value: '  1. ',
+      start: 43,
       end: 48,
     },
     {
@@ -88,10 +116,17 @@ module.exports = {
       end: 54,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 54,
+      end: 55,
+    },
+    {
       type: 'Item',
       depth: 1,
-      value: '8',
-      start: 54,
+      value: '  8. ',
+      start: 55,
       end: 60,
     },
     {
@@ -107,42 +142,36 @@ module.exports = {
       {
         type: 'OrderList',
         depth: 0,
-        start: '5',
-        value: '5',
+        start: 5,
+        value: '5.  ',
         styleType: '1',
         body: [
           {
             type: 'ListItem',
             depth: 0,
-            value: '5',
+            value: '5.  ',
             body: [
               {
                 type: 'Chars',
                 value: 'Bird',
               },
+              {
+                type: 'SoftLineBreak',
+              },
             ],
             isClosed: true,
           },
           {
             type: 'ListItem',
             depth: 0,
-            value: '3',
+            value: '3.  ',
             body: [
               {
                 type: 'Chars',
                 value: 'McHale',
               },
-            ],
-            isClosed: true,
-          },
-          {
-            type: 'ListItem',
-            depth: 0,
-            value: '1',
-            body: [
               {
-                type: 'Chars',
-                value: 'Parish',
+                type: 'SoftLineBreak',
               },
             ],
             isClosed: true,
@@ -150,46 +179,70 @@ module.exports = {
           {
             type: 'ListItem',
             depth: 0,
-            value: '3',
+            value: '1.  ',
+            body: [
+              {
+                type: 'Chars',
+                value: 'Parish',
+              },
+              {
+                type: 'SoftLineBreak',
+              },
+            ],
+            isClosed: true,
+          },
+          {
+            type: 'ListItem',
+            depth: 0,
+            value: '3. ',
             body: [
               {
                 type: 'OrderList',
-                start: '2',
+                start: 2,
                 styleType: '1',
                 depth: 1,
                 body: [
                   {
                     type: 'ListItem',
-                    value: '2',
+                    value: '2. ',
                     depth: 1,
                     body: [
                       {
                         type: 'Chars',
                         value: 'Bird',
                       },
-                    ],
-                    isClosed: true,
-                  },
-                  {
-                    type: 'ListItem',
-                    value: '1',
-                    depth: 1,
-                    body: [
                       {
-                        type: 'Chars',
-                        value: 'McHale',
+                        type: 'SoftLineBreak',
                       },
                     ],
                     isClosed: true,
                   },
                   {
                     type: 'ListItem',
-                    value: '8',
+                    value: '  1. ',
+                    depth: 1,
+                    body: [
+                      {
+                        type: 'Chars',
+                        value: 'McHale',
+                      },
+                      {
+                        type: 'SoftLineBreak',
+                      },
+                    ],
+                    isClosed: true,
+                  },
+                  {
+                    type: 'ListItem',
+                    value: '  8. ',
                     depth: 1,
                     body: [
                       {
                         type: 'Chars',
                         value: 'Parish',
+                      },
+                      {
+                        type: 'SoftLineBreak',
                       },
                     ],
                     isClosed: true,

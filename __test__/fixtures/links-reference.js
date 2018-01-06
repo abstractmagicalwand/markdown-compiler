@@ -98,8 +98,21 @@ tokens.linkDefinitions = [
   },
   {
     type: 'Chars',
-    value: ' reference-style link. This is ',
+    value: ' reference-style link.',
     start: 43,
+    end: 65,
+  },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 65,
+    end: 66,
+  },
+  {
+    type: 'Chars',
+    value: 'This is ',
+    start: 66,
     end: 74,
   },
   {
@@ -140,8 +153,21 @@ tokens.linkDefinitions = [
   },
   {
     type: 'Chars',
-    value: ' reference-style link. This is ',
+    value: ' reference-style link.',
     start: 109,
+    end: 131,
+  },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 131,
+    end: 132,
+  },
+  {
+    type: 'Chars',
+    value: 'This is ',
+    start: 132,
     end: 140,
   },
   {
@@ -284,8 +310,21 @@ tokens.notCaseSensitive = [
   },
   {
     type: 'Chars',
-    value: ' reference-style link. This is ',
+    value: ' reference-style link.',
     start: 24,
+    end: 46,
+  },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 46,
+    end: 47,
+  },
+  {
+    type: 'Chars',
+    value: 'This is ',
+    start: 47,
     end: 55,
   },
   {
@@ -371,8 +410,15 @@ tokens.implicitLinkName = [
   },
   {
     type: 'Chars',
-    value: ' than from ',
+    value: ' than from',
     start: 43,
+    end: 53,
+  },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 53,
     end: 54,
   },
   {
@@ -447,6 +493,13 @@ tokens.implicitLinkName = [
     start: 74,
     end: 75,
   },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 75,
+    end: 76,
+  },
 ];
 
 tokens.idents = [
@@ -494,8 +547,15 @@ tokens.idents = [
   },
   {
     type: 'Chars',
-    value: ' reference-style link. ',
+    value: ' reference-style link.',
     start: 24,
+    end: 46,
+  },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 46,
     end: 47,
   },
   {
@@ -536,8 +596,21 @@ tokens.idents = [
   },
   {
     type: 'Chars',
-    value: '.     ',
+    value: '.',
     start: 61,
+    end: 62,
+  },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 62,
+    end: 63,
+  },
+  {
+    type: 'Chars', //@TODO replace to "Spaces"
+    value: '    ',
+    start: 63,
     end: 67,
   },
   {
@@ -618,6 +691,13 @@ tokens.withBackslashEscape = [
     start: 4,
     end: 5,
   },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 5,
+    end: 6,
+  },
 ];
 
 const variables = {};
@@ -684,7 +764,14 @@ ast.linkDefinitions = {
         },
         {
           type: 'Chars',
-          value: ' reference-style link. This is ',
+          value: ' reference-style link.',
+        },
+        {
+          type: 'SoftLineBreak',
+        },
+        {
+          type: 'Chars',
+          value: 'This is ',
         },
         {
           type: 'Link',
@@ -708,7 +795,14 @@ ast.linkDefinitions = {
         },
         {
           type: 'Chars',
-          value: ' reference-style link. This is ',
+          value: ' reference-style link.',
+        },
+        {
+          type: 'SoftLineBreak',
+        },
+        {
+          type: 'Chars',
+          value: 'This is ',
         },
         {
           type: 'Link',
@@ -750,10 +844,14 @@ ast.linkDefinitions.body[0].body[3].parent = ast.linkDefinitions.body[0];
 ast.linkDefinitions.body[0].body[4].parent = ast.linkDefinitions.body[0];
 ast.linkDefinitions.body[0].body[5].parent = ast.linkDefinitions.body[0];
 ast.linkDefinitions.body[0].body[6].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[7].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[8].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[9].parent = ast.linkDefinitions.body[0];
+ast.linkDefinitions.body[0].body[10].parent = ast.linkDefinitions.body[0];
 
 ast.linkDefinitions.body[0].body[1].body[0].parent = ast.linkDefinitions.body[0].body[1];
-ast.linkDefinitions.body[0].body[3].body[0].parent = ast.linkDefinitions.body[0].body[3];
 ast.linkDefinitions.body[0].body[5].body[0].parent = ast.linkDefinitions.body[0].body[5];
+ast.linkDefinitions.body[0].body[9].body[0].parent = ast.linkDefinitions.body[0].body[9];
 
 ast.titleOnNextLine = {
   type: 'Program',
@@ -836,7 +934,14 @@ ast.notCaseSensitive = {
         },
         {
           type: 'Chars',
-          value: ' reference-style link. This is ',
+          value: ' reference-style link.',
+        },
+        {
+          type: 'SoftLineBreak',
+        },
+        {
+          type: 'Chars',
+          value: 'This is ',
         },
         {
           type: 'Link',
@@ -876,9 +981,11 @@ ast.notCaseSensitive.body[0].body[1].parent = ast.notCaseSensitive.body[0];
 ast.notCaseSensitive.body[0].body[2].parent = ast.notCaseSensitive.body[0];
 ast.notCaseSensitive.body[0].body[3].parent = ast.notCaseSensitive.body[0];
 ast.notCaseSensitive.body[0].body[4].parent = ast.notCaseSensitive.body[0];
+ast.notCaseSensitive.body[0].body[5].parent = ast.notCaseSensitive.body[0];
+ast.notCaseSensitive.body[0].body[6].parent = ast.notCaseSensitive.body[0];
 
 ast.notCaseSensitive.body[0].body[1].body[0].parent = ast.notCaseSensitive.body[0].body[1];
-ast.notCaseSensitive.body[0].body[3].body[0].parent = ast.notCaseSensitive.body[0].body[3];
+ast.notCaseSensitive.body[0].body[5].body[0].parent = ast.notCaseSensitive.body[0].body[5];
 
 ast.implicitLinkName = {
   type: 'Program',
@@ -912,7 +1019,10 @@ ast.implicitLinkName = {
         },
         {
           type: 'Chars',
-          value: ' than from ',
+          value: ' than from',
+        },
+        {
+          type: 'SoftLineBreak',
         },
         {
           type: 'Link',
@@ -962,6 +1072,9 @@ ast.implicitLinkName = {
           type: 'Chars',
           value: '.',
         },
+        {
+          type: 'SoftLineBreak',
+        },
       ],
       isClosed: true,
     },
@@ -978,10 +1091,12 @@ ast.implicitLinkName.body[0].body[3].parent = ast.implicitLinkName.body[0];
 ast.implicitLinkName.body[0].body[4].parent = ast.implicitLinkName.body[0];
 ast.implicitLinkName.body[0].body[5].parent = ast.implicitLinkName.body[0];
 ast.implicitLinkName.body[0].body[6].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[7].parent = ast.implicitLinkName.body[0];
+ast.implicitLinkName.body[0].body[8].parent = ast.implicitLinkName.body[0];
 
 ast.implicitLinkName.body[0].body[1].body[0].parent = ast.implicitLinkName.body[0].body[1];
-ast.implicitLinkName.body[0].body[3].body[0].parent = ast.implicitLinkName.body[0].body[3];
-ast.implicitLinkName.body[0].body[5].body[0].parent = ast.implicitLinkName.body[0].body[5];
+ast.implicitLinkName.body[0].body[4].body[0].parent = ast.implicitLinkName.body[0].body[4];
+ast.implicitLinkName.body[0].body[6].body[0].parent = ast.implicitLinkName.body[0].body[6];
 
 ast.idents = {
   type: 'Program',
@@ -1015,7 +1130,10 @@ ast.idents = {
         },
         {
           type: 'Chars',
-          value: ' reference-style link. ',
+          value: ' reference-style link.',
+        },
+        {
+          type: 'SoftLineBreak',
         },
         {
           type: 'Link',
@@ -1037,7 +1155,14 @@ ast.idents = {
               body: [
                 {
                   type: 'Chars',
-                  value: 'Google].     ',
+                  value: 'Google].',
+                },
+                {
+                  type: 'SoftLineBreak',
+                },
+                {
+                  type: 'Chars',
+                  value: '    ',
                 },
                 {
                   type: 'Link',
@@ -1072,15 +1197,19 @@ ast.idents.body[0].body[0].parent = ast.idents.body[0];
 ast.idents.body[0].body[1].parent = ast.idents.body[0];
 ast.idents.body[0].body[2].parent = ast.idents.body[0];
 ast.idents.body[0].body[3].parent = ast.idents.body[0];
+ast.idents.body[0].body[4].parent = ast.idents.body[0];
 
 ast.idents.body[0].body[1].body[0].parent = ast.idents.body[0].body[1];
 
-ast.idents.body[0].body[3].body[0].parent = ast.idents.body[0].body[3];
-ast.idents.body[0].body[3].body[1].parent = ast.idents.body[0].body[3];
+ast.idents.body[0].body[4].body[0].parent = ast.idents.body[0].body[4];
+ast.idents.body[0].body[4].body[1].parent = ast.idents.body[0].body[4];
 
-ast.idents.body[0].body[3].body[1].body[0].parent = ast.idents.body[0].body[3].body[1];
-ast.idents.body[0].body[3].body[1].body[1].parent = ast.idents.body[0].body[3].body[1];
-ast.idents.body[0].body[3].body[1].body[1].body[0].parent = ast.idents.body[0].body[3].body[1].body[1];
+ast.idents.body[0].body[4].body[1].body[0].parent = ast.idents.body[0].body[4].body[1];
+ast.idents.body[0].body[4].body[1].body[1].parent = ast.idents.body[0].body[4].body[1];
+ast.idents.body[0].body[4].body[1].body[2].parent = ast.idents.body[0].body[4].body[1];
+ast.idents.body[0].body[4].body[1].body[3].parent = ast.idents.body[0].body[4].body[1];
+
+ast.idents.body[0].body[4].body[1].body[3].body[0].parent = ast.idents.body[0].body[4].body[1].body[3];
 
 ast.invalid = {
   type: 'Program',

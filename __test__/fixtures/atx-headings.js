@@ -16,7 +16,8 @@ const html = strip(`
     <h3>Header 3</h3>
     <h4>Header 4</h4>
     <h5>Header 5</h5>
-    <h6>Header 6 ####### Chars</h6>
+    <h6>Header 6</h6>
+    <p>####### Chars</p>
   `);
 
 module.exports = {
@@ -24,7 +25,7 @@ module.exports = {
   tokens: [
     {
       type: 'Hashes',
-      value: '#',
+      value: '# ',
       amount: 1,
       start: 0,
       end: 2,
@@ -36,10 +37,17 @@ module.exports = {
       end: 10,
     },
     {
-      type: 'Hashes',
-      value: '#',
-      amount: 2,
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
       start: 10,
+      end: 11,
+    },
+    {
+      type: 'Hashes',
+      value: '## ',
+      amount: 2,
+      start: 11,
       end: 14,
     },
     {
@@ -49,10 +57,17 @@ module.exports = {
       end: 22,
     },
     {
-      type: 'Hashes',
-      value: '#',
-      amount: 3,
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
       start: 22,
+      end: 23,
+    },
+    {
+      type: 'Hashes',
+      value: '### ',
+      amount: 3,
+      start: 23,
       end: 27,
     },
     {
@@ -62,10 +77,17 @@ module.exports = {
       end: 35,
     },
     {
-      type: 'Hashes',
-      value: '#',
-      amount: 4,
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
       start: 35,
+      end: 36,
+    },
+    {
+      type: 'Hashes',
+      value: '#### ',
+      amount: 4,
+      start: 36,
       end: 41,
     },
     {
@@ -75,10 +97,17 @@ module.exports = {
       end: 49,
     },
     {
-      type: 'Hashes',
-      value: '#',
-      amount: 5,
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
       start: 49,
+      end: 50,
+    },
+    {
+      type: 'Hashes',
+      value: '##### ',
+      amount: 5,
+      start: 50,
       end: 56,
     },
     {
@@ -88,16 +117,36 @@ module.exports = {
       end: 64,
     },
     {
-      type: 'Hashes',
-      value: '#',
-      amount: 6,
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
       start: 64,
+      end: 65,
+    },
+    {
+      type: 'Hashes',
+      value: '###### ',
+      amount: 6,
+      start: 65,
       end: 72,
     },
     {
       type: 'Chars',
-      value: 'Header 6 ####### Chars',
+      value: 'Header 6',
       start: 72,
+      end: 80,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 80,
+      end: 81,
+    },
+    {
+      type: 'Chars',
+      value: '####### Chars',
+      start: 81,
       end: 94,
     },
   ],
@@ -106,8 +155,8 @@ module.exports = {
     body: [
       {
         type: 'Header',
-        amount: 1,
-        value: '#',
+        level: 1,
+        value: '# ',
         body: [
           {
             type: 'Chars',
@@ -119,8 +168,8 @@ module.exports = {
       },
       {
         type: 'Header',
-        amount: 2,
-        value: '#',
+        level: 2,
+        value: '## ',
         body: [
           {
             type: 'Chars',
@@ -132,8 +181,8 @@ module.exports = {
       },
       {
         type: 'Header',
-        amount: 3,
-        value: '#',
+        level: 3,
+        value: '### ',
         body: [
           {
             type: 'Chars',
@@ -144,8 +193,8 @@ module.exports = {
       },
       {
         type: 'Header',
-        amount: 4,
-        value: '#',
+        level: 4,
+        value: '#### ',
         body: [
           {
             type: 'Chars',
@@ -156,8 +205,8 @@ module.exports = {
       },
       {
         type: 'Header',
-        amount: 5,
-        value: '#',
+        level: 5,
+        value: '##### ',
         body: [
           {
             type: 'Chars',
@@ -168,12 +217,22 @@ module.exports = {
       },
       {
         type: 'Header',
-        amount: 6,
-        value: '#',
+        level: 6,
+        value: '###### ',
         body: [
           {
             type: 'Chars',
-            value: 'Header 6 ####### Chars',
+            value: 'Header 6',
+          },
+        ],
+        isClosed: true,
+      },
+      {
+        type: 'Paragraph',
+        body: [
+          {
+            type: 'Chars',
+            value: '####### Chars',
           },
         ],
         isClosed: true,

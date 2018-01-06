@@ -1,5 +1,5 @@
-const isMatched = (object, sources, test) => { // eslint-disable-line
-  sources = sources || [{}]; // eslint-disable-line
+const isMatched = (object, sources, test) => {
+  sources = sources || [ {} ];
 
   sources.forEach(source => {
     Object.keys(object).forEach(key => {

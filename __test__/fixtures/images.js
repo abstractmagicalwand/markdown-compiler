@@ -139,6 +139,13 @@ tokens.reference = [
     start: 14,
     end: 15,
   },
+  {
+    type: 'NewLine',
+    amount: 1,
+    value: '\n',
+    start: 15,
+    end: 16,
+  },
 ];
 
 const ast = {};
@@ -220,6 +227,9 @@ ast.reference = {
           },
           alt: 'Alt text',
         },
+        {
+          type: 'SoftLineBreak',
+        },
       ],
       isClosed: true,
     },
@@ -229,6 +239,7 @@ ast.reference = {
 
 ast.reference.body[0].parent = ast.reference;
 ast.reference.body[0].body[0].parent = ast.reference.body[0];
+ast.reference.body[0].body[1].parent = ast.reference.body[0];
 
 module.exports = {
   markdown,

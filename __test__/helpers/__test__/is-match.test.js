@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import isMatched from '../is-match';
-import { isMatched as f } from './fixtures'; // eslint-disable-line
+import { isMatched as f } from './fixtures';
 
 test('should match object and sources', t => {
   isMatched(

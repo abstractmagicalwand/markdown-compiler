@@ -15,6 +15,8 @@ const linksInline = require('./links-inline');
 const linksReference = require('./links-reference');
 const images = require('./images');
 const autolinks = require('./autolinks');
+const hardLineBreaks = require('./hard-line-breaks');
+const softLineBreaks = require('./soft-line-breaks');
 
 const traverser = require('./traverser');
 
@@ -35,6 +37,8 @@ module.exports = {
     linksReference: linksReference.markdown,
     images: images.markdown,
     autolinks: autolinks.markdown,
+    hardLineBreaks: hardLineBreaks.markdown,
+    softLineBreaks: softLineBreaks.markdown,
   },
   tokens: {
     thematicBreaks: thematicBreaks.tokens,
@@ -52,6 +56,8 @@ module.exports = {
     linksReference: linksReference.tokens,
     images: images.tokens,
     autolinks: autolinks.tokens,
+    hardLineBreaks: hardLineBreaks.tokens,
+    softLineBreaks: softLineBreaks.tokens,
   },
   variables: {
     images: images.variables,
@@ -73,6 +79,8 @@ module.exports = {
     linksReference: linksReference.ast,
     images: images.ast,
     autolinks: autolinks.ast,
+    hardLineBreaks: hardLineBreaks.ast,
+    softLineBreaks: softLineBreaks.ast,
   },
   html: {
     thematicBreaks: thematicBreaks.html,
@@ -90,6 +98,8 @@ module.exports = {
     linksReference: linksReference.html,
     images: images.html,
     autolinks: autolinks.html,
+    hardLineBreaks: hardLineBreaks.html,
+    softLineBreaks: softLineBreaks.html,
   },
   traverser,
 };

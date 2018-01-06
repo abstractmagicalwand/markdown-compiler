@@ -52,8 +52,21 @@ module.exports = {
     },
     {
       type: 'Chars',
-      value: 'I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.',
+      value: 'I love You, My Guardian Angel, in gloom.',
       start: 20,
+      end: 60,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 60,
+      end: 61,
+    },
+    {
+      type: 'Chars',
+      value: 'In gloom, that has followed me out of the womb.',
+      start: 61,
       end: 108,
     },
     {
@@ -65,8 +78,21 @@ module.exports = {
     },
     {
       type: 'Chars',
-      value: 'Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.',
+      value: 'Because you were once my fair gorgeous bride.',
       start: 110,
+      end: 155,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 155,
+      end: 156,
+    },
+    {
+      type: 'Chars',
+      value: 'Because you have seen all the secrets I hide.',
+      start: 156,
       end: 201,
     },
     {
@@ -78,8 +104,21 @@ module.exports = {
     },
     {
       type: 'Chars',
-      value: 'Because we are bound by secrets and night. Because you’re my sister, my daughter, my bride.',
+      value: 'Because we are bound by secrets and night.',
       start: 203,
+      end: 245,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 245,
+      end: 246,
+    },
+    {
+      type: 'Chars',
+      value: 'Because you’re my sister, my daughter, my bride.',
+      start: 246,
       end: 294,
     },
   ],
@@ -108,7 +147,14 @@ module.exports = {
         body: [
           {
             type: 'Chars',
-            value: 'I love You, My Guardian Angel, in gloom. In gloom, that has followed me out of the womb.',
+            value: 'I love You, My Guardian Angel, in gloom.',
+          },
+          {
+            type: 'SoftLineBreak',
+          },
+          {
+            type: 'Chars',
+            value: 'In gloom, that has followed me out of the womb.',
           },
         ],
         isClosed: true,
@@ -118,7 +164,14 @@ module.exports = {
         body: [
           {
             type: 'Chars',
-            value: 'Because you were once my fair gorgeous bride. Because you have seen all the secrets I hide.',
+            value: 'Because you were once my fair gorgeous bride.',
+          },
+          {
+            type: 'SoftLineBreak',
+          },
+          {
+            type: 'Chars',
+            value: 'Because you have seen all the secrets I hide.',
           },
         ],
         isClosed: true,
@@ -128,7 +181,14 @@ module.exports = {
         body: [
           {
             type: 'Chars',
-            value: 'Because we are bound by secrets and night. Because you&rsquo;re my sister, my daughter, my bride.',
+            value: 'Because we are bound by secrets and night.',
+          },
+          {
+            type: 'SoftLineBreak',
+          },
+          {
+            type: 'Chars',
+            value: 'Because you&rsquo;re my sister, my daughter, my bride.',
           },
         ],
         isClosed: true,

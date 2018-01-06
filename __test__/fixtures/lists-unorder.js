@@ -22,7 +22,7 @@ module.exports = {
     {
       type: 'Bullet',
       depth: 0,
-      value: '*',
+      value: '* ',
       start: 0,
       end: 2,
     },
@@ -33,10 +33,17 @@ module.exports = {
       end: 20,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 20,
+      end: 21,
+    },
+    {
       type: 'Bullet',
       depth: 0,
-      value: '+',
-      start: 20,
+      value: '+ ',
+      start: 21,
       end: 23,
     },
     {
@@ -46,16 +53,23 @@ module.exports = {
       end: 35,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 35,
+      end: 36,
+    },
+    {
       type: 'Bullet',
       depth: 0,
-      value: '-',
-      start: 35,
+      value: '- ',
+      start: 36,
       end: 38,
     },
     {
       type: 'Bullet',
       depth: 1,
-      value: '-',
+      value: '- ',
       start: 38,
       end: 40,
     },
@@ -66,10 +80,17 @@ module.exports = {
       end: 62,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 62,
+      end: 63,
+    },
+    {
       type: 'Bullet',
       depth: 1,
-      value: '-',
-      start: 62,
+      value: '  - ',
+      start: 63,
       end: 67,
     },
     {
@@ -79,10 +100,17 @@ module.exports = {
       end: 85,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 85,
+      end: 86,
+    },
+    {
       type: 'Bullet',
       depth: 2,
-      value: '-',
-      start: 85,
+      value: '    - ',
+      start: 86,
       end: 92,
     },
     {
@@ -92,36 +120,83 @@ module.exports = {
       end: 107,
     },
     {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 107,
+      end: 108,
+    },
+    {
       type: 'Bullet',
       depth: 0,
-      value: '-',
-      start: 107,
+      value: '- ',
+      start: 108,
       end: 110,
     },
     {
       type: 'Chars',
-      value: 'Update the Criticism section with the latest developments. -Fix coordinates for the Nova Zagora entry.',
+      value: 'Update the Criticism section with the latest developments.',
       start: 110,
+      end: 168,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 168,
+      end: 169,
+    },
+    {
+      type: 'Chars',
+      value: '-Fix coordinates for the Nova Zagora entry.',
+      start: 169,
       end: 212,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 212,
+      end: 213,
     },
     {
       type: 'Bullet',
       depth: 0,
-      value: '*',
-      start: 212,
+      value: '*   ',
+      start: 213,
       end: 217,
     },
     {
       type: 'Chars',
-      value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.',
+      value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit.',
       start: 217,
+      end: 274,
+    },
+    {
+      type: 'NewLine',
+      amount: 1,
+      value: '\n',
+      start: 274,
+      end: 275,
+    },
+    {
+      type: 'Chars',
+      value: 'Suspendisse id sem consectetuer libero luctus adipiscing.',
+      start: 275,
       end: 332,
+    },
+    {
+      type: 'NewLine',
+      amount: 2,
+      value: '\n',
+      start: 332,
+      end: 334,
     },
     {
       type: 'Bullet',
       depth: 0,
-      value: '-',
-      start: 332,
+      value: '- ',
+      start: 334,
       end: 336,
     },
     {
@@ -140,31 +215,37 @@ module.exports = {
         body: [
           {
             type: 'ListItem',
-            value: '*',
+            value: '* ',
             depth: 0,
             body: [
               {
                 type: 'Chars',
                 value: 'Link to To-Do list',
               },
-            ],
-            isClosed: true,
-          },
-          {
-            type: 'ListItem',
-            value: '+',
-            depth: 0,
-            body: [
               {
-                type: 'Chars',
-                value: 'Add Pictures',
+                type: 'SoftLineBreak',
               },
             ],
             isClosed: true,
           },
           {
             type: 'ListItem',
-            value: '-',
+            value: '+ ',
+            depth: 0,
+            body: [
+              {
+                type: 'Chars',
+                value: 'Add Pictures',
+              },
+              {
+                type: 'SoftLineBreak',
+              },
+            ],
+            isClosed: true,
+          },
+          {
+            type: 'ListItem',
+            value: '- ',
             depth: 0,
             body: [
               {
@@ -173,19 +254,22 @@ module.exports = {
                 body: [
                   {
                     type: 'ListItem',
-                    value: '-',
+                    value: '- ',
                     depth: 1,
                     body: [
                       {
                         type: 'Chars',
                         value: 'Ars longa, vita brevis',
                       },
+                      {
+                        type: 'SoftLineBreak',
+                      },
                     ],
                     isClosed: true,
                   },
                   {
                     type: 'ListItem',
-                    value: '-',
+                    value: '  - ',
                     depth: 1,
                     body: [
                       {
@@ -193,17 +277,23 @@ module.exports = {
                         value: 'Do the To-Do List!',
                       },
                       {
+                        type: 'SoftLineBreak',
+                      },
+                      {
                         type: 'UnorderList',
                         depth: 2,
                         body: [
                           {
                             type: 'ListItem',
-                            value: '-',
+                            value: '    - ',
                             depth: 2,
                             body: [
                               {
                                 type: 'Chars',
                                 value: 'Add an infobox.',
+                              },
+                              {
+                                type: 'SoftLineBreak',
                               },
                             ],
                             isClosed: true,
@@ -222,36 +312,59 @@ module.exports = {
           },
           {
             type: 'ListItem',
-            value: '-',
+            value: '- ',
             depth: 0,
             body: [
               {
                 type: 'Chars',
-                value: 'Update the Criticism section with the latest developments. -Fix coordinates for the Nova Zagora entry.',
+                value: 'Update the Criticism section with the latest developments.',
+              },
+              {
+                type: 'SoftLineBreak',
+              },
+              {
+                type: 'Chars',
+                value: '-Fix coordinates for the Nova Zagora entry.',
+              },
+              {
+                type: 'SoftLineBreak',
               },
             ],
             isClosed: true,
           },
           {
             type: 'ListItem',
-            value: '*',
+            value: '*   ',
             depth: 0,
             body: [
               {
                 type: 'Chars',
-                value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit. Suspendisse id sem consectetuer libero luctus adipiscing.',
+                value: 'Donec sit amet nisl. Aliquam semper ipsum sit amet velit.',
+              },
+              {
+                type: 'SoftLineBreak',
+              },
+              {
+                type: 'Chars',
+                value: 'Suspendisse id sem consectetuer libero luctus adipiscing.',
+              },
+              {
+                type: 'SoftLineBreak',
               },
             ],
             isClosed: true,
           },
           {
             type: 'ListItem',
-            value: '-',
+            value: '- ',
             depth: 0,
             body: [
               {
                 type: 'Chars',
                 value: 'At fiat voluntas tua',
+              },
+              {
+                type: 'SoftLineBreak',
               },
             ],
             isClosed: true,

@@ -1,7 +1,7 @@
 import test from 'ava';
 
 import tokenizer from '../src/tokenizer';
-import {parser} from '../src/parser';
+import { parser } from '../src/parser';
 import traverser from '../src/traverser';
 import transformer from '../src/transformer';
 import codeGenerator from '../src/code-generator';

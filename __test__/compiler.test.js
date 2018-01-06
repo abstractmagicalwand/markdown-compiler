@@ -1,9 +1,9 @@
 import test from 'ava';
 
 import compiler from '../src/compiler';
-import {html, markdown} from './fixtures'; // eslint-disable-line
+import { html, markdown } from './fixtures';
 
-// leaf blocks
+// Leaf blocks
 
 test(
   'thematic breaks: markdown should compile to html',
@@ -50,7 +50,7 @@ test(
   }
 );
 
-// container blocks
+// Container blocks
 
 test(
   'block quotes: markdown should compile to html',
@@ -92,7 +92,7 @@ test(
   }
 );
 
-// inlines
+// Inlines
 
 test(
   'backslash escapes: markdown should compile to html',
@@ -302,6 +302,166 @@ test(
       compiler(markdown.autolinks.areNotAutolinks[5]),
       html.autolinks.areNotAutolinks[5],
       'should not be autolinks 6'
+    );
+  }
+);
+
+
+test(
+  'hard line breaks: markdown should compile to html',
+  async t => {
+    t.is(
+      compiler(markdown.hardLineBreaks.spaces),
+      html.hardLineBreaks.spaces,
+      'spaces'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.backslash),
+      html.hardLineBreaks.backslash,
+      'backslash'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.moreThanTwoSpaces),
+      html.hardLineBreaks.moreThanTwoSpaces,
+      'more than two spaces'
+    );
+
+    t.is(
+      compiler(markdown.hardLineBreaks.spacesAreIgnored[0]),
+      html.hardLineBreaks.spacesAreIgnored[0],
+      'spaces are ignored 1'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.spacesAreIgnored[1]),
+      html.hardLineBreaks.spacesAreIgnored[1],
+      'spaces are ignored 2'
+    );
+
+    t.is(
+      compiler(markdown.hardLineBreaks.insideInlines[0]),
+      html.hardLineBreaks.insideInlines[0],
+      'inside inlines 1'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.insideInlines[1]),
+      html.hardLineBreaks.insideInlines[1],
+      'inside inlines 2'
+    );
+
+    t.is(
+      compiler(markdown.hardLineBreaks.insideCodeSpan[0]),
+      html.hardLineBreaks.insideCodeSpan[0],
+      'inside code span 1'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.insideCodeSpan[1]),
+      html.hardLineBreaks.insideCodeSpan[1],
+      'inside code span 2'
+    );
+
+    t.skip.is(
+      compiler(markdown.hardLineBreaks.insideHtmlTags[0]),
+      html.hardLineBreaks.insideHtmlTags[0],
+      'inside HTML tags 1'
+    );
+    t.skip.is(
+      compiler(markdown.hardLineBreaks.insideHtmlTags[1]),
+      html.hardLineBreaks.insideHtmlTags[1],
+      'inside HTML tags 2'
+    );
+
+    t.is(
+      compiler(markdown.hardLineBreaks.atBlockElement[0]),
+      html.hardLineBreaks.atBlockElement[0],
+      'at block element 1'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.atBlockElement[1]),
+      html.hardLineBreaks.atBlockElement[1],
+      'at block element 2'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.atBlockElement[2]),
+      html.hardLineBreaks.atBlockElement[2],
+      'at block element 3'
+    );
+    t.is(
+      compiler(markdown.hardLineBreaks.atBlockElement[3]),
+      html.hardLineBreaks.atBlockElement[3],
+      'at block element 4'
+    );
+  }
+);
+
+test(
+  'soft line breaks: markdown should compile to html',
+  async t => {
+    t.is(
+      compiler(
+        markdown.softLineBreaks.main,
+        {
+          'code-generator': {
+            'soft-line-break': 'line-break',
+          },
+        }
+      ),
+      html.softLineBreaks.lineBreak,
+      'main'
+    );
+    t.is(
+      compiler(
+        markdown.softLineBreaks.spaces,
+        {
+          'code-generator': {
+            'soft-line-break': 'spaces',
+          },
+        }
+      ),
+      html.softLineBreaks.spaces,
+      'spaces'
+    );
+  }
+);
+
+// Other
+test(
+  'soft line breaks: should render as a line break or as a space or as a hard line break',
+  async t => {
+    t.is(
+      compiler(
+        markdown.softLineBreaks.main,
+        {
+          'code-generator': {
+            'soft-line-break': 'spaces',
+          },
+        }
+      ),
+      html.softLineBreaks.spaces,
+      'should render soft line breaks as space'
+    );
+    t.is(
+      compiler(
+        markdown.softLineBreaks.main,
+        {
+          'code-generator': {
+            'soft-line-break': 'line-break',
+          },
+        }
+      ),
+      html.softLineBreaks.lineBreak,
+      'should render soft line breaks as line break'
+    );
+    t.is(
+      compiler(
+        markdown.softLineBreaks.main,
+        {
+          'code-generator': {
+            'soft-line-break': 'hard-line-break',
+          },
+        }
+      ),
+      html.hardLineBreaks.backslash,
+      'should render soft line breaks as hard line breaks'
     );
   }
 );

@@ -52,11 +52,25 @@ tokens.main = [
     end: 27,
   },
   {
+    type: 'NewLine',
+    amount: 2,
+    value: '\n',
+    start: 27,
+    end: 29,
+  },
+  {
     type: 'CodeBlock',
     value: 'This is a code block.',
     isClosed: true,
-    start: 27,
-    end: 59,
+    start: 29,
+    end: 58,
+  },
+  {
+    type: 'NewLine',
+    amount: 2,
+    value: '\n',
+    start: 58,
+    end: 60,
   },
   {
     type: 'CodeBlock',
@@ -66,8 +80,8 @@ tokens.main = [
         </div>
       `),
     isClosed: true,
-    start: 59,
-    end: 126,
+    start: 60,
+    end: 125,
   },
 ];
 
