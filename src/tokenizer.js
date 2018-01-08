@@ -1,5 +1,4 @@
 const patterns = require('./patterns');
-const markdown = require('../__test__/fixtures').markdown;
 
 /* eslint complexity: 0 */
 function tokenizer(rawText) {
@@ -10,286 +9,400 @@ function tokenizer(rawText) {
   }
 
   const tokens = [];
-  const {markdown, variables} = extractVariables(rawText);
+  const { markdown, variables } = extractVariables(rawText);
 
   let i = 0;
   while (i < markdown.length) {
-    if (markdown[i] === '\n' || i === 0) {
+    // New line
+    if (markdown[i] === '\n') {
+      const start = i;
       const value = markdown[i];
-      let start = i;
+      let amount = 0;
 
-      let amountOfNewLines = 0;
-      for (; markdown[i] === '\n'; i++) {
-        amountOfNewLines++;
+      for (; i < markdown.length && markdown[i] === '\n'; i++) {
+        amount++;
       }
 
-      let amountOfSpaces = 0;
-      for (; markdown[i] === ' '; i++) {
-        amountOfSpaces++;
+      tokens.push({
+        type: 'NewLine',
+        amount,
+        value,
+        start,
+        end: i,
+      });
+      continue;
+    }
+
+    // Horizontal rule
+    let isRule = false;
+    if (markdown[i] === '-' || markdown[i] === '*') {
+      if (tokens[tokens.length - 1] == null
+        || tokens[tokens.length - 1].type === 'NewLine') {
+        isRule = true;
       }
 
-      // greater
-      if (markdown[i] === '>') {
-        let depth = 0;
+      if (tokens[tokens.length - 2]
+        && tokens[tokens.length - 2].type === 'Chars') {
+        isRule = false;
+      }
+    }
 
-        while (markdown[i] === '>') {
-          let j = i;
+    if (isRule) {
+      const start = i;
+      let value = '';
+      let amount = 0;
 
-          do {
-            j++;
-          } while (markdown[j] === ' ');
+      let j = i;
 
-          if (markdown[j - 1] === ' ' || markdown[j] === '\n') {
-            i = j;
-
-            if (amountOfNewLines >= 2) {
-              tokens.push({
-                type: 'NewLine',
-                amount: amountOfNewLines,
-                value,
-                start,
-                end: start + amountOfNewLines,
-              });
-
-              start = start + amountOfNewLines;
-            }
-
-            tokens.push({
-              type: 'Greater',
-              depth,
-              value: '>',
-              start,
-              end: i,
-            });
-
-            start = i;
-            depth += 1;
-            amountOfNewLines = 0;
-            amountOfSpaces = 0;
-            continue;
-          }
-
+      for (; j < markdown.length; j++) {
+        if (markdown[j] !== ' ' && markdown[j] !== markdown[i]) {
           break;
         }
 
-        if (markdown[i] === '\n') {
-          continue;
-        }
-      }
-
-      // hashes
-      if (markdown[i] === '#') {
-        let amountOfNewLines = 1;
-
-        let j = i + 1;
-        for (; markdown[j] === '#'; j++) {
-          amountOfNewLines++;
-        }
-
-        if (amountOfNewLines <= 6) {
-          i = j;
-
-          while (markdown[i] === ' ') {
-            i++;
-          }
-
-          tokens.push({
-            type: 'Hashes',
-            value: '#',
-            amount: amountOfNewLines,
-            start,
-            end: i,
-          });
-          continue;
-        }
-      }
-
-      // signs and hyphens
-      if (tokens[tokens.length - 1]
-        && tokens[tokens.length - 1].type === 'Chars'
-        && (markdown[i] === '=' || markdown[i] === '-')) {
-        const value = markdown[i];
-        let amount = 0;
-
-        let j = i;
-        for (; markdown[j] === value; j++) {
+        if (markdown[j] === markdown[i]) {
           amount++;
         }
 
-        if (markdown[j] === '\n') {
-          i = j + 1;
-
-          tokens.push({
-            type: value === '-' ? 'Hyphens' : 'Signs',
-            amount,
-            value,
-            start,
-            end: i,
-          });
-          continue;
-        }
+        value += markdown[j];
       }
 
-      //code block
-      if (markdown[i] === '`' && markdown[i + 1] === '`' && markdown[i + 2] === '`') {
-        i += 3;
-
-        const currDepth = tokens[tokens.length - 1]
-          && tokens[tokens.length - 1].type === 'Greater'
-          ? tokens[tokens.length - 1].depth
-          : -1;
-
-        let value = '';
-        let amountOfClosedBackticks = 0;
-        let level = currDepth;
-        for (; i < markdown.length && amountOfClosedBackticks < 3; i++) {
-          if (markdown[i] === '`') {
-            amountOfClosedBackticks++;
-          } else if (markdown[i] === '>' && level === -1) {
-            value += markdown[i];
-          } else if (markdown[i] === '>' && markdown[i + 1] === ' ') {
-            level--;
-            i++;
-          } else if (markdown[i] === '\n') {
-            level = currDepth;
-            value += '\n';
-          } else {
-            value += markdown[i];
-          }
-        }
+      if (amount > 2 && markdown[j] === '\n' || j === markdown.length) {
+        i = j;
 
         tokens.push({
-          type: 'CodeBlock',
-          value: value.replace(/^[\n\uFEFF\xA0]+|[\n\uFEFF\xA0]+$/g, ''),
-          isClosed: amountOfClosedBackticks === 3,
+          type: 'HorizontalRule',
+          amount,
+          value,
           start,
-          end: ++i,
+          end: i,
         });
         continue;
       }
+    }
 
-      // horizontal rule
-      if ((tokens[tokens.length - 1] == null
-        || tokens[tokens.length - 1].type !== 'Chars')
-        && (markdown[i] === '-' || markdown[i] === '*')) {
-        const value = markdown[i];
+    // Signs and hyphens
+    if (/[=-]/.test(markdown[i])
+      && tokens[tokens.length - 1]
+      && tokens[tokens.length - 1].type === 'NewLine') {
+      const start = i;
+      const type = markdown[i] === '-' ? 'Hyphens' : 'Signs';
+      let value = '';
+      let amount = 0;
 
-        let j = i;
-        while (markdown[j] === value || markdown[j] === ' ') {
-          j++;
+      let j = i;
+
+      for (; /[ -=]/.test(markdown[j]); j++) {
+        amount++;
+        value += markdown[j];
+      }
+
+      if (markdown[j] === '\n') {
+        i = j;
+
+        tokens.push({
+          type,
+          amount,
+          value,
+          start,
+          end: i,
+        });
+        continue;
+      }
+    }
+
+    // Greater
+    if (markdown[i] === '>'
+      && (tokens[tokens.length - 1] == null
+      || tokens[tokens.length - 1].type === 'NewLine')) {
+      let start = i;
+      let depth = 0;
+
+      while (markdown[i] === '>') {
+        let value = markdown[i];
+        let amountOfSpacesAfter = 0;
+
+        let j = i + 1;
+
+        for (; j < markdown.length && markdown[j] === ' '; j++) {
+          amountOfSpacesAfter++;
+          value += markdown[j];
         }
 
-        if (markdown[j] === '\n' || j === markdown.length) {
+        if (amountOfSpacesAfter >= 1 || markdown[j] === '\n') {
           i = j;
 
           tokens.push({
-            type: 'HorizontalRule',
+            type: 'Greater',
             value,
+            depth,
             start,
             end: i,
           });
+
+          start = i;
+          depth += 1;
+          amountOfSpacesAfter = 0;
           continue;
         }
+
+        break;
       }
 
-      // bullet
-      if (markdown[i] === '*' || markdown[i] === '+' || markdown[i] === '-') {
-        let depth = Math.floor(amountOfSpaces * 0.5);
+      if (markdown[i] === '\n') {
+        continue;
+      }
+    }
 
-        while (markdown[i] === '*' || markdown[i] === '+' || markdown[i] === '-') {
-          const value = markdown[i];
+    if (/[-+*\s\d]/.test(markdown[i])
+      && (tokens[tokens.length - 1] == null
+      || tokens[tokens.length - 1].type === 'NewLine'
+      || tokens[tokens.length - 1].type === 'Greater')) {
+      let start = i;
 
-          let j = i + 1;
-          while (markdown[j] === ' ') {
-            j++;
+      let j = i;
+
+      let amountOfSpacesBefore = 0;
+      for (; j < markdown.length && markdown[j] === ' '; j++) {
+        amountOfSpacesBefore++;
+      }
+      let depth = Math.floor(amountOfSpacesBefore * 0.5);
+
+      // Bullet
+      while (/[*+-]/.test(markdown[j])) {
+        const value = markdown[j];
+        let amountOfSpacesAfter = 0;
+        for (j++; j < markdown.length && markdown[j] === ' '; j++) {
+          amountOfSpacesAfter++;
+        }
+
+        if (amountOfSpacesAfter !== 0) {
+          i = j;
+
+          tokens.push({
+            type: 'Bullet',
+            depth,
+            value: ' '.repeat(amountOfSpacesBefore)
+              + value
+              + ' '.repeat(amountOfSpacesAfter),
+            start,
+            end: i,
+          });
+          depth += 1;
+          start = i;
+          continue;
+        }
+
+        break;
+      }
+
+      // Item
+      while (/\d/.test(markdown[j])) {
+        let number = '';
+        for (; j < markdown.length && /\d/.test(markdown[j]); j++) {
+          number += markdown[j];
+        }
+
+        if (markdown[j] === '.') {
+          let value = markdown[j];
+
+          for (j++; j < markdown.length && markdown[j] === ' '; j++) {
+            value += markdown[j];
           }
 
-          if (markdown[j - 1] === ' ') {
+          if (value.length) {
             i = j;
 
             tokens.push({
-              type: 'Bullet',
+              type: 'Item',
               depth,
-              value,
+              value: ' '.repeat(amountOfSpacesBefore) + number + value,
               start,
               end: i,
             });
 
             start = i;
-            amountOfSpaces = 0;
-            amountOfNewLines = 0;
+            amountOfSpacesBefore = 0;
             depth += 1;
             continue;
           }
+        }
 
-          break;
+        break;
+      }
+    }
+
+    // Hashes
+    if (markdown[i] === '#'
+      && (tokens[tokens.length - 1] == null
+      || tokens[tokens.length - 1].type === 'NewLine'
+      || tokens[tokens.length - 1].type === 'Greater')) {
+      const start = i;
+      let amount = 0;
+      let value = '';
+
+      let j = i;
+
+      for (; markdown[j] === '#'; j++) {
+        amount++;
+        value += markdown[j];
+      }
+
+      if (amount <= 6) {
+        i = j;
+
+        for (; i < markdown.length && markdown[i] === ' '; i++) {
+          value += markdown[i];
+        }
+
+        tokens.push({
+          type: 'Hashes',
+          value,
+          amount,
+          start,
+          end: i,
+        });
+        continue;
+      }
+    }
+
+    // Backslash
+    if (markdown[i] === '\\' && markdown[i + 1] === '\n') {
+      let start = i;
+      tokens.push({
+        type: 'Backslash',
+        value: '\\',
+        start,
+        end: ++i,
+      });
+
+      start = i;
+
+      let amount = 0;
+      for (; i < markdown.length && markdown[i] === '\n'; i++) {
+        amount++;
+      }
+
+      tokens.push({
+        type: 'NewLine',
+        amount,
+        value: '\n',
+        start,
+        end: i,
+      });
+
+
+      let j = start = i;
+
+      let value = '';
+      for (; j < markdown.length && markdown[j] === ' '; j++) {
+        value += markdown[j];
+      }
+
+      if (value.length) {
+        i = j;
+
+        tokens.push({
+          type: 'Spaces',
+          amount: value.length,
+          value,
+          start,
+          end: i,
+        });
+      }
+
+      continue;
+    }
+
+    //Code block
+    if ((tokens[tokens.length - 1] == null
+      || tokens[tokens.length - 1].type === 'NewLine'
+      || tokens[tokens.length - 1].type === 'Greater')
+      && markdown[i] === '`'
+      && markdown[i + 1] === '`'
+      && markdown[i + 2] === '`') {
+      const start = i;
+      i += 3;
+
+      const currDepth = tokens[tokens.length - 1]
+        && tokens[tokens.length - 1].type === 'Greater'
+        ? tokens[tokens.length - 1].depth
+        : -1;
+
+      let value = '';
+      let amountOfClosedBackticks = 0;
+      let level = currDepth;
+      for (; i < markdown.length && amountOfClosedBackticks < 3; i++) {
+        if (markdown[i] === '`') {
+          amountOfClosedBackticks++;
+        } else if (markdown[i] === '>' && level === -1) {
+          value += markdown[i];
+        } else if (markdown[i] === '>' && markdown[i + 1] === ' ') {
+          level--;
+          i++;
+        } else if (markdown[i] === '\n') {
+          level = currDepth;
+          value += '\n';
+        } else {
+          value += markdown[i];
         }
       }
 
-      // item
-      if (/\d/.test(markdown[i])) {
-        let depth = Math.floor(amountOfSpaces * 0.5);
+      tokens.push({
+        type: 'CodeBlock',
+        value: value.replace(/^[\n\uFEFF\xA0]+|[\n\uFEFF\xA0]+$/g, ''),
+        isClosed: amountOfClosedBackticks === 3,
+        start,
+        end: i,
+      });
+      continue;
+    }
 
-        while (/\d/.test(markdown[i])) {
-          let value = '';
-          let j = i;
-          while (/\d/.test(markdown[j])) {
-            value += markdown[j];
-            j++;
-          }
+    // Space
+    if (markdown[i] === ' ') {
+      let start = i;
 
-          if (markdown[j] === '.') {
-            do {
-              j++;
-            } while (markdown[j] === ' ');
+      let j = i;
 
-            if (markdown[j - 1] === ' ') {
-              i = j;
-
-              tokens.push({
-                type: 'Item',
-                depth,
-                value,
-                start,
-                end: i,
-              });
-
-              start = i;
-              amountOfSpaces = 0;
-              amountOfNewLines = 0;
-              depth += 1;
-              continue;
-            }
-          }
-
-          break;
-        }
+      let amountOfSpacesBefore = 0;
+      while (markdown[j] !== '\n' && markdown[j] === ' ') {
+        amountOfSpacesBefore++;
+        j++;
       }
 
-      // new line and chars
-      if (value === '\n') {
-        if (amountOfNewLines > 1 && value === '\n') {
+      if (markdown[j] === '\n') {
+        i = j;
+
+        tokens.push({
+          type: 'Spaces',
+          amount: amountOfSpacesBefore,
+          value: ' ',
+          start,
+          end: i,
+        });
+
+        start = i;
+        i++;
+        tokens.push({
+          type: 'NewLine',
+          amount: 1,
+          value: '\n',
+          start,
+          end: i,
+        });
+
+        start = i;
+        let amountOfSpacesAfter = 0;
+        while (markdown[i] === ' ') {
+          amountOfSpacesAfter++;
+          i++;
+        }
+        if (amountOfSpacesAfter) {
           tokens.push({
-            type: 'NewLine',
-            amount: amountOfNewLines,
-            value,
+            type: 'Spaces',
+            amount: amountOfSpacesAfter,
+            value: ' ',
             start,
             end: i,
-          });
-        } else if (tokens[tokens.length - 1]
-          && tokens[tokens.length - 1].type === 'Chars') {
-          amountOfSpaces += amountOfNewLines;
-
-          tokens[tokens.length - 1].end += amountOfSpaces;
-          tokens[tokens.length - 1].value += ' '.repeat(amountOfSpaces);
-        } else {
-          amountOfSpaces += amountOfNewLines;
-
-          tokens.push({
-            type: 'Chars',
-            value: ' '.repeat(amountOfSpaces),
-            start,
-            end: i + amountOfSpaces,
           });
         }
 
@@ -297,10 +410,11 @@ function tokenizer(rawText) {
       }
     }
 
-    // autolink
+    // Autolink
     if (markdown[i] === '<') {
       const start = i;
-      const operators = [markdown[i]];
+      const operators = [ markdown[i] ];
+
       let j = i + 1;
 
       let value = '';
@@ -342,7 +456,7 @@ function tokenizer(rawText) {
       }
     }
 
-    // square bracket
+    // Square bracket
     if (markdown[i] === '[') {
       tokens.push({
         type: 'LeftSquareBracket',
@@ -363,7 +477,7 @@ function tokenizer(rawText) {
       continue;
     }
 
-    // parenthesis
+    // Parenthesis
     if (markdown[i] === '(') {
       tokens.push({
         type: 'LeftParenthesis',
@@ -384,7 +498,7 @@ function tokenizer(rawText) {
       continue;
     }
 
-    // asterisk
+    // Asterisk
     if (markdown[i] === '*') {
       const start = i;
       const value = markdown[i];
@@ -404,7 +518,7 @@ function tokenizer(rawText) {
       continue;
     }
 
-    // underscore
+    // Underscore
     if (markdown[i] === '_') {
       const start = i;
       const value = markdown[i];
@@ -424,9 +538,10 @@ function tokenizer(rawText) {
       continue;
     }
 
-    // code
+    // Code
     if (markdown[i] === '`') {
       const start = i;
+
       let j = i;
 
       let amountOfOpenedBackticks = 0;
@@ -452,14 +567,24 @@ function tokenizer(rawText) {
           continue;
         } else if (markdown[j] === '\n' && markdown[j + 1] === '\n') {
           break;
+        } else if (markdown[j] === '\n' || markdown[j] === ' ') {
+          while (j < markdown.length
+            && (markdown[j] === '\n' || markdown[j] === ' ')){
+            j++;
+          }
+
+          value += ' ';
+          continue;
         } else {
           value += markdown[j];
         }
+
         j++;
       }
 
       if (isClosed) {
         i = j;
+
         tokens.push({
           type: 'Code',
           value: value.trim(),
@@ -471,7 +596,7 @@ function tokenizer(rawText) {
       }
     }
 
-    // opened image bracket
+    // Opened image bracket
     if (markdown[i] === '!' && markdown[i + 1] === '[') {
       const start = i;
       i += 2;
@@ -490,7 +615,7 @@ function tokenizer(rawText) {
       i++;
     }
 
-    // chars
+    // Chars
     if (tokens[tokens.length - 1]
       && tokens[tokens.length - 1].type === 'Chars') {
       tokens[tokens.length - 1].value += markdown[i];
@@ -507,7 +632,7 @@ function tokenizer(rawText) {
     i++;
   }
 
-  let results = {tokens};
+  let results = { tokens };
 
   if (Object.keys(variables).length) {
     results.variables = variables;
@@ -543,11 +668,9 @@ function extractVariables(markdown) {
   }
 
   return {
-    markdown: markdownByNewLine.join('\n').trim(),
+    markdown: markdownByNewLine.join('\n'),
     variables,
   };
 }
-
-tokenizer(markdown.linksInline.withBackslashEscape[1]);
 
 module.exports = tokenizer;
