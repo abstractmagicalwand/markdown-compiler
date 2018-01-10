@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Program",
-      "program": "${workspaceRoot}/src/tokenizer.js"
+      "program": "${workspaceRoot}/.vscode/debugging-environment.js"
     }
   ]
 }
