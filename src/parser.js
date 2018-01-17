@@ -3,7 +3,7 @@ const encodeToHtmlEntities = (value) =>
   he.encode(value, { 'useNamedReferences': true });
 
 /* eslint complexity: 0 */
-function parser({tokens, variables}) { // eslint-disable-line
+function parser({ tokens, variables }) {
   if (!Array.isArray(tokens)) {
     throw new TypeError(
       `tokens are ${typeof tokens}. It should be array.`
@@ -25,54 +25,185 @@ function parser({tokens, variables}) { // eslint-disable-line
   let current = 0;
   let node = ast;
   while (current <= tokens.length) {
+    // Finalize
     if (tokens[current] == null) {
-      let n = node;
-      while (n) {
-        if (n.type === 'Paragraph'
-          || n.type === 'OrderList'
-          || n.type === 'UnorderList'
-          || n.type === 'ListItem'
-          || n.type === 'Header') {
-          n.isClosed = true;
+      while (node) {
+        if (node.type === 'Paragraph'
+          || node.type === 'OrderList'
+          || node.type === 'UnorderList'
+          || node.type === 'ListItem'
+          || node.type === 'Header') { //@TODO every type?
+          node.isClosed = true;
         }
 
-        n = n.parent;
+        node = node.parent;
       }
 
       current++;
       continue;
     }
 
-    if (tokens[current].type === 'NewLine') {
-      let parent = node;
+    // Setext header
+    let isSetextHeader = false;
+    let j = current;
 
-      while (parent
-        && parent.type !== 'Paragraph'
-        && parent.type !== 'UnorderList'
-        && parent.type !== 'OrderList'
-        && parent.type !== 'Hashes') {
+    while (j < tokens.length
+      && (tokens[j].type === 'Chars'
+        || tokens[j].type === 'NewLine'
+        && tokens[j].amount === 1)) {
+      j++;
+    }
 
-        if (parent.type === 'ListItem') {
-          parent.isClosed = true;
+    if (tokens[j - 1] && tokens[j - 1].type === 'NewLine'
+      && tokens[j] && (tokens[j].type === 'Signs' || tokens[j].type === 'Hyphens')
+      && tokens[j + 1] && (tokens[j + 1].type === 'NewLine' || !tokens[j + 1])) {
+      isSetextHeader = true;
+    }
+
+    if (isSetextHeader) {
+      const level = tokens[j].type === 'Signs' ? 1 : 2;
+
+      let charsValue = '';
+      for (; current < tokens.length; current++) {
+        if (tokens[current].type === 'Chars') {
+          charsValue += tokens[current].value;
+        } else if (tokens[current].type === 'NewLine') {
+          charsValue += charsValue && ' ';
+        } else {
+          break;
         }
-
-        parent = parent.parent;
       }
 
-      if (parent) {
-        parent.isClosed = true;
-        node = parent.parent;
+      node.body.push({
+        type: 'Header',
+        value: tokens[current].value,
+        level,
+        body: [
+          {
+            type: 'Chars',
+            value: charsValue.trim(),
+          },
+        ],
+        isClosed: true,
+      });
+      current += 2;
+      continue;
+    }
+
+    // Soft line break
+    if ((tokens[current].type === 'Spaces'
+        && tokens[current].amount === 1
+        && tokens[current + 1]
+        && tokens[current + 1].type === 'NewLine'
+        && tokens[current + 1].amount === 1
+        || tokens[current].type === 'NewLine'
+        && tokens[current].amount === 1)
+      && (node.type === 'Italic'
+        || node.type === 'Bold'
+        || node.type === 'Link'
+        || node.type === 'Paragraph'
+        || node.type === 'ListItem')) {
+      node.body.push({
+        type: 'SoftLineBreak',
+        parent: node,
+      });
+
+      current += tokens[current].type === 'NewLine' ? 1 : 2;
+
+      if (tokens[current] && tokens[current].type === 'Spaces') {
+        current++;
       }
+
+      continue;
+    }
+
+    if (tokens[current].type === 'NewLine'
+      && tokens[current].amount === 1
+      && node.type === 'Header') { //@TODO every type?
+      node.isClosed = true;
+      node = node.parent;
 
       current++;
       continue;
     }
 
-    // blockquote
-    if (tokens[current].type === 'Greater') {
+    // Hard line break
+    if (tokens[current].type === 'Spaces'
+      && tokens[current].amount > 1
+      && tokens[current + 1].type === 'NewLine'
+      && (node.type === 'Italic'
+        || node.type === 'Bold'
+        || node.type === 'Link'
+        || node.type === 'Paragraph'
+        && current + 2 < tokens.length)) {
+      node.body.push({
+        type: 'HardLineBreak',
+        operator: '  '
+          + '\n',
+        parent: node,
+      });
+
+      current += 2;
+
+      while(tokens[current] && tokens[current].type === 'Spaces') {
+        current++;
+      }
+
+      continue;
+    }
+
+    if (tokens[current].type === 'Backslash'
+      && tokens[current + 1].type === 'NewLine'
+      && (node.type === 'Italic'
+        || node.type === 'Bold'
+        || node.type === 'Link'
+        || node.type === 'Paragraph'
+        && current + 2 < tokens.length)) {
+      node.body.push({
+        type: 'HardLineBreak',
+        operator: tokens[current].value
+          + '\n',
+        parent: node,
+      });
+
+      current += 2;
+
+      while(tokens[current] && tokens[current].type === 'Spaces') {
+        current++;
+      }
+
+      continue;
+    }
+
+    // Blockquote
+    if (tokens[current].type === 'NewLine'
+      && tokens[current].amount > 1
+      && tokens[current + 1].type === 'Greater') {
+      while (node.type !== 'Blockquote'
+        && node.type !== 'Program'
+        && node.depth !== tokens[current + 1].depth) {
+        node.isClosed = true;
+        node = node.parent;
+      }
+    }
+
+    if (!tokens[current - 1]
+        && tokens[current].type === 'Greater'
+      || tokens[current - 1]
+        && tokens[current - 1].type === 'NewLine'
+        && tokens[current].type === 'Greater'
+      || tokens[current].type === 'NewLine'
+        && tokens[current + 1]
+        && tokens[current + 1].type === 'Greater') {
       let n = node;
 
-      while (tokens[current].type === 'Greater') {
+      while (tokens[current].type === 'Greater'
+        || tokens[current].type === 'NewLine'
+          && tokens[current + 1]
+          && tokens[current + 1].type === 'Greater') {
+        current += tokens[current].type === 'Greater' ? 0 : 1;
+        const step = tokens[current].type === 'Greater' ? 1 : 2;
+
         while (n && n.type !== 'Blockquote') {
           n = n.parent;
 
@@ -81,14 +212,17 @@ function parser({tokens, variables}) { // eslint-disable-line
           }
         }
 
-        if (tokens[current + 1].type === 'Greater'
-          && tokens[current].depth === tokens[current + 1].depth) {
+        if (tokens[current].type === 'Greater'
+          && tokens[current + 1].type === 'NewLine'
+          && tokens[current + 2].type === 'Greater'
+          && tokens[current].depth === tokens[current + 2].depth
+        ) {
           while (node !== n) {
             if (node.type === 'Paragraph'
               || node.type === 'OrderList'
               || node.type === 'UnorderList'
               || node.type === 'ListItem'
-              || node.type === 'Header') {
+              || node.type === 'Header') { //@TODO every type?
               node.isClosed = true;
             }
 
@@ -107,17 +241,20 @@ function parser({tokens, variables}) { // eslint-disable-line
 
           node.body.push(blockquote);
           node = blockquote;
-        } else if (tokens[current - 1].type === 'Chars'
-          && tokens[current + 1].type === 'Chars') {
-          node.body[node.body.length - 1].value += ' ';
         }
 
-        current++;
+        current += step;
       }
     }
 
-    // unorder list
-    if (tokens[current].type === 'Bullet') {
+    // Unorder list
+    if (tokens[current].type === 'Bullet'
+      || tokens[current].type === 'NewLine'
+      && tokens[current + 1]
+      && tokens[current + 1].type === 'Bullet') { //@TODO handle tokens[current - 1].type === 'NewLine'
+      current += tokens[current].type === 'Bullet' ? 0 : 1;
+      const step = tokens[current].type === 'Bullet' ? 1 : 2;
+
       const item = {
         type: 'ListItem',
         value: tokens[current].value,
@@ -139,7 +276,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             depth: tokens[current].depth,
           };
 
-          //node.isClosed = true;
+          //Node.isClosed = true;
           node.body.push(unorderList);
           node = unorderList;
         } else if (tokens[current].depth < node.depth) {
@@ -166,12 +303,18 @@ function parser({tokens, variables}) { // eslint-disable-line
       item.parent = node;
       node.body.push(item);
       node = item;
-      current++;
+      current += step;
       continue;
     }
 
-    // order list
-    if (tokens[current].type === 'Item') {
+    // Order list
+    if (tokens[current].type === 'Item'
+      || tokens[current].type === 'NewLine'
+      && tokens[current + 1]
+      && tokens[current + 1].type === 'Item') { //@TODO handle tokens[current - 1].type === 'NewLine'
+      current += tokens[current].type === 'Item' ? 0 : 1;
+      const step = tokens[current].type === 'Item' ? 1 : 2;
+
       const item = {
         type: 'ListItem',
         value: tokens[current].value,
@@ -188,14 +331,13 @@ function parser({tokens, variables}) { // eslint-disable-line
           const orderList = {
             type: 'OrderList',
             styleType: '1',
-            start: tokens[current].value,
+            start: parseInt(tokens[current].value, 10),
             body: [],
             isClosed: false,
             parent: node,
             depth: tokens[current].depth,
           };
 
-          //node.isClosed = true;
           node.body.push(orderList);
           node = orderList;
         } else if (tokens[current].depth < node.depth) {
@@ -211,7 +353,7 @@ function parser({tokens, variables}) { // eslint-disable-line
         const orderList = {
           type: 'OrderList',
           styleType: '1',
-          start: tokens[current].value,
+          start: parseInt(tokens[current].value, 10),
           body: [],
           isClosed: false,
           parent: node,
@@ -225,24 +367,24 @@ function parser({tokens, variables}) { // eslint-disable-line
       item.parent = node;
       node.body.push(item);
       node = item;
-      current++;
+      current += step;
       continue;
     }
 
-    // atx header
-    if (tokens[current].type === 'Hashes') {
+    // Atx header
+    if (!tokens[current - 1] && tokens[current].type === 'Hashes'
+      || tokens[current + 1] && tokens[current + 1].type === 'Hashes' && tokens[current].type === 'NewLine'
+      || tokens[current - 1] && tokens[current - 1].type === 'NewLine' && tokens[current].type === 'Hashes'
+      || node.type === 'Blockquote' && tokens[current - 1].type === 'Greater' && tokens[current].type === 'Hashes') { //@TODO add handling spaces
+      current += tokens[current].type === 'Hashes' ? 0 : 1;
+
       const header = {
         type: 'Header',
-        amount: tokens[current].amount,
-        value: '#',
+        level: tokens[current].amount,
+        value: tokens[current].value,
         body: [],
         isClosed: false,
       };
-
-      if (node.type === 'Header') {
-        node.isClosed = true;
-        node = node.parent;
-      }
 
       header.parent = node;
       node.body.push(header);
@@ -251,74 +393,38 @@ function parser({tokens, variables}) { // eslint-disable-line
       continue;
     }
 
-    // setext header
-    if (node.type === 'Paragraph'
-      && !node.isClosed
-      && (tokens[current].type === 'Signs'
-      || tokens[current].type === 'Hyphens')) {
-      const header = {
-        type: 'Header',
-        amount: tokens[current].type === 'Signs' ? 1 : 2,
-        value: tokens[current].value,
-        body: [],
-        isClosed: true,
-      };
-
-      header.body.push(node.body.pop());
-      if (!node.body.length) {
-        for (let j = 0; j < node.parent.body.length; j++) {
-          if (node.parent.body[j] !== node) {
-            continue;
-          }
-
-          node.parent.body.splice(j, 1);
-          break;
-        }
-      }
-
-      while (node.parent) {
-        node.isClosed = true;
-        node = node.parent;
-      }
-
-      header.parent = node;
-      node.body.push(header);
-      current++;
-      continue;
-    }
-
-    // horizontal rule
-    if (tokens[current].type === 'HorizontalRule') {
+    // Horizontal rule
+    if (!tokens[current - 1] && tokens[current].type === 'HorizontalRule'
+      || tokens[current].type === 'NewLine' && tokens[current + 1] && tokens[current + 1].type === 'HorizontalRule'
+      || tokens[current - 1] && tokens[current - 1].type === 'NewLine' && tokens[current].type === 'HorizontalRule') { //@TODO add handling spaces
+      current += tokens[current].type === 'HorizontalRule' ? 1 : 2;
       const rule = {
         type: 'HorizontalRule',
       };
 
-      while (node.parent) {
-        node.isClosed = true;
-        node = node.parent;
-      }
-
       rule.parent = node;
       node.body.push(rule);
-      current++;
       continue;
     }
 
-    // code block
-    if (tokens[current].type === 'CodeBlock') {
+    // Code block
+    if (!tokens[current - 1] && tokens[current].type === 'CodeBlock'
+      || tokens[current].type === 'NewLine' && tokens[current + 1] && tokens[current + 1].type === 'CodeBlock'
+      || tokens[current - 1] && tokens[current].type === 'CodeBlock') {
+      current += tokens[current].type === 'CodeBlock' ? 0 : 1;
       const codeBlock = {
         type: 'CodeBlock',
         body: [],
       };
 
-      while (node.parent && node.type !== 'Blockquote') {
+      while (node.parent && node.type !== 'Blockquote') { // @TODO need to take out top
         node.isClosed = true;
         node = node.parent;
       }
 
       codeBlock.body.push({
         type: 'Chars',
-        value: encodeToHtmlEntities(tokens[current].value), // @TODO take out to tokenizer
+        value: encodeToHtmlEntities(tokens[current].value),
         parent: codeBlock,
       });
       codeBlock.isClosed = tokens[current].isClosed;
@@ -329,107 +435,110 @@ function parser({tokens, variables}) { // eslint-disable-line
       continue;
     }
 
-    // paragraph
-    if (node.type === 'Blockquote'
-      || node.type === 'Program'
-      || tokens[current].type === 'NewLine'
-      || tokens[current].type === 'Chars'
-      && tokens[current - 1] == null) {
-      const paragraph = {
+    // Paragraph
+    if (node.type === 'Blockquote' || node.type === 'Program') {
+      const n = {
         type: 'Paragraph',
         body: [],
         isClosed: false,
         parent: node,
       };
 
-      node.body.push(paragraph);
-      node = paragraph;
+      node.body.push(n);
+      node = n;
+      continue;
     }
 
-    // bold
+    // Bold
     if ((tokens[current].type === 'Asterisk'
       || tokens[current].type === 'Underscore')
-      && tokens[current].amount === 2 ) {
-      if (node.type === 'Bold'
-        && node.operator === tokens[current].value.repeat(2)) {
-        node.isClosed = true;
-        node = node.parent;
-      } else {
-        const bold = {
-          type: 'Bold',
-          operator: tokens[current].value.repeat(2),
-          body: [],
-          isClosed: false,
-          parent: node,
-        };
-
-        node.body.push(bold);
-        node = bold;
-      }
+      && tokens[current].amount === 2
+      && node.type === 'Bold') {
+      node.isClosed = true;
+      node = node.parent;
 
       current++;
       continue;
     }
 
-    // italic
     if ((tokens[current].type === 'Asterisk'
       || tokens[current].type === 'Underscore')
-      && tokens[current].amount === 1) {
-      if (node.type === 'Italic' && node.operator === tokens[current].value) {
-        node.isClosed = true;
-        node = node.parent;
-      } else {
-        const italic = {
-          type: 'Italic',
-          operator: tokens[current].value,
-          body: [],
-          isClosed: false,
-          parent: node,
-        };
-
-        node.body.push(italic);
-        node = italic;
-      }
-
-      current++;
-      continue;
-    }
-
-    // code
-    if (tokens[current].type === 'Code') {
-      const {type, value, isClosed} = tokens[current];
-
-      const code = {
-        type,
+      && tokens[current].amount === 2) {
+      const bold = {
+        type: 'Bold',
+        operator: tokens[current].value.repeat(2),
         body: [],
-        isClosed,
+        isClosed: false,
         parent: node,
       };
 
+      node.body.push(bold);
+      node = bold;
+
+      current++;
+      continue;
+    }
+
+    // Italic
+    if ((tokens[current].type === 'Asterisk'
+      || tokens[current].type === 'Underscore')
+      && tokens[current].amount === 1
+      && node.type === 'Italic') {
+      node.isClosed = true;
+      node = node.parent;
+
+      current++;
+      continue;
+    }
+
+    if ((tokens[current].type === 'Asterisk'
+      || tokens[current].type === 'Underscore')
+      && tokens[current].amount === 1) {
+      const italic = {
+        type: 'Italic',
+        operator: tokens[current].value,
+        body: [],
+        isClosed: false,
+        parent: node,
+      };
+
+      node.body.push(italic);
+      node = italic;
+      current++;
+      continue;
+    }
+
+    // Code
+    if (tokens[current].type === 'Code') {
+      const code = {
+        type: tokens[current].type,
+        body: [],
+        isClosed: tokens[current].isClosed,
+        parent: node,
+      };
       const chars = {
         type: 'Chars',
-        value: encodeToHtmlEntities(value),
+        value: encodeToHtmlEntities(tokens[current].value),
         parent: code,
       };
-      code.body.push(chars);
 
+      code.body.push(chars);
       node.body.push(code);
       current++;
       continue;
     }
 
-    // link
+    // Autolink
     if (tokens[current].type === 'Autolink') {
-      const {operators, value: _value, kind} = tokens[current];
-      const value = encodeToHtmlEntities(_value);
+      const value = encodeToHtmlEntities(tokens[current].value);
 
       node.body.push({
         type: 'Link',
-        operators,
+        operators: tokens[current].operators,
         label: null,
         href: {
           operators: null,
-          value: kind === 'email' ? `mailto:${value}` : value,
+          value: tokens[current].kind === 'email' ? `mailto:${value}` : value,
         },
         title: null,
         body: [
@@ -445,10 +554,11 @@ function parser({tokens, variables}) { // eslint-disable-line
       continue;
     }
 
+    // Link
     if (tokens[current].type === 'LeftSquareBracket') {
       const link = {
         type: 'Link',
-        operators: ['['],
+        operators: [ '[' ],
         label: null,
         href: null,
         title: null,
@@ -465,8 +575,8 @@ function parser({tokens, variables}) { // eslint-disable-line
 
     if (tokens[current].type === 'RightSquareBracket') {
       const closedOperator = tokens[current].value;
-      let n = node;
 
+      let n = node;
       while (n && n.type !== 'Link') {
         n = n.parent;
       }
@@ -479,13 +589,13 @@ function parser({tokens, variables}) { // eslint-disable-line
           j++;
         }
 
-        // link inline
+        // Link inline
         if (tokens[j] && tokens[j].type === 'LeftParenthesis') {
           const closedOperator2 = tokens[j].value;
           j++;
 
           if (tokens[j] && tokens[j].type === 'Chars') {
-            const {title, url} = extractTitleAndUrl(tokens[j].value);
+            const { title, url } = extractTitleAndUrl(tokens[j].value);
             n.title = title;
             n.href = url;
 
@@ -501,7 +611,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             continue;
           }
         } else if (tokens[j] && tokens[j].type === 'LeftSquareBracket'
-            && variables) { // link reference
+            && variables) { // Link reference
           const closedOperator2 = tokens[j].value;
           j++;
 
@@ -519,7 +629,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             n.label = label;
             n.operators.push(closedOperator, closedOperator2, tokens[j].value);
 
-            const {title, url} = extractTitleAndUrl(variables[label]);
+            const { title, url } = extractTitleAndUrl(variables[label]);
             n.title = title;
             n.href = url;
 
@@ -531,11 +641,12 @@ function parser({tokens, variables}) { // eslint-disable-line
       }
     }
 
+    // Image
     if (tokens[current].type === 'OpenedImageBracket') {
       let j = current;
       const image = {
         type: 'Image',
-        operators: ['!['],
+        operators: [ '![' ],
         label: null,
         src: null,
         title: null,
@@ -563,7 +674,7 @@ function parser({tokens, variables}) { // eslint-disable-line
           j++;
 
           if (tokens[j] && tokens[j].type === 'Chars') {
-            const {title, url} = extractTitleAndUrl(tokens[j].value);
+            const { title, url } = extractTitleAndUrl(tokens[j].value);
             image.src = url;
             image.title = title;
 
@@ -578,7 +689,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             continue;
           }
         } else if (tokens[j] && tokens[j].type === 'LeftSquareBracket'
-          && variables) { // image reference
+          && variables) { // Image reference
           image.operators.push(tokens[j].value);
           j++;
 
@@ -595,7 +706,7 @@ function parser({tokens, variables}) { // eslint-disable-line
             && tokens[j] && tokens[j].type === 'RightSquareBracket') {
             image.operators.push(tokens[j].value);
 
-            const {title, url} = extractTitleAndUrl(variables[image.label]);
+            const { title, url } = extractTitleAndUrl(variables[image.label]);
             image.src = url;
             image.title = title;
 
@@ -607,31 +718,65 @@ function parser({tokens, variables}) { // eslint-disable-line
       }
     }
 
-    if (tokens[current].type === 'Chars'
-      || tokens[current].type === 'RightSquareBracket'
-      || tokens[current].type === 'LeftParenthesis'
-      || tokens[current].type === 'LeftSquareBracket'
-      || tokens[current].type === 'RightParenthesis'
-      || tokens[current].type === 'OpenedImageBracket') {
+    // New line
+    if (tokens[current].type === 'NewLine') {
+      if (node.type !== 'Program' && tokens[current].amount > 1) {
+        let n = node;
+        while (n.type !== 'Program') {
+          n.isClosed = true;
+          n = n.parent;
+        }
+        node = n;
+      }
 
-      const siblings = node.body;
-      if (siblings[siblings.length - 1]
-        && siblings[siblings.length - 1].type === 'Chars') {
-        siblings[siblings.length - 1].value +=
-          encodeToHtmlEntities(tokens[current].value);
-      } else {
-        const chars = {
-          type: 'Chars',
-          value: encodeToHtmlEntities(tokens[current].value),
-          parent: node,
-        };
 
-        node.body.push(chars);
+      if (tokens[current].amount > 1) {
+        let parent = node;
+
+        while (parent
+          && parent.type !== 'Paragraph'
+          && parent.type !== 'UnorderList'
+          && parent.type !== 'OrderList'
+          && parent.type !== 'Hashes') {
+
+          if (parent.type === 'ListItem') {
+            parent.isClosed = true;
+          }
+
+          parent = parent.parent;
+        }
+
+        if (parent) {
+          parent.isClosed = true;
+          node = parent.parent;
+        }
       }
 
       current++;
       continue;
     }
+
+    // Chars
+    let value = encodeToHtmlEntities(tokens[current].value);
+
+    if (tokens[current].type === 'Spaces') {
+      value = tokens[current].value.repeat(tokens[current].amount);
+    }
+
+    const siblings = node.body;
+    if (siblings[siblings.length - 1]
+        && siblings[siblings.length - 1].type === 'Chars') {
+      siblings[siblings.length - 1].value += value;
+    } else {
+      node.body.push( {
+        type: 'Chars',
+        value,
+        parent: node,
+      });
+    }
+
+    current++;
+    continue;
 
     throw new Error(
       `Token is incorrect.\n${JSON.stringify(tokens[current], null, 4)}`
@@ -640,8 +785,6 @@ function parser({tokens, variables}) { // eslint-disable-line
 
   return ast;
 }
-
-
 
 function extractTitleAndUrl(_markdown) {
   const markdown = _markdown.trim();
@@ -661,7 +804,7 @@ function extractTitleAndUrl(_markdown) {
   if (rawUrl) {
     const urlOperator = rawUrl[0];
     url = urlOperator === '<' ? {
-      operators: [urlOperator, rawUrl[rawUrl.length - 1]],
+      operators: [ urlOperator, rawUrl[rawUrl.length - 1] ],
       value: encodeToHtmlEntities(rawUrl.slice(1, -1)),
     } : {
       operators: null,
@@ -693,7 +836,7 @@ function extractTitleAndUrl(_markdown) {
     }
   }
 
-  return {title, url};
+  return { title, url };
 }
 
 module.exports = {
