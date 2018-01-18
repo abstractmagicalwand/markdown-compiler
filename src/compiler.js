@@ -2,6 +2,29 @@ const tokenizer = require('./tokenizer');
 const { parser } = require('./parser');
 const codeGenerator = require('./code-generator');
 const transformer = require('./transformer');
+const Ajv = require('ajv');
+
+const schema = {
+  type: 'object',
+  properties: {
+    parser: {
+      type: 'object',
+    },
+    'code-generator': {
+      type: 'object',
+      properties: {
+        'soft-line-break': {
+          enum: [ 'spaces', 'line-break', 'hard-line-break' ],
+        },
+      },
+      required: [ 'soft-line-break' ],
+    },
+    transformer: {
+      type: 'object',
+    },
+  },
+  required: [ 'code-generator' ],
+};
 
 const defaultConfig = {
   'code-generator': {
@@ -9,9 +32,16 @@ const defaultConfig = {
   },
 };
 
-function compiler(markdown, config = defaultConfig) {
+function compiler(markdown, config, enableDefaultConfig = true) {
+  const _config = !config && enableDefaultConfig ? defaultConfig : config;
 
-  // Validation
+  const ajv = new Ajv({ allErrors: true });
+  const configIsValid = ajv.validate(schema, _config);
+  if (!configIsValid) {
+    throw new Error(
+      ajv.errorsText(null, { dataVar: 'config', separator: ',\n' })
+    );
+  }
 
   return codeGenerator(
     transformer(
@@ -21,7 +51,7 @@ function compiler(markdown, config = defaultConfig) {
         )
       )
     ),
-    config['code-generator']
+    _config['code-generator']
   );
 }
 

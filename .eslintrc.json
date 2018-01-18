@@ -116,7 +116,7 @@
     "block-spacing": 2,
     "brace-style": 2,
     "camelcase": 2,
-    "capitalized-comments": [2, "always"],
+    "capitalized-comments": [0, "never"],
     "comma-dangle": [2, "always-multiline"],
     "comma-spacing": [2, { "before": false, "after": true }],
     "computed-property-spacing": [2, "never"],

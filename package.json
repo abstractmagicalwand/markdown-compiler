@@ -24,6 +24,7 @@
     "test:compiler": "yarn test ./__test__/compiler.test.js"
   },
   "dependencies": {
+    "ajv": "^6.0.1",
     "he": "^1.1.1"
   }
 }

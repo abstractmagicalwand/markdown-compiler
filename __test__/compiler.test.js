@@ -465,3 +465,11 @@ test(
     );
   }
 );
+
+test('config: should throw error', t => {
+  t.throws(() => compiler('', {}), Error, 'config is not valide');
+});
+
+test('config: should not throw error', t => {
+  t.notThrows(() => compiler(''), Error, 'default config is valide');
+});
