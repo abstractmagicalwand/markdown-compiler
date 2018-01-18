@@ -37,8 +37,8 @@ $ yarn build # build the bundle
 - [ ] Images
 - [x] Autolinks
 - [ ] Raw HTML
-- [ ] Hard line breaks
-- [ ] Soft line breaks
+- [x] Hard line breaks
+- [x] Soft line breaks
 - [ ] Textual content
 
 ## Backlog

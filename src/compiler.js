@@ -1,17 +1,28 @@
 const tokenizer = require('./tokenizer');
-const {parser} = require('./parser');
+const { parser } = require('./parser');
 const codeGenerator = require('./code-generator');
 const transformer = require('./transformer');
 
-function compiler(markdown) {
-  const steps = [tokenizer, parser, transformer, codeGenerator];
+const defaultConfig = {
+  'code-generator': {
+    'soft-line-break': 'spaces',
+  },
+};
 
-  let result = markdown;
-  for (let i = 0; i < steps.length; i++) {
-    result = steps[i](result);
-  }
+function compiler(markdown, config = defaultConfig) {
 
-  return result;
+  // Validation
+
+  return codeGenerator(
+    transformer(
+      parser(
+        tokenizer(
+          markdown
+        )
+      )
+    ),
+    config['code-generator']
+  );
 }
 
 module.exports = compiler;

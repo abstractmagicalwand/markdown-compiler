@@ -1,9 +1,8 @@
-/* eslint complexity: 0 */
-function codeGenerator(ast) {
+/* eslint complexity: "off" */
+function codeGenerator(ast, options) {
   if (ast && ast.__proto__.constructor !== Object) {
     throw TypeError(`ast is ${typeof rawText}. It should be object.`);
   }
-
   let html = '';
   let stack = [];
 
@@ -14,17 +13,15 @@ function codeGenerator(ast) {
 
   while (stack.length) {
     const item = stack[stack.length - 1];
-    const {node} = item;
-    const {type, body, isClosed} = node;
+    const { node } = item;
+    const { type, body, isClosed } = node;
 
     if (!body || body.length === item.i) {
       if (isClosed) {
         if (type === 'Paragraph') {
           html += '</p>\n';
         } else if (type === 'Header') {
-          const amount = node.amount;
-
-          html += `</h${amount}>\n`;
+          html += `</h${node.level}>\n`;
         } else if (type === 'ListItem') {
           html += '</li>';
         } else if (type === 'UnorderList') {
@@ -53,15 +50,13 @@ function codeGenerator(ast) {
 
     while (item.node.body && item.node.body.length > item.i) {
       const node = item.node.body[item.i];
-      const {type, isClosed} = node;
+      const { type, isClosed } = node;
 
       if (isClosed) {
         if (type === 'Paragraph') {
           html += '<p>';
         } else if (type === 'Header') {
-          const {amount} = node;
-
-          html += `<h${amount}>`;
+          html += `<h${node.level}>`;
         } else if (type === 'ListItem') {
           html += '<li>';
         } else if (type === 'UnorderList') {
@@ -88,7 +83,7 @@ function codeGenerator(ast) {
         if (type === 'Blockquote') {
           html += '<blockquote>';
         } else if (type === 'Header') {
-          const {amount} = node;
+          const { amount } = node;
 
           html += node.operator.repeat(amount);
         } else if (type === 'Link') {
@@ -111,6 +106,33 @@ function codeGenerator(ast) {
           html += '<hr>\n';
           item.i++;
           continue;
+        } else if (type === 'SoftLineBreak') {
+          let isDroped = item.node.body.length - 1 === item.i;
+
+          for (let j = item.i; j < item.node.body.length; j++) {
+            if (item.node.body[j].type === 'UnorderList'
+                || item.node.body[j].type === 'OrderList') {
+              isDroped = true;
+              break;
+            }
+          }
+
+          if (isDroped) {
+            html += '';
+          } else if (options['soft-line-break'] === 'spaces') {
+            html += ' ';
+          } else if (options['soft-line-break'] === 'line-break') {
+            html += '\n';
+          } else if (options['soft-line-break'] === 'hard-line-break') {
+            html += '<br />\n';
+          }
+
+          item.i++;
+          continue;
+        } else if (type === 'HardLineBreak') {
+          html += '<br />\n';
+          item.i++;
+          continue;
         } else {
           html += node.operator;
         }
@@ -127,7 +149,5 @@ function codeGenerator(ast) {
 
   return html.trim();
 }
-
-codeGenerator({});
 
 module.exports = codeGenerator;
