@@ -12,6 +12,139 @@ test(
       codeGenerator(ast.thematicBreaks, { 'soft-line-break': 'spaces' }),
       html.thematicBreaks
     );
+    t.is(
+      codeGenerator(ast.thematicBreaks.main, { 'soft-line-break': 'spaces' }),
+      html.thematicBreaks.main,
+      'main'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.wrongChars[0],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.wrongChars[0],
+      'wrong chars #1'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.wrongChars[1],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.wrongChars[1],
+      'wrong chars #2'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.notEnoughChars, { 'soft-line-break': 'spaces' }),
+      html.thematicBreaks.notEnoughChars,
+      'not enough chars'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.spacesIndentAreAllowed,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.spacesIndentAreAllowed,
+      'spaces indent are allowed'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.fourSpacesIsTooMany[0],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.fourSpacesIsTooMany[0],
+      'four spaces is too many #1'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.fourSpacesIsTooMany[1],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.fourSpacesIsTooMany[1],
+      'four spaces is too many #2'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.moreThanThreeChars,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.moreThanThreeChars,
+      'more than three chars'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.spacesAreAllowedInLine,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.spacesAreAllowedInLine,
+      'spaces are allowed inLine'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.otherCharsAreNotAllowedInLine[0],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.otherCharsAreNotAllowedInLine[0],
+      'other chars are not allowed inLine #1'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.otherCharsAreNotAllowedInLine[1],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.otherCharsAreNotAllowedInLine[1],
+      'other chars are not allowed inLine #2'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.otherCharsAreNotAllowedInLine[2],
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.otherCharsAreNotAllowedInLine[2],
+      'other chars are not allowed inLine #3'
+    );
+    t.is(
+      codeGenerator(
+        ast.thematicBreaks.shouldBeTheSame,
+        { 'soft-line-break': 'spaces' }),
+      html.thematicBreaks.shouldBeTheSame,
+      'should be the same'
+    );
+    t.is(
+      codeGenerator(ast.thematicBreaks.doNotNeedBlankLines,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.doNotNeedBlankLines,
+      'do not need blank lines'
+    );
+    t.is(
+      codeGenerator(ast.thematicBreaks.canInterruptParagraph,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.canInterruptParagraph,
+      'can interrupt paragraph'
+    );
+    t.is(
+      codeGenerator(ast.thematicBreaks.setextHeadingOrThematicBreak,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.setextHeadingOrThematicBreak,
+      'setext heading or thematic break'
+    );
+    t.is(
+      codeGenerator(ast.thematicBreaks.setextHeadingOrThematicBreak,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.setextHeadingOrThematicBreak,
+      'list item or thematic break #1'
+    );
+    t.is(
+      codeGenerator(ast.thematicBreaks.setextHeadingOrThematicBreak,
+        { 'soft-line-break': 'spaces' }
+      ),
+      html.thematicBreaks.setextHeadingOrThematicBreak,
+      'list item or thematic break #2'
+    );
   }
 );
 
@@ -25,7 +158,7 @@ test(
   }
 );
 
-test.todo('atx headings: unclosed markdown tag');
+test.todo('atx headings: unclosed ast tag');
 
 test(
   'setext headings: code should generate to html',
@@ -37,7 +170,7 @@ test(
   }
 );
 
-test.todo('setext headings: unclosed markdown tag');
+test.todo('setext headings: unclosed ast tag');
 
 test(
   'code blocks: code should generate to html',
@@ -66,7 +199,7 @@ test(
   }
 );
 
-test.todo('code blocks: unclosed markdown tag');
+test.todo('code blocks: unclosed ast tag');
 
 test(
   'paragraphs: code should generate to html',
@@ -115,7 +248,7 @@ test(
   }
 );
 
-test.todo('block quotes: unclosed markdown tag');
+test.todo('block quotes: unclosed ast tag');
 
 test(
   'unorder lists: code should generate to html',
@@ -127,7 +260,7 @@ test(
   }
 );
 
-test.todo('unorder lists: unclosed markdown tag');
+test.todo('unorder lists: unclosed ast tag');
 
 test(
   'order lists: code should generate to html',
@@ -139,7 +272,7 @@ test(
   }
 );
 
-test.todo('order lists: unclosed markdown tag');
+test.todo('order lists: unclosed ast tag');
 
 // Inlines
 
@@ -231,7 +364,7 @@ test(
   }
 );
 
-test.todo('emphasis: unclosed markdown tag');
+test.todo('emphasis: unclosed ast tag');
 
 test(
   'links inline: code should generate to html',
@@ -291,9 +424,9 @@ test(
   }
 );
 
-test.todo('links inline: unclosed markdown tag');
+test.todo('links inline: unclosed ast tag');
 
-test.todo('links inline: without markdown');
+test.todo('links inline: without ast');
 
 test(
   'links reference: code should generate to html',
@@ -357,9 +490,9 @@ test(
   }
 );
 
-test.todo('links reference: unclosed markdown tag');
+test.todo('links reference: unclosed ast tag');
 
-test.todo('links reference: without markdown');
+test.todo('links reference: without ast');
 
 test(
   'images: code should generate to html',

@@ -8,7 +8,96 @@ import { html, markdown } from './fixtures';
 test(
   'thematic breaks: markdown should compile to html',
   async t => {
-    t.is(compiler(markdown.thematicBreaks), html.thematicBreaks, '');
+    t.is(
+      compiler(markdown.thematicBreaks.main),
+      html.thematicBreaks.main,
+      'main'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.wrongChars[0]),
+      html.thematicBreaks.wrongChars[0],
+      'wrong chars #1'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.wrongChars[1]),
+      html.thematicBreaks.wrongChars[1],
+      'wrong chars #2'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.notEnoughChars),
+      html.thematicBreaks.notEnoughChars,
+      'not enough chars'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.spacesIndentAreAllowed),
+      html.thematicBreaks.spacesIndentAreAllowed,
+      'spaces indent are allowed'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.fourSpacesIsTooMany[0]),
+      html.thematicBreaks.fourSpacesIsTooMany[0],
+      'four spaces is too many #1'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.fourSpacesIsTooMany[1]),
+      html.thematicBreaks.fourSpacesIsTooMany[1],
+      'four spaces is too many #2'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.moreThanThreeChars),
+      html.thematicBreaks.moreThanThreeChars,
+      'more than three chars'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.spacesAreAllowedInLine),
+      html.thematicBreaks.spacesAreAllowedInLine,
+      'spaces are allowed inLine'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.otherCharsAreNotAllowedInLine[0]),
+      html.thematicBreaks.otherCharsAreNotAllowedInLine[0],
+      'other chars are not allowed inLine #1'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.otherCharsAreNotAllowedInLine[1]),
+      html.thematicBreaks.otherCharsAreNotAllowedInLine[1],
+      'other chars are not allowed inLine #2'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.otherCharsAreNotAllowedInLine[2]),
+      html.thematicBreaks.otherCharsAreNotAllowedInLine[2],
+      'other chars are not allowed inLine #3'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.shouldBeTheSame),
+      html.thematicBreaks.shouldBeTheSame,
+      'should be the same'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.doNotNeedBlankLines),
+      html.thematicBreaks.doNotNeedBlankLines,
+      'do not need blank lines'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.canInterruptParagraph),
+      html.thematicBreaks.canInterruptParagraph,
+      'can interrupt paragraph'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.setextHeadingOrThematicBreak),
+      html.thematicBreaks.setextHeadingOrThematicBreak,
+      'setext heading or thematic break'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.setextHeadingOrThematicBreak),
+      html.thematicBreaks.setextHeadingOrThematicBreak,
+      'list item or thematic break #1'
+    );
+    t.is(
+      compiler(markdown.thematicBreaks.setextHeadingOrThematicBreak),
+      html.thematicBreaks.setextHeadingOrThematicBreak,
+      'list item or thematic break #2'
+    );
   }
 );
 

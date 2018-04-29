@@ -9,8 +9,94 @@ test(
   'thematic breaks: markdown should transform to tokens',
   async t => {
     t.deepEqual(
-      tokenizer(markdown.thematicBreaks),
-      { tokens: tokens.thematicBreaks }
+      tokenizer(markdown.thematicBreaks.main),
+      { tokens: tokens.thematicBreaks.main },
+      'main'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.wrongChars[0]),
+      { tokens: tokens.thematicBreaks.wrongChars[0] },
+      'wrong chars #1'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.wrongChars[1]),
+      { tokens: tokens.thematicBreaks.wrongChars[1] },
+      'wrong chars #2'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.notEnoughChars),
+      { tokens: tokens.thematicBreaks.notEnoughChars },
+      'not enough chars'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.spacesIndentAreAllowed),
+      { tokens: tokens.thematicBreaks.spacesIndentAreAllowed },
+      'spaces indent are allowed'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.fourSpacesIsTooMany[0]),
+      { tokens: tokens.thematicBreaks.fourSpacesIsTooMany[0] },
+      'four spaces is too many #1'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.fourSpacesIsTooMany[1]),
+      { tokens: tokens.thematicBreaks.fourSpacesIsTooMany[1] },
+      'four spaces is too many #2'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.moreThanThreeChars),
+      { tokens: tokens.thematicBreaks.moreThanThreeChars },
+      'more than three chars'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.spacesAreAllowedInLine),
+      { tokens: tokens.thematicBreaks.spacesAreAllowedInLine },
+      'spaces are allowed inLine'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.otherCharsAreNotAllowedInLine[0]),
+      { tokens: tokens.thematicBreaks.otherCharsAreNotAllowedInLine[0] },
+      'other chars are not allowed inLine #1'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.otherCharsAreNotAllowedInLine[1]),
+      { tokens: tokens.thematicBreaks.otherCharsAreNotAllowedInLine[1] },
+      'other chars are not allowed inLine #2'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.otherCharsAreNotAllowedInLine[2]),
+      { tokens: tokens.thematicBreaks.otherCharsAreNotAllowedInLine[2] },
+      'other chars are not allowed inLine #3'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.shouldBeTheSame),
+      { tokens: tokens.thematicBreaks.shouldBeTheSame },
+      'should be the same'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.doNotNeedBlankLines),
+      { tokens: tokens.thematicBreaks.doNotNeedBlankLines },
+      'do not need blank lines'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.canInterruptParagraph),
+      { tokens: tokens.thematicBreaks.canInterruptParagraph },
+      'can interrupt paragraph'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.setextHeadingOrThematicBreak),
+      { tokens: tokens.thematicBreaks.setextHeadingOrThematicBreak },
+      'setext heading or thematic break'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.setextHeadingOrThematicBreak),
+      { tokens: tokens.thematicBreaks.setextHeadingOrThematicBreak },
+      'list item or thematic break #1'
+    );
+    t.deepEqual(
+      tokenizer(markdown.thematicBreaks.setextHeadingOrThematicBreak),
+      { tokens: tokens.thematicBreaks.setextHeadingOrThematicBreak },
+      'list item or thematic break #2'
     );
   }
 );
