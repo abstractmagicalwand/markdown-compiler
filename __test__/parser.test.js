@@ -10,95 +10,12 @@ import { tokens, variables, ast } from './fixtures';
 test(
   'thematic breaks: tokens should parse to abstract syntax tree',
   async t => {
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.main }),
-      ast.thematicBreaks.main,
-      'main'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.wrongChars[0] }),
-      ast.thematicBreaks.wrongChars[0],
-      'wrong chars #1'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.wrongChars[1] }),
-      ast.thematicBreaks.wrongChars[1],
-      'wrong chars #2'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.notEnoughChars }),
-      ast.thematicBreaks.notEnoughChars,
-      'not enough chars'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.spacesIndentAreAllowed }),
-      ast.thematicBreaks.spacesIndentAreAllowed,
-      'spaces indent are allowed'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.fourSpacesIsTooMany[0] }),
-      ast.thematicBreaks.fourSpacesIsTooMany[0],
-      'four spaces is too many #1'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.fourSpacesIsTooMany[1] }),
-      ast.thematicBreaks.fourSpacesIsTooMany[1],
-      'four spaces is too many #2'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.moreThanThreeChars }),
-      ast.thematicBreaks.moreThanThreeChars,
-      'more than three chars'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.spacesAreAllowedInLine }),
-      ast.thematicBreaks.spacesAreAllowedInLine,
-      'spaces are allowed inLine'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.otherCharsAreNotAllowedInLine[0] }),
-      ast.thematicBreaks.otherCharsAreNotAllowedInLine[0],
-      'other chars are not allowed inLine #1'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.otherCharsAreNotAllowedInLine[1] }),
-      ast.thematicBreaks.otherCharsAreNotAllowedInLine[1],
-      'other chars are not allowed inLine #2'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.otherCharsAreNotAllowedInLine[2] }),
-      ast.thematicBreaks.otherCharsAreNotAllowedInLine[2],
-      'other chars are not allowed inLine #3'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.shouldBeTheSame }),
-      ast.thematicBreaks.shouldBeTheSame,
-      'should be the same'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.doNotNeedBlankLines }),
-      ast.thematicBreaks.doNotNeedBlankLines,
-      'do not need blank lines'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.canInterruptParagraph }),
-      ast.thematicBreaks.canInterruptParagraph,
-      'can interrupt paragraph'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.setextHeadingOrThematicBreak }),
-      ast.thematicBreaks.setextHeadingOrThematicBreak,
-      'setext heading or thematic break'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.setextHeadingOrThematicBreak }),
-      ast.thematicBreaks.setextHeadingOrThematicBreak,
-      'list item or thematic break #1'
-    );
-    t.deepEqual(
-      parser({ tokens: tokens.thematicBreaks.setextHeadingOrThematicBreak }),
-      ast.thematicBreaks.setextHeadingOrThematicBreak,
-      'list item or thematic break #2'
+    isMatched(
+      parser({ tokens: tokens.thematicBreaks }),
+      [ ast.thematicBreaks ],
+      (a, b) => {
+        t.is(a, b, `thematic breaks: ${a} isn't equal ${b}`);
+      }
     );
   }
 );
@@ -321,7 +238,7 @@ test(
   }
 );
 
-test.todo('links inline: link without ast');
+test.todo('links inline: link without markdown');
 
 test(
   'links reference: tokens should parse to abstract syntax tree',
@@ -394,7 +311,7 @@ test(
   }
 );
 
-test.todo('links reference: link without ast');
+test.todo('links reference: link without markdown');
 
 test(
   'images: tokens should parse to abstract syntax tree',

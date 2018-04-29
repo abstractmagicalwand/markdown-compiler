@@ -8,7 +8,7 @@ const markdown = {
     withBackslashEscape: '<http://example.com/\[\>',
   },
   email: {
-    valid: [ '<foo@bar.example.com>', '<foo+special@Bar.baz-bar0.com>' ],
+    valid: ['<foo@bar.example.com>', '<foo+special@Bar.baz-bar0.com>'],
     withBackslashEscape: '<foo\\+@bar.example.com>',
   },
   areNotAutolinks: [
@@ -59,7 +59,7 @@ tokens.url.valid = [
     {
       type: 'Autolink',
       kind: 'url',
-      operators: [ '<', '>' ],
+      operators: ['<', '>'],
       value: 'http://foo.bar.baz',
       start: 0,
       end: 20,
@@ -69,7 +69,7 @@ tokens.url.valid = [
     {
       type: 'Autolink',
       kind: 'url',
-      operators: [ '<', '>' ],
+      operators: ['<', '>'],
       value: 'http://foo.bar.baz/test?q=hello&id=22&boolean',
       start: 0,
       end: 47,
@@ -79,7 +79,7 @@ tokens.url.valid = [
     {
       type: 'Autolink',
       kind: 'url',
-      operators: [ '<', '>' ],
+      operators: ['<', '>'],
       value: 'irc://foo.bar:2233/baz',
       start: 0,
       end: 24,
@@ -91,8 +91,8 @@ tokens.url.withBackslashEscape = [
   {
     type: 'Autolink',
     kind: 'url',
-    operators: [ '<', '>' ],
-    value: 'http://example.com/\[\\', //@TODO eslint error
+    operators: ['<', '>'],
+    value: 'http://example.com/\[\\',
     start: 0,
     end: 24,
   },
@@ -103,7 +103,7 @@ tokens.email.valid = [
     {
       type: 'Autolink',
       kind: 'email',
-      operators: [ '<', '>' ],
+      operators: ['<', '>'],
       value: 'foo@bar.example.com',
       start: 0,
       end: 21,
@@ -113,7 +113,7 @@ tokens.email.valid = [
     {
       type: 'Autolink',
       kind: 'email',
-      operators: [ '<', '>' ],
+      operators: ['<', '>'],
       value: 'foo+special@Bar.baz-bar0.com',
       start: 0,
       end: 30,
@@ -125,7 +125,7 @@ tokens.email.withBackslashEscape = [
   {
     type: 'Autolink',
     kind: 'email',
-    operators: [ '<', '>' ],
+    operators: ['<', '>'],
     value: 'foo\\+@bar.example.com',
     start: 0,
     end: 24,
@@ -137,7 +137,6 @@ tokens.areNotAutolinks = [
     {
       type: 'Chars',
       value: '<>',
-      raw: '<>',
       start: 0,
       end: 2,
     },
@@ -145,37 +144,8 @@ tokens.areNotAutolinks = [
   [
     {
       type: 'Chars',
-      value: '<',
-      raw: '<',
+      value: '< http://foo.bar >',
       start: 0,
-      end: 1,
-    },
-    {
-      type: 'Spaces',
-      amount: 1,
-      raw: ' ',
-      start: 1,
-      end: 2,
-    },
-    {
-      type: 'Chars',
-      value: 'http://foo.bar',
-      raw: 'http://foo.bar',
-      start: 2,
-      end: 16,
-    },
-    {
-      type: 'Spaces',
-      amount: 1,
-      raw: ' ',
-      start: 16,
-      end: 17,
-    },
-    {
-      type: 'Chars',
-      value: '>',
-      raw: '>',
-      start: 17,
       end: 18,
     },
   ],
@@ -183,7 +153,6 @@ tokens.areNotAutolinks = [
     {
       type: 'Chars',
       value: '<m:abc>',
-      raw: '<m:abc>',
       start: 0,
       end: 7,
     },
@@ -192,7 +161,6 @@ tokens.areNotAutolinks = [
     {
       type: 'Chars',
       value: '<foo.bar.baz>',
-      raw: '<foo.bar.baz>',
       start: 0,
       end: 13,
     },
@@ -201,7 +169,6 @@ tokens.areNotAutolinks = [
     {
       type: 'Chars',
       value: 'http://example.com',
-      raw: 'http://example.com',
       start: 0,
       end: 18,
     },
@@ -210,7 +177,6 @@ tokens.areNotAutolinks = [
     {
       type: 'Chars',
       value: 'foo@bar.example.com',
-      raw: 'foo@bar.example.com',
       start: 0,
       end: 19,
     },
@@ -231,7 +197,7 @@ ast.url.valid = [
         body: [
           {
             type: 'Link',
-            operators: [ '<', '>' ],
+            operators: ['<', '>'],
             label: null,
             href: {
               operators: null,
@@ -260,7 +226,7 @@ ast.url.valid = [
         body: [
           {
             type: 'Link',
-            operators: [ '<', '>' ],
+            operators: ['<', '>'],
             label: null,
             href: {
               operators: null,
@@ -289,7 +255,7 @@ ast.url.valid = [
         body: [
           {
             type: 'Link',
-            operators: [ '<', '>' ],
+            operators: ['<', '>'],
             label: null,
             href: {
               operators: null,
@@ -329,7 +295,7 @@ ast.url.withBackslashEscape = {
       body: [
         {
           type: 'Link',
-          operators: [ '<', '>' ],
+          operators: ['<', '>'],
           label: null,
           href: {
             operators: null,
@@ -363,7 +329,7 @@ ast.email.valid = [
         body: [
           {
             type: 'Link',
-            operators: [ '<', '>' ],
+            operators: ['<', '>'],
             label: null,
             href: {
               operators: null,
@@ -392,7 +358,7 @@ ast.email.valid = [
         body: [
           {
             type: 'Link',
-            operators: [ '<', '>' ],
+            operators: ['<', '>'],
             label: null,
             href: {
               operators: null,
