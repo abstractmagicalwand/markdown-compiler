@@ -41,5 +41,5 @@ $ yarn build # build the bundle
 - [x] Soft line breaks
 - [ ] Textual content
 
-## Backlog
-- Support all list style type. https://www.w3.org/TR/html401/struct/lists.html
+## License
+MIT
