@@ -1,4 +1,5 @@
 import commonjs from 'rollup-plugin-commonjs';
+import babel from 'rollup-plugin-babel';
 
 export default {
   input: 'src/index.js',
@@ -6,9 +7,5 @@ export default {
     file: 'dist/bundle.js',
     format: 'cjs',
   },
-  plugins: [
-    commonjs({
-      exclude: 'node_modules/**',
-    }),
-  ],
+  plugins: [babel(), commonjs()]
 };
